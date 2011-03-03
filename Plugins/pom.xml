@@ -17,6 +17,7 @@
     
     <modules>
     	<module>Corvus.Main</module>
+    	<module>Corvus.Main.Admin</module>    	
     </modules>
     
     <dependencyManagement>
