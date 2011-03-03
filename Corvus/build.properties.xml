@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<properties>
+	<build>
+		<dir location="../build" />
+	</build>
+	<dist>
+		<dir location="../dist" />
+		<jar name="piazza-corvus" />
+		<files>*.war,*.ear,lib/*.jar</files>
+	</dist>
+	<project>
+		<dir location="../"/>
+		<base location="../../"/>
+		<class>
+			<lib location="../lib" />
+			<ext location="../ext" files="*.jar" />
+			<import location="../../Commons/dist/lib" />
+			<path/>
+		</class>
+		<source>
+			<path>../src</path>
+		</source>
+		<ear dir="../ear" name="corvus" dd="application.xml">
+			<web dir="web" name="corvus" dd="web.xml"/>
+			<ejb dir="app" name="corvusapp"/>
+		</ear>
+	</project>
+	<deploy target="tomcat">
+		<tomcat dir="C:/jakarta-tomcat-5.0.28"/>
+		<!--jboss dir="C:/jboss-3.2.3/server/default" localref="../server/jboss/server/default"/-->
+	</deploy>
+</properties>

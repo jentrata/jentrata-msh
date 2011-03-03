@@ -19,6 +19,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     
     	<dependency>
@@ -29,6 +30,7 @@
 		<dependency>
 			<groupId>jboss</groupId>
 		    <artifactId>jboss-j2ee</artifactId>
+		    <scope>provided</scope>
 		</dependency>
 		
 		<dependency>
@@ -54,6 +56,7 @@
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
+			<scope>test</scope>
 		</dependency>
     
     </dependencies>
