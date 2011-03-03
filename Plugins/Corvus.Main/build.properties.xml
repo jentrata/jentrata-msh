@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<properties>
+	<build>
+		<dir location="../build" />
+	</build>
+	<dist>
+		<dir location="../dist" />
+		<jar name="corvus-main-system" />
+		<files>*.spa,lib/*.jar</files>
+	</dist>
+	<project>
+		<dir location="../"/>
+		<base location="../../"/>
+		<class>
+			<lib location="../lib" />
+			<ext location="../../Corvus/" files="dist/lib/*.jar,ext/*.jar"/>
+			<import location="" />
+			<path></path>
+		</class>
+		<source>
+			<path>../src</path>
+		</source>
+		<spa dir="../spa">
+			<plugin name="hk.hku.cecid.piazza.corvus.core.main" />
+		</spa>
+	</project>
+	<deploy target="corvus">
+		<corvus dir="C:/corvus/plugins"/>
+	</deploy>
+</properties>

@@ -15,4 +15,20 @@
     <name>Piazza: Plugins</name>
     <description>Piazza Plugins Parent</description>
     
+    <modules>
+    	<module>Corvus.Main</module>
+    </modules>
+    
+    <dependencyManagement>
+        <dependencies>
+        
+			<dependency>
+				<groupId>hk.hku.cecid.piazza</groupId>
+				<artifactId>piazza-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+        </dependencies>
+    </dependencyManagement>    
+    
 </project>
