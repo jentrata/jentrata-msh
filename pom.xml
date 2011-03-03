@@ -27,6 +27,7 @@
     <modules>
     	<module>Commons</module>
     	<module>Corvus</module>
+    	<module>Plugins</module>
     </modules>
     
     <dependencies>
