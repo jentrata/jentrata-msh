@@ -19,6 +19,21 @@
     		<groupId>hk.hku.cecid.piazza</groupId>
     		<artifactId>piazza-commons</artifactId>
     	</dependency>
+
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.plugins</groupId>
+			<artifactId>piazza-corvus-admin</artifactId>
+		</dependency>
+    	
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.plugins</groupId>
+			<artifactId>piazza-corvus-ebms</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.plugins</groupId>
+			<artifactId>piazza-corvus-as2</artifactId>
+		</dependency>
     
         <dependency>
             <groupId>javax.servlet</groupId>

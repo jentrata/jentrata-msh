@@ -1,0 +1,78 @@
+<project name="EbXML Package" default="info" basedir=".">
+
+	<tstamp/>
+	<property name="common.properties" location="../../common.properties.xml" />
+	<xmlproperty file="${common.properties}" collapseAttributes="true" keepRoot="false" semanticAttributes="true" />
+	<condition property="ant.build.javac.source" value="${ant.java.version}">
+		<equals arg1="${ant.build.javac.source}" arg2="$${ant.build.javac.source}" /> 
+	</condition>
+
+	<property name="build.properties" location="build.properties.xml" />
+	<xmlproperty file="${build.properties}" collapseAttributes="true" keepRoot="false" semanticAttributes="true" />
+
+	<!-- classpaths -->
+	<path id="project.class.path">
+		<fileset dir="${project.class.lib}" includes="**/*.jar"/>
+		<fileset dir="${project.class.ext}" includes="${project.class.ext.files}"/>
+		<fileset dir="${project.class.import}" includes="**/*.jar"/>
+		<pathelement path="${project.class.path}/"/>
+	</path>
+
+	<!-- Information -->
+	<target name="info">
+		<echo message="Project: ${ant.project.name}"/>
+		<echo message="Java compiler source: ${ant.build.javac.source}"/>
+		<echo message="Build version: ${DSTAMP}"/>
+		<echo message="Build directory: ${build.dir}" />
+		<echo message="Project directory: ${project.dir}" />
+		<echo message="Project base: ${project.base}" />
+		<echo message="Libraries: ${project.class.lib}" />
+		<echo message="Externals: ${project.class.ext}" />
+		<echo message="Imports: ${project.class.import}" />
+	</target>
+
+	<!-- Init -->
+	<target name="init" depends="info">
+		<delete dir="${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/bin" />
+		<mkdir dir="${build.dir}/lib" />
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- Build -->
+	<target name="build" depends="init">
+		<javac destdir="${build.dir}/bin" classpathref="project.class.path" srcdir="${project.source.path}" deprecation="on" debug="true" debuglevel="lines,vars,source" fork="yes"/>
+		<copy todir="${build.dir}/bin">
+			<fileset dir="${project.dir}/src" excludes="**/CVS/*,**/*.java,**/.*" />
+		</copy>
+		<jar destfile="${build.dir}/lib/${dist.jar.name}.jar" basedir="${build.dir}/bin">
+		    <manifest>
+		      <attribute name="Built-By" value="${user.name}"/>
+		      <section name="${dist.jar.name}">
+				<attribute name="Implementation-Title" value="${ant.project.name}"/>
+				<attribute name="Implementation-Version" value="${DSTAMP}"/>
+				<attribute name="Implementation-Vendor" value="${vendor}"/>				
+		      </section>
+		    </manifest>
+		</jar>
+
+		<!--
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${project.class.lib}" includes="**/*.jar"/>
+		</copy>
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${project.class.import}" includes="**/*.jar"/>
+		</copy>
+		-->
+	</target>
+	
+	<!-- Distribute -->
+	<target name="distribute" depends="build">
+		<copy todir="${dist.dir}">
+			<fileset dir="${build.dir}" includes="${dist.files}"/>
+		</copy>
+	</target>
+	
+</project>

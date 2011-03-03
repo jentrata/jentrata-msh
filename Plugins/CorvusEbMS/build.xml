@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+
+<project name="Corvus EbMS" default="info" basedir=".">
+
+	<tstamp/>
+	<property name="common.properties" location="../../common.properties.xml" />
+	<xmlproperty file="${common.properties}" collapseAttributes="true" keepRoot="false" semanticAttributes="true" />
+	<condition property="ant.build.javac.source" value="${ant.java.version}">
+		<equals arg1="${ant.build.javac.source}" arg2="$${ant.build.javac.source}" /> 
+	</condition>
+
+	<property name="build.properties" location="build.properties.xml" />
+	<xmlproperty file="${build.properties}" collapseAttributes="true" keepRoot="false" semanticAttributes="true" />
+
+	<!-- classpaths -->
+	<path id="project.class.path">
+		<fileset dir="${project.class.lib}" includes="**/*.jar"/>
+		<fileset dir="${project.class.ext}" includes="${project.class.ext.files}"/>
+		<fileset dir="${project.class.import}" includes="**/*.jar"/>
+		<pathelement path="${project.class.path}/"/>
+	</path>
+
+	<!-- Information -->
+	<target name="info">
+		<echo message="Project: ${ant.project.name}"/>
+		<echo message="Java compiler source: ${ant.build.javac.source}"/>
+		<echo message="Build version: ${DSTAMP}"/>
+		<echo message="Build directory: ${build.dir}" />
+		<echo message="Project directory: ${project.dir}" />
+		<echo message="Project base: ${project.base}" />
+		<echo message="Libraries: ${project.class.lib}" />
+		<echo message="Externals: ${project.class.ext}" />
+		<echo message="Imports: ${project.class.import}" />
+	</target>
+
+	<!-- Init -->
+	<target name="init" depends="info">
+		<delete dir="${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/bin" />
+		<mkdir dir="${build.dir}/lib" />
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- Build -->
+	<target name="build" depends="init">
+		<copy todir="${project.dir}/lib">
+			<fileset file="${project.dir}/../ebxml-pkg/dist/lib/ebms-pkg.jar"/>
+		</copy>
+		
+		<javac destdir="${build.dir}/bin" classpathref="project.class.path" srcdir="${project.source.path}" deprecation="on" debug="true" debuglevel="lines,vars,source" fork="yes"/>
+		<copy todir="${build.dir}/bin">
+			<fileset dir="${project.dir}/src" excludes="**/CVS/*,**/*.java,**/.*" />
+		</copy>
+		<jar destfile="${build.dir}/lib/${dist.jar.name}.jar" basedir="${build.dir}/bin">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+			    <section name="${dist.jar.name}">
+					<attribute name="Implementation-Title" value="${ant.project.name}"/>
+					<attribute name="Implementation-Version" value="${DSTAMP}"/>
+					<attribute name="Implementation-Vendor" value="${vendor}"/>				
+			    </section>
+			</manifest>
+		</jar>
+			
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${project.class.lib}" includes="**/*.jar"/>
+		</copy>
+		<copy todir="${build.dir}/lib">
+			<fileset dir="${project.class.import}" includes="**/*.jar"/>
+		</copy>
+	</target>
+	
+	<!-- Distribute -->
+	<target name="distribute" depends="ear, spa">
+		<copy todir="${dist.dir}">
+			<fileset dir="${build.dir}" includes="${dist.files}"/>
+		</copy>
+	</target>
+	
+	<!-- Enterprise application archive -->
+	<target name="ear" depends="web, ejb" if="project.ear.name">
+		<ear destfile="${build.dir}/${project.ear.name}.ear" appxml="${project.ear.dir}/meta-inf/${project.ear.dd}">
+			<fileset dir="${build.dir}" includes="*.jar,*.war" />
+		</ear>
+	</target>
+
+	
+	<!-- Web module -->
+	<target name="web" depends="build" if="project.ear.web.name">
+		<property name="webdir" value="${project.ear.dir}/${project.ear.web.dir}" />
+		<war destfile="${build.dir}/${project.ear.web.name}.war" webxml="${webdir}/WEB-INF/${project.ear.web.dd}">
+			<fileset dir="${webdir}" casesensitive="false">
+				<exclude name="WEB-INF/web.xml" />
+			</fileset>
+			<lib dir="${build.dir}/lib"/>
+		</war>
+	</target>
+
+	<!-- EJB module -->
+	<target name="ejb" depends="build" if="project.ear.ejb.name">
+		<property name="ejbdir" value="${project.ear.dir}/${project.ear.ejb.dir}" />
+		<jar destfile="${build.dir}/${project.ear.ejb.name}.jar">
+			<fileset dir="${ejbdir}" />
+			<fileset dir="${build.dir}/bin" />
+		</jar>
+	</target>
+
+	<!-- SPA Plugin -->
+	<target name="spa" depends="build" if="project.spa.plugin.name">
+		<copy todir="${build.dir}/spa">
+			<fileset dir="${project.spa.dir}" />
+		</copy>
+		<replace file="${build.dir}/spa/plugin.xml" token="@version@" value="${DSTAMP}"/>		
+		<jar destfile="${build.dir}/${project.spa.plugin.name}.spa">
+			<fileset dir="${build.dir}/spa" />
+			<fileset dir="${build.dir}/lib" />
+		</jar>
+	</target>
+
+	<!-- Deployment -->
+	<target name="deploy" if ="deploy.target">
+		<antcall target="deploy-${deploy.target}" />
+	</target>
+
+	<target name="dist-deploy" depends="distribute,deploy">
+	</target>
+
+	<!-- Deployment for Corvus -->
+	<target name="deploy-corvus">
+		<copy file="${dist.dir}/${project.spa.plugin.name}.spa" todir="${deploy.corvus.dir}" />
+	</target>
+
+	<!-- Deployment for Tomcat -->
+	<target name="deploy-tomcat">
+		<copy file="${dist.dir}/${project.ear.web.name}.war" todir="${deploy.tomcat.dir}/webapps" />
+	</target>
+
+	<!-- Deployment for JBoss -->
+	<target name="deploy-jboss">
+		<copy todir="${deploy.jboss.dir}">
+			<fileset dir="${deploy.jboss.localref}" />
+		</copy>
+		<copy file="${dist.dir}/${project.ear.name}.ear" todir="${deploy.server.jboss.dir}/deploy" />
+	</target>
+
+	<!-- Test -->
+	<target name="junit-test">
+		<delete dir="${build.dir}/junit"/>
+		<mkdir dir="${build.dir}/junit" />
+		<mkdir dir="${build.dir}/junit/bin" />	
+		<mkdir dir="${build.dir}/junit/lib" />				
+
+		<javac destdir="${build.dir}/junit/bin" classpathref="project.class.path" srcdir="${project.test.path}" deprecation="on" 				      
+			debug="true" debuglevel="lines,vars,source" fork="yes"/>
+	
+		<jar destfile="${build.dir}/junit/lib/${dist.jar.name}-junit.jar" basedir="${build.dir}/junit/bin" />
+
+		<junit printsummary="yes" dir="${project.dir}" showoutput="yes"> 
+		  	<classpath>
+				<path refid="project.class.path"/>
+				<pathelement location="${build.dir}/junit/lib/${dist.jar.name}-junit.jar"/>
+		  	</classpath>
+
+			<formatter type="xml"/>
+
+		 	<batchtest fork="yes" todir="../../Distribution/junit-report">
+		    	<fileset dir="${project.test.path}">
+		      		<include name="**/*.java"/>
+		    	</fileset>
+		  	</batchtest>
+		</junit>		
+	</target>
+
+</project>

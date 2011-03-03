@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<properties>
+	<build>
+		<dir location="../build" />
+	</build>
+	<dist>
+		<dir location="../dist" />
+		<jar name="ebms-pkg" />
+		<files>lib/*.jar</files>
+	</dist>
+	<project>
+		<dir location="../"/>
+		<base location="../../"/>
+		<class>
+			<lib location="../lib" />
+			<ext location="../../" files="Commons/ext/*.jar,Commons/dist/lib/*.jar,Corvus/dist/lib/*.jar"/> 
+			<import location="" />
+			<path/>
+		</class>
+		<source>
+			<path>../src</path>
+		</source>
+	</project>
+</properties>

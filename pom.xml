@@ -25,6 +25,8 @@
     </properties>
     
     <modules>
+    	<module>ebxml-pkg</module>
+    	<module>CommonsTest</module>
     	<module>Commons</module>
     	<module>Corvus</module>
     	<module>Plugins</module>
@@ -88,6 +90,12 @@
 			</dependency>
 			
 			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.0</version>
+			</dependency>
+			
+			<dependency>
 				<groupId>dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>1.6.1</version>
@@ -103,6 +111,12 @@
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcmail-jdk15</artifactId>
 				<version>1.43</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache</groupId>
+				<artifactId>xmlsec</artifactId>
+				<version>1.4.2</version>
 			</dependency>
 
 			<dependency>

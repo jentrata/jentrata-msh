@@ -19,10 +19,22 @@
  		<module>Corvus.Admin</module>
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
+    	<module>CorvusAS2</module>
+    	<module>CorvusAS2.Admin</module>
+    	<module>CorvusAS2Plus</module>
+    	<module>CorvusAS2Plus.Admin</module>
+    	<module>CorvusEbMS</module>
+    	<module>CorvusEbMS.Admin</module>
     </modules>
     
     <dependencyManagement>
         <dependencies>
+
+			<dependency>
+				<groupId>hk.hku.cecid.piazza</groupId>
+				<artifactId>piazza-commons-test</artifactId>
+				<version>${project.version}</version>
+			</dependency>
         
 			<dependency>
 				<groupId>hk.hku.cecid.piazza</groupId>
@@ -32,9 +44,21 @@
 			
 			<dependency>
 				<groupId>hk.hku.cecid.piazza</groupId>
+				<artifactId>ebxml-pkg</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza</groupId>
 				<artifactId>piazza-corvus</artifactId>
 				<version>${project.version}</version>
 			</dependency>			
+
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>piazza-corvus-admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			
 			<dependency>
 				<groupId>hk.hku.cecid.piazza.plugins</groupId>
@@ -45,6 +69,24 @@
 			<dependency>
 				<groupId>hk.hku.cecid.piazza.plugins</groupId>
 				<artifactId>piazza-corvus-main-admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>piazza-corvus-as2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>piazza-corvus-as2-plus</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>piazza-corvus-ebms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
