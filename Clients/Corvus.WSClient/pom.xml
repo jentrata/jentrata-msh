@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>hk.hku.cecid.piazza.clients</groupId>
+        <artifactId>piazza-clients-parent</artifactId>
+        <version>2.0.20100331-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>piazza-corvus-wsclient</artifactId>
+
+    <name>Clients: Corvus WSClient</name>
+    <description>Piazza Clients Corvus WSClient</description>
+    
+    <dependencies>
+    
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<artifactId>piazza-commons</artifactId>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<artifactId>piazza-commons-test</artifactId>
+    	</dependency>  
+
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<artifactId>piazza-commons-ext</artifactId>
+    	</dependency>
+    	
+		<dependency>
+			<groupId>jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>jaxen</groupId>
+		    <artifactId>jaxen</artifactId>
+		    <version>1.1.1</version>
+		    <scope>test</scope>
+		</dependency>
+    
+    </dependencies>
+    
+</project>
