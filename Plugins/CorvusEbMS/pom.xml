@@ -27,7 +27,7 @@
     	</dependency>
     	
 		<dependency>
-			<groupId>hk.hku.cecid.piazza</groupId>
+			<groupId>hk.hku.cecid.piazza.ext</groupId>
 			<artifactId>ebxml-pkg</artifactId>
 		</dependency>
 

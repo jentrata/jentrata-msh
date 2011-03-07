@@ -16,6 +16,7 @@
     <description>Piazza Ext Parent</description>
     
     <modules>
+    	<module>ebxml-pkg</module>
  		<module>CommonsExt</module>
  		<module>CommonsTest</module>
     </modules>

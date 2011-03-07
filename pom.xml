@@ -25,7 +25,6 @@
     </properties>
     
     <modules>
-    	<module>ebxml-pkg</module>
     	<module>Ext</module>
     	<module>Commons</module>
     	<module>Corvus</module>
