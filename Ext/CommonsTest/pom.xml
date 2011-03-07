@@ -2,30 +2,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
+        <groupId>hk.hku.cecid.piazza.ext</groupId>
+        <artifactId>piazza-ext-parent</artifactId>
         <version>2.0.20100331-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>piazza-commons-test</artifactId>
 
-    <name>Piazza: Commons Test</name>
-    <description>Piazza Common Test Library</description>
-    
+    <name>Ext: Commons Test</name>
+    <description>Piazza Ext Common Test Library</description>
     
     <dependencies>
     
     	<dependency>
     		<groupId>hk.hku.cecid.piazza</groupId>
     		<artifactId>piazza-commons</artifactId>
-    		<version>${project.version}</version>
     	</dependency>
     	
     	<dependency>
     		<groupId>hk.hku.cecid.piazza.plugins</groupId>
     		<artifactId>piazza-corvus-as2</artifactId>
-    		<version>${project.version}</version>
     	</dependency>
     
     </dependencies>

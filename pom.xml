@@ -26,8 +26,7 @@
     
     <modules>
     	<module>ebxml-pkg</module>
-    	<module>CommonsExt</module>
-    	<module>CommonsTest</module>
+    	<module>Ext</module>
     	<module>Commons</module>
     	<module>Corvus</module>
     	<module>Plugins</module>

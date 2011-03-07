@@ -16,7 +16,7 @@
     <dependencies>
     
     	<dependency>
-    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<groupId>hk.hku.cecid.piazza.ext</groupId>
     		<artifactId>piazza-commons-test</artifactId>
     		<scope>test</scope>
     		<exclusions>
