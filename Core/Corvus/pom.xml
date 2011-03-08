@@ -23,11 +23,13 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     
 		<dependency>
 			<groupId>jboss</groupId>
 		    <artifactId>jboss-j2ee</artifactId>
+		    <scope>provided</scope>
 		</dependency>
     
     </dependencies>
