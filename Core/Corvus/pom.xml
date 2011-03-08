@@ -2,24 +2,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
+        <groupId>hk.hku.cecid.piazza.core</groupId>
+        <artifactId>piazza-corvus-core-parent</artifactId>
         <version>2.0.20100331-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piazza-corvus</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>piazza-corvus-core</artifactId>
 
-    <name>Piazza: Corvus</name>
-    <description>Piazza Corvus</description>
+    <name>Core: Corvus Core</name>
+    <description>Piazza Corvus Core</description>
     
     <dependencies>
     
     	<dependency>
     		<groupId>hk.hku.cecid.piazza</groupId>
     		<artifactId>piazza-commons</artifactId>
-    		<version>${project.version}</version>
     	</dependency>
     
         <dependency>

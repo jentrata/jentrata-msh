@@ -27,7 +27,7 @@
     <modules>
     	<module>Ext</module>
     	<module>Commons</module>
-    	<module>Corvus</module>
+    	<module>Core</module>
     	<module>Plugins</module>
     	<module>Clients</module>
     </modules>

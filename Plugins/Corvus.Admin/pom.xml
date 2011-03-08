@@ -21,8 +21,8 @@
     	</dependency>
 
 		<dependency>
-			<groupId>hk.hku.cecid.piazza</groupId>
-			<artifactId>piazza-corvus</artifactId>
+			<groupId>hk.hku.cecid.piazza.core</groupId>
+			<artifactId>piazza-corvus-core</artifactId>
 		</dependency>
 		
 		<dependency>

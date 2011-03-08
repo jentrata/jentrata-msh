@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>hk.hku.cecid.piazza</groupId>
+        <artifactId>piazza-parent</artifactId>
+        <version>2.0.20100331-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+	<groupId>hk.hku.cecid.piazza.core</groupId>
+    <artifactId>piazza-corvus-core-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Core: Parent</name>
+    <description>Piazza Core Framework</description>
+    
+    <modules>
+    	<module>Corvus</module>
+    	<module>Corvus.Web</module>
+    </modules>    
+
+    <dependencyManagement>
+        <dependencies>
+        
+			<dependency>
+				<groupId>hk.hku.cecid.piazza</groupId>
+				<artifactId>piazza-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.core</groupId>
+				<artifactId>piazza-corvus-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+        
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            
+			<dependency>
+				<groupId>jboss</groupId>
+			    <artifactId>jboss-j2ee</artifactId>
+			    <version>4.2.2.GA</version>
+			</dependency>
+			
+        </dependencies>
+    </dependencyManagement>    
+    
+</project>
