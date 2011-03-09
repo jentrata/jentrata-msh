@@ -2,7 +2,6 @@
 *swp
 target/
 .idea/
-*.log
 *.data
 *.metadata
 *.classpath

@@ -1,0 +1,12 @@
+EBMS EbMS Message History Query init at Wed Mar 31 02:08:48 GMT 2010
+----------------------------------------------------
+Configuration Data using: 
+----------------------------------------------------
+Key: endpoint		Value: http://localhost:9000/corvus/httpd/ebms/msg_history
+Key: messageBox		Value: 
+Key: status		Value: 
+
+----------------------------------------------------
+Available Message(s): 
+----------------------------------------------------
+Message Id: 20080402-105745-64017@147.8.177.37  MessageBox: inbox

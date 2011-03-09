@@ -1,0 +1,11 @@
+Partnership HTTP Client init at Wed Mar 31 02:08:01 GMT 2010
+
+Sending Partnership HTTP Request with following configuration
+------------------------------------------------------------------
+Partnership Operation : delete
+Key: dataKeyName1		Value: testFormParamContent1
+Key: dataKeyName2		Value: testFormParamContent2
+Key: dataKeyName0		Value: testFormParamContent0
+
+------------------------------------------------------------------
+

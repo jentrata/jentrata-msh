@@ -1,0 +1,32 @@
+Partnership HTTP Client init at Wed Mar 31 02:07:39 GMT 2010
+
+Sending Partnership HTTP Request with following configuration
+------------------------------------------------------------------
+Partnership Operation : delete
+Key: encryptAlgorithm		Value: sha1
+Key: retryInterval		Value: 30000
+Key: action		Value: action
+Key: dupElimination		Value: never
+Key: signRequested		Value: false
+Key: disabled		Value: false
+Key: ackSignRequested		Value: never
+Key: syncReplyMode		Value: none
+Key: messageOrder		Value: NotGuaranteed
+Key: transportEndpoint		Value: http://127.0.0.1:8080/corvus/httpd/ebms/inbound
+Key: isHostnameVerified		Value: false
+Key: ackRequested		Value: never
+Key: id		Value: ebms
+Key: service		Value: http://127.0.0.1:8080/corvus/httpd/ebms/inbound
+Key: dsAlgorithm		Value: 
+Key: encryptRequested		Value: false
+Key: encryptCert		Value: [B@18203c31
+Key: signCert		Value: [B@6c4fc156
+Key: transportProtocol		Value: http
+Key: retries		Value: 1
+Key: cpaId		Value: ebmscpaid
+Key: mdAlgorithm		Value: 
+Key: persistDuration		Value: 0
+Key: actor		Value: 
+
+------------------------------------------------------------------
+
