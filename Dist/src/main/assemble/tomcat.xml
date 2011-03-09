@@ -10,6 +10,17 @@
 	<baseDirectory>/</baseDirectory>
 	
 	
+	<files>
+		<file>
+			<outputDirectory>/</outputDirectory>
+			<source>../LICENSE.txt</source>
+		</file>
+		<file>
+			<outputDirectory>/</outputDirectory>
+			<source>../RELEASE-NOTES.txt</source>
+		</file>
+	</files>
+	
 	<moduleSets>
 	
 		<!-- build webapp directory -->

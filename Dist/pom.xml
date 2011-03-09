@@ -12,8 +12,8 @@
     <artifactId>piazza-dist</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piazza: Distribution</name>
-    <description>Piazza Distribution</description>
+    <name>H2O: Distribution</name>
+    <description>Hermes H2O Distribution</description>
     
     <dependencies>
     
@@ -79,6 +79,7 @@
     </dependencies>
     
     <build>
+    	<finalName>hermes-H2O</finalName>
     	<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
