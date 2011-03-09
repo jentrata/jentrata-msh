@@ -21,12 +21,12 @@
     	</dependency>
     	
     	<dependency>
-    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<groupId>hk.hku.cecid.piazza.ext</groupId>
     		<artifactId>piazza-commons-test</artifactId>
     	</dependency>  
 
     	<dependency>
-    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<groupId>hk.hku.cecid.piazza.ext</groupId>
     		<artifactId>piazza-commons-ext</artifactId>
     	</dependency>
     	
@@ -53,8 +53,6 @@
 		<dependency>
 		    <groupId>jaxen</groupId>
 		    <artifactId>jaxen</artifactId>
-		    <version>1.1.1</version>
-		    <scope>test</scope>
 		</dependency>
     
     </dependencies>

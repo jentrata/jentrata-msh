@@ -21,14 +21,32 @@
 		</file>
 	</files>
 	
-	<!-- include sql scripts -->
+	<!-- include various scripts -->
 	<fileSets>
+		<!-- SQL scripts for the databases -->
 		<fileSet>
 			<directory>src/main/scripts/sql</directory>
 			<includes>
 				<include>**/*.sql</include>
 			</includes>
 			<outputDirectory>sql</outputDirectory>
+		</fileSet>
+		<!-- files for the sample client webservices -->
+		<fileSet>
+			<directory>../Clients/Corvus.WSClient/src/main/script/</directory>
+			<includes>
+				<include>*.sh</include>
+				<include>*.bat</include>
+			</includes>
+			<outputDirectory>sample</outputDirectory>
+			<fileMode>755</fileMode>
+		</fileSet>
+		<fileSet>
+			<directory>../Clients/Corvus.WSClient/src/main/config/</directory>
+			<includes>
+				<include>**/*.xml</include>
+			</includes>
+			<outputDirectory>sample/config</outputDirectory>
 		</fileSet>
 	</fileSets>
 	
@@ -363,6 +381,38 @@
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
 			</binaries>
+		</moduleSet>
+		
+		<!-- build samples webservice client -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>hk.hku.cecid.piazza.clients:piazza-corvus-wsclient</include>
+			</includes>
+			<binaries>
+				<outputDirectory>sample/lib</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>true</includeDependencies>
+				<dependencySets>
+					<dependencySet>
+						<includes>
+							<include>hk.hku.cecid.piazza:piazza-commons</include>
+							<include>hk.hku.cecid.piazza.ext:piazza-commons-ext</include>
+							<include>commons-codec:commons-codec</include>
+							<include>commons-fileupload:commons-fileupload</include>
+							<include>commons-httpclient:commons-httpclient</include>
+							<include>commons-logging:commons-logging</include>
+							<include>jaxen:jaxen</include>
+							<include>dom4j:dom4j</include>
+							<include>jtidy:jtidy</include>
+							<include>org.slf4j:*</include>
+							<include>javax.mail:mail</include>
+							<include>log4j:log4j</include>
+						</includes>
+					</dependencySet>
+				</dependencySets>
+				<outputFileNameMapping>corvus-ws-util.jar</outputFileNameMapping>
+			</binaries>	
 		</moduleSet>
 		
 	</moduleSets>
