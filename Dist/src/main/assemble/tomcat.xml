@@ -9,7 +9,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<baseDirectory>/</baseDirectory>
 	
-	
+	<!-- include license and release notes -->
 	<files>
 		<file>
 			<outputDirectory>/</outputDirectory>
@@ -20,6 +20,17 @@
 			<source>../RELEASE-NOTES.txt</source>
 		</file>
 	</files>
+	
+	<!-- include sql scripts -->
+	<fileSets>
+		<fileSet>
+			<directory>src/main/scripts/sql</directory>
+			<includes>
+				<include>**/*.sql</include>
+			</includes>
+			<outputDirectory>sql</outputDirectory>
+		</fileSet>
+	</fileSets>
 	
 	<moduleSets>
 	
