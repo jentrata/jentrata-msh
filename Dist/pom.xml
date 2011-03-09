@@ -22,6 +22,59 @@
     		<artifactId>piazza-corvus-main</artifactId>
     		<version>${project.version}</version>
     	</dependency>
+
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-main-admin</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-admin</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-ebms</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-ebms-admin</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-as2</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-as2-admin</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-as2-plus</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.plugins</groupId>
+    		<artifactId>piazza-corvus-as2-plus-admin</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>commons-fileupload</groupId>
+    		<artifactId>commons-fileupload</artifactId>
+    	</dependency>
     
     </dependencies>
     

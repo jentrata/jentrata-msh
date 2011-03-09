@@ -91,6 +91,6 @@
 			</dependency>
 
         </dependencies>
-    </dependencyManagement>    
+    </dependencyManagement>
     
 </project>
