@@ -15,10 +15,12 @@
 		<file>
 			<outputDirectory>/</outputDirectory>
 			<source>../LICENSE.txt</source>
+			<fileMode>755</fileMode>
 		</file>
 		<file>
 			<outputDirectory>/</outputDirectory>
 			<source>../RELEASE-NOTES.txt</source>
+			<fileMode>755</fileMode>
 		</file>
 	</files>
 	
@@ -31,6 +33,8 @@
 				<include>**/*.sql</include>
 			</includes>
 			<outputDirectory>sql</outputDirectory>
+			<directoryMode>755</directoryMode>
+			<fileMode>755</fileMode>
 		</fileSet>
 		<!-- files for the sample client webservices -->
 		<fileSet>
@@ -41,6 +45,7 @@
 			</includes>
 			<outputDirectory>sample</outputDirectory>
 			<fileMode>755</fileMode>
+			<directoryMode>755</directoryMode>
 		</fileSet>
 		<fileSet>
 			<directory>../Clients/Corvus.WSClient/src/main/config/</directory>
@@ -48,6 +53,8 @@
 				<include>**/*.xml</include>
 			</includes>
 			<outputDirectory>sample/config</outputDirectory>
+			<directoryMode>755</directoryMode>
+			<fileMode>755</fileMode>
 		</fileSet>
 	</fileSets>
 	
@@ -66,6 +73,8 @@
 				<outputDirectory>webapps/corvus</outputDirectory>
 				<unpack>true</unpack>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -86,6 +95,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-main-system.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -104,6 +115,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -118,6 +131,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-main-admin.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -136,6 +151,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -150,6 +167,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-admin-system.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -168,6 +187,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>		
 
@@ -182,6 +203,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-ebms-core.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -200,6 +223,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 
@@ -221,6 +246,8 @@
 					</dependencySet>
 				</dependencySets>
 				<outputFileNameMapping>corvus-ebms-admin.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -239,6 +266,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -253,6 +282,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-as2-core.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -271,6 +302,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -292,6 +325,8 @@
 					</dependencySet>
 				</dependencySets>
 				<outputFileNameMapping>corvus-as2-admin.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -310,6 +345,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -324,6 +361,8 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-as2plus-core.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -342,6 +381,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 
@@ -363,6 +404,8 @@
 					</dependencySet>
 				</dependencySets>
 				<outputFileNameMapping>corvus-as2plus-admin.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -381,6 +424,8 @@
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
@@ -413,6 +458,8 @@
 					</dependencySet>
 				</dependencySets>
 				<outputFileNameMapping>corvus-ws-util.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
 			</binaries>	
 		</moduleSet>
 		
