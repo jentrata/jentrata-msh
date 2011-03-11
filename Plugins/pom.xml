@@ -14,18 +14,72 @@
 
     <name>Piazza: Plugins</name>
     <description>Piazza Plugins Parent</description>
-    
+
+	<!-- Core Plugins -->    
     <modules>
  		<module>Corvus.Admin</module>
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
-    	<module>CorvusAS2</module>
-    	<module>CorvusAS2.Admin</module>
-    	<module>CorvusAS2Plus</module>
-    	<module>CorvusAS2Plus.Admin</module>
-    	<module>CorvusEbMS</module>
-    	<module>CorvusEbMS.Admin</module>
     </modules>
+    
+    <profiles>
+    
+    	<profile>
+    		<id>all-plugins</id>
+    		<activation>
+    			<activeByDefault>true</activeByDefault>
+    		</activation>
+    		<modules>
+    			<module>CorvusEbMS</module>
+    			<module>CorvusEbMS.Admin</module>  
+    			<module>CorvusAS2</module>
+    			<module>CorvusAS2.Admin</module>
+    			<module>CorvusAS2Plus</module>
+    			<module>CorvusAS2Plus.Admin</module>     			    			
+    		</modules>
+    	</profile>
+    
+    	<profile>
+    		<id>ebms-plugins</id>
+    		<activation>
+    			<property>
+    				<name>plugins.ebms</name>
+    			</property>
+    		</activation>
+    		<modules>
+    			<module>CorvusEbMS</module>
+    			<module>CorvusEbMS.Admin</module>    		
+    		</modules>
+    	</profile>
+    	
+    	<profile>
+    		<id>as2-plugins</id>
+    		<activation>
+    			<property>
+    				<name>plugins.as2</name>
+    			</property>
+    		</activation>
+    		<modules>
+    			<module>CorvusAS2</module>
+    			<module>CorvusAS2.Admin</module>    		
+    		</modules>
+    	</profile>
+    	
+    	<profile>
+    		<id>as2Plus-plugins</id>
+    		<activation>
+    			<property>
+    				<name>plugins.as2Plus</name>
+    				<value>as2Plus</value>
+    			</property>
+    		</activation>
+    		<modules>
+    			<module>CorvusAS2Plus</module>
+    			<module>CorvusAS2Plus.Admin</module>    		
+    		</modules>
+    	</profile>
+
+    </profiles>
     
     <dependencyManagement>
         <dependencies>

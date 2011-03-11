@@ -2,11 +2,11 @@
 <corvus>
 
 	<!-- Home Directory -->
-	<home>/corvus/</home>
+	<home>${corvus.home}</home>
 
 	<!-- Plugin Registry -->
 	<plugin>
-		<registry>/corvus/plugins</registry>
+		<registry>${corvus.home}/plugins</registry>
 		<descriptor>plugin.xml</descriptor>
 	</plugin>
 

@@ -64,7 +64,6 @@
 		<moduleSet>
 			<!-- Enable access to all projects in the current multimodule build! -->
 			<useAllReactorProjects>true</useAllReactorProjects>
-
 			<!-- Now, select which projects to include in this module-set. -->
 			<includes>
 				<include>hk.hku.cecid.piazza.core:piazza-corvus-core-web</include>
@@ -72,6 +71,9 @@
 			<binaries>
 				<outputDirectory>webapps/corvus</outputDirectory>
 				<unpack>true</unpack>
+				<unpackOptions>
+					<filtered>true</filtered>
+				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
 				<directoryMode>755</directoryMode>
 				<fileMode>755</fileMode>

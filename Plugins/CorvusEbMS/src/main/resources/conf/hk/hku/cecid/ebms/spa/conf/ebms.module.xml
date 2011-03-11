@@ -35,7 +35,7 @@
     
     <component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="/corvus/plugins/hk.hku.cecid.ebms/security/corvus.p12" />
+		<parameter name="keystore-location" value="${corvus.home}/plugins/hk.hku.cecid.ebms/security/corvus.p12" />
 		<parameter name="keystore-password" value="password" />
 		<parameter name="key-alias" value="corvus" />
 		<parameter name="key-password" value="password" />
@@ -45,7 +45,7 @@
     
     <component id="keystore-manager-for-decryption" name="Key Store Manager for Decryption (ebMS over SMTP)">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="/corvus/plugins/hk.hku.cecid.ebms/security/corvus.p12" />
+		<parameter name="keystore-location" value="${corvus.home}/plugins/hk.hku.cecid.ebms/security/corvus.p12" />
 		<parameter name="keystore-password" value="password" />
 		<parameter name="key-alias" value="corvus" />
 		<parameter name="key-password" value="password" />

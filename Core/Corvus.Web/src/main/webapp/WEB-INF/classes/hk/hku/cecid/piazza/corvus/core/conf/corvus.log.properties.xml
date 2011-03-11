@@ -10,7 +10,7 @@
   </appender>
 
   <appender name="corvus" class="org.apache.log4j.RollingFileAppender">
-     <param name="File" value="/corvus/logs/corvus.log"/>
+     <param name="File" value="${corvus.home}/logs/corvus.log"/>
      <param name="Encoding" value="UTF-8"/>
      <param name="MaxFileSize" value="100KB"/>
      <param name="MaxBackupIndex" value="1"/>
