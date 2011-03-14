@@ -11,6 +11,12 @@ http://community.cecid.hku.hk/download/beta/hermes2_src_20100331.zip
 We will keep the code on master as close as possible to the original
 source but will maintain a branch for our changes
 
+## Building
+
+Requires maven 3.0+  and Java 6
+	
+	mvn clean install
+
 ## Developer Notes
 
 ### GitHub Setup
