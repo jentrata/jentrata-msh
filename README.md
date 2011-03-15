@@ -15,6 +15,8 @@ source but will maintain a branch for our changes
 
 Requires maven 3.0+  and Java 6
 	
+	git clone git@github.com:<github-username>/Hermes-Gateway.git
+	cd Hermes-Gateway
 	mvn clean install
 
 ## Developer Notes
