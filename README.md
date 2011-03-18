@@ -37,3 +37,9 @@ And push now push these changes to your forked repository
 Also you should run the following
     git config --global user.name "Your Name"
     git config --global user.email <your_email>@base2services.com
+    
+### Jenkins CI
+
+Jenkins is setup to merge changes from a branch into the master branch only if
+that build passed.
+
