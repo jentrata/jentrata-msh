@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -127,7 +130,7 @@ public class PropertyTree extends PersistentComponent implements PropertySheet {
      */
     public String getProperty(String xpath) {
         Node node = getPropertyNode(xpath);
-        return node == null ? null : node.getStringValue();
+        return node == null ? null : propertyValue(node.getStringValue());
     }
 
     /**
@@ -142,7 +145,7 @@ public class PropertyTree extends PersistentComponent implements PropertySheet {
      */
     public String getProperty(String xpath, String def) {
         Node node = getPropertyNode(xpath);
-        return node == null ? def : node.getStringValue();
+        return node == null ? def : propertyValue(node.getStringValue());
     }
 
     /**
@@ -157,7 +160,7 @@ public class PropertyTree extends PersistentComponent implements PropertySheet {
         String[] nodeValues = new String[nodes.size()];
 
         for (int i = 0; i < nodes.size(); i++) {
-            nodeValues[i] = ((Node) nodes.get(i)).getStringValue();
+            nodeValues[i] = propertyValue(((Node) nodes.get(i)).getStringValue());
         }
         return nodeValues;
     }
@@ -202,7 +205,7 @@ public class PropertyTree extends PersistentComponent implements PropertySheet {
             List nodes2 = ((Node) nodes.get(i)).selectNodes(xpath2);
             nodeValues[i] = new String[nodes2.size()];
             for (int j = 0; j < nodes2.size(); j++) {
-                nodeValues[i][j] = ((Node) nodes2.get(j)).getStringValue();
+                nodeValues[i][j] = propertyValue(((Node) nodes2.get(j)).getStringValue());
             }
         }
         return nodeValues;
@@ -631,4 +634,45 @@ public class PropertyTree extends PersistentComponent implements PropertySheet {
     public String toString() {
         return dom.asXML();
     }
+    
+    
+    private String propertyValue(String value) {
+        String result = value;
+        if(result.contains("${")) {
+            List<String> variables = extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
+            for(String var: variables) {
+                if(System.getProperties().containsKey(var)) {
+                    result = result.replaceAll("\\$\\{(" + var + "+)\\}", System.getProperty(var));
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * @param string
+     * @param regex
+     * @param group the <b>one-based</b> index of the target group. 
+     * The default group is the zeroth group, which is the whole expression
+     * @return each match of the specified group
+     */
+    private List<String> extractRegexMulti(String string, String regex, int group) {
+        List<String> result = new ArrayList<String>();
+        
+        if (string == null) {
+            return result;
+        }
+        
+        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(string);
+        
+        while (matcher.find()) {
+            if (group > matcher.groupCount()) {
+            } else {
+                result.add(matcher.group(group));
+            }
+        }
+        return result;
+    }
+
 }
