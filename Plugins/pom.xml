@@ -156,9 +156,35 @@
     			<filtering>true</filtering>
 				<includes>
 					<include>**/*.xml</include>
+					<include>**/*.MF</include>
+					<include>**/*.xsl</include>
 				</includes>
     		</resource>
+    		<resource>
+    			<directory>src/main/resources</directory>
+    			<targetPath>plugins</targetPath>
+    			<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+					<exclude>**/*.MF</exclude>
+					<exclude>**/*.xsl</exclude>
+				</excludes>
+    		</resource>
     	</resources>
+    	<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+    	</plugins>
     </build>
     
 </project>

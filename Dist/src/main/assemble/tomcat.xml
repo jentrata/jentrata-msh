@@ -102,26 +102,6 @@
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.piazza.corvus.core.main</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-		
 		<!-- hk.hku.cecid.piazza.corvus.core.main.adim plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -133,26 +113,6 @@
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>corvus-main-admin.jar</outputFileNameMapping>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main-admin</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.piazza.corvus.core.main.admin</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
 				<directoryMode>755</directoryMode>
 				<fileMode>755</fileMode>
 			</binaries>
@@ -174,26 +134,6 @@
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-admin</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.piazza.corvus.core.admin</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>		
-
 		<!-- hk.hku.cecid.ebms plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -203,33 +143,21 @@
 			<binaries>
 				<outputDirectory>plugins/hk.hku.cecid.ebms</outputDirectory>
 				<unpack>false</unpack>
-				<includeDependencies>false</includeDependencies>
+				<includeDependencies>true</includeDependencies>
+				<dependencySets>
+					<dependencySet>
+						<includes>
+							<include>hk.hku.cecid.piazza.ext:ebxml-pkg</include>
+						</includes>
+						<outputFileNameMapping>ebxml-pkg.jar</outputFileNameMapping>
+					</dependencySet>
+				</dependencySets>
 				<outputFileNameMapping>corvus-ebms-core.jar</outputFileNameMapping>
 				<directoryMode>755</directoryMode>
 				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.ebms</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-
 		<!-- hk.hku.cecid.ebms.admin plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -253,26 +181,6 @@
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms-admin</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.ebms.admin</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-		
 		<!-- hk.hku.cecid.edi.as2 plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -288,27 +196,7 @@
 				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
-		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.edi.as2</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-		
+
 		<!-- hk.hku.cecid.as2.admin plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -332,26 +220,6 @@
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2-admin</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.edi.as2.admin</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-		
 		<!-- hk.hku.cecid.edi.as2plus plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -368,26 +236,6 @@
 			</binaries>
 		</moduleSet>
 		
-		<moduleSet>
-			<useAllReactorProjects>true</useAllReactorProjects>
-			<includes>
-				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2-plus</include>
-			</includes>
-			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.edi.as2plus</outputDirectory>
-				<unpack>true</unpack>
-				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
-					<filtered>true</filtered>
-				</unpackOptions>
-				<includeDependencies>false</includeDependencies>
-				<directoryMode>755</directoryMode>
-				<fileMode>755</fileMode>
-			</binaries>
-		</moduleSet>
-
 		<!-- hk.hku.cecid.edi.as2plus.admin plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -414,15 +262,23 @@
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main-admin</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-admin</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms-admin</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2-admin</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2-plus</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2-plus-admin</include>
 			</includes>
 			<binaries>
-				<outputDirectory>plugins/hk.hku.cecid.edi.as2plus.admin</outputDirectory>
+				<outputDirectory>/</outputDirectory>
 				<unpack>true</unpack>
 				<unpackOptions>
-					<excludes>
-						<exclude>hk/**</exclude>
-					</excludes>
+					<includes>
+						<include>plugins/**</include>
+					</includes>
 					<filtered>true</filtered>
 				</unpackOptions>
 				<includeDependencies>false</includeDependencies>
@@ -466,5 +322,6 @@
 		</moduleSet>
 		
 	</moduleSets>
+	
 	
 </assembly>
