@@ -151,6 +151,13 @@
 						</includes>
 						<outputFileNameMapping>ebxml-pkg.jar</outputFileNameMapping>
 					</dependencySet>
+					<dependencySet>
+						<includes>
+							<include>javax.jms:jms</include>
+							<include>org.apache.activemq:activemq-core</include>
+							<include>org.apache.activemq:activemq-all</include>
+						</includes>
+					</dependencySet>
 				</dependencySets>
 				<outputFileNameMapping>corvus-ebms-core.jar</outputFileNameMapping>
 				<directoryMode>755</directoryMode>

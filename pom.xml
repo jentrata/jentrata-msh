@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>hk.hku.cecid.piazza</groupId>
-    <artifactId>piazza-parent</artifactId>
-    <version>2.0.20100331-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<groupId>hk.hku.cecid.piazza</groupId>
+	<artifactId>piazza-parent</artifactId>
+	<version>2.0.20100331-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <name>Hermes Messaging Gateway: Parent</name>
-    <description>Hermes Messaging Gateway - H2O</description>
-    <url>http://www.cecid.hku.hk/hermes.php</url>
-    
-    <inceptionYear>2002</inceptionYear>
-    
-    <scm>
-        <connection>scm:git@github.com:base2Services/Hermes-Gateway.git</connection>
-        <developerConnection>scm:git@github.com:base2Services/Hermes-Gateway.git</developerConnection>
-        <url>https://github.com/base2Services/Hermes-Gateway</url>
-    </scm>
-    
-    <properties>
-    	<vendor>CECID, The University of Hong Kong</vendor>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
-    <modules>
-    	<module>Ext</module>
-    	<module>Commons</module>
-    	<module>Core</module>
-    	<module>Plugins</module>
-    	<module>Clients</module>
+	<name>Hermes Messaging Gateway: Parent</name>
+	<description>Hermes Messaging Gateway - H2O</description>
+	<url>http://www.cecid.hku.hk/hermes.php</url>
+
+	<inceptionYear>2002</inceptionYear>
+
+	<scm>
+		<connection>scm:git@github.com:base2Services/Hermes-Gateway.git</connection>
+		<developerConnection>scm:git@github.com:base2Services/Hermes-Gateway.git</developerConnection>
+		<url>https://github.com/base2Services/Hermes-Gateway</url>
+	</scm>
+
+	<properties>
+		<vendor>CECID, The University of Hong Kong</vendor>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<modules>
+		<module>Ext</module>
+		<module>Commons</module>
+		<module>Core</module>
+		<module>Plugins</module>
+		<module>Clients</module>
 		<module>Dist</module>
-    </modules>
-    
-    <dependencies>
+	</modules>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.4.3</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.4.3</version>
-        </dependency>
-    
+	<dependencies>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-legacy</artifactId>
 			<version>2.5.1</version>
 			<scope>test</scope>
 		</dependency>
-		
-    </dependencies>
-    
-    <dependencyManagement>
+
+	</dependencies>
+
+	<dependencyManagement>
         <dependencies>
-        
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -95,43 +95,42 @@
                 <artifactId>mail</artifactId>
                 <version>1.4.1</version>
             </dependency>
-            
 			<dependency>
 				<groupId>jboss</groupId>
-			    <artifactId>jboss-j2ee</artifactId>
-			    <version>4.2.2.GA</version>
+				<artifactId>jboss-j2ee</artifactId>
+				<version>4.2.2.GA</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
 				<version>1.2.2</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-pool</groupId>
 				<artifactId>commons-pool</artifactId>
 				<version>1.4</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
 				<version>1.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.3</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>jaxen</groupId>
 				<artifactId>jaxen</artifactId>
@@ -154,14 +153,14 @@
 						<artifactId>xercesImpl</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>			
-			
+			</dependency>
+
 			<dependency>
 				<groupId>dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>1.6.1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcprov-jdk15</artifactId>
@@ -173,7 +172,7 @@
 				<artifactId>bcmail-jdk15</artifactId>
 				<version>1.43</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.apache</groupId>
 				<artifactId>xmlsec</artifactId>
@@ -185,54 +184,79 @@
 				<artifactId>ojdbc14</artifactId>
 				<version>10.2.0.3.0</version>
 			</dependency>
+
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>9.0-801.jdbc4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-core</artifactId>
+				<version>5.4.2</version>
+				<optional>false</optional>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-all</artifactId>
+				<version>5.4.2</version>
+				<optional>false</optional>
+			</dependency>
 			
 			<dependency>
-			    <groupId>postgresql</groupId>
-			    <artifactId>postgresql</artifactId>
-			    <version>9.0-801.jdbc4</version>
-			</dependency>
-            
-        </dependencies>
-    </dependencyManagement>
-    
-    <build>
-        <defaultGoal>install</defaultGoal>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-java</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <rules>
-                    	<requireMavenVersion>
-                    	<!-- require Maven 3.0+ to run the build -->
-                    		<version>3.0</version>
-                    	</requireMavenVersion>
-                        <requireJavaVersion>
-                            <!-- require JDK 1.5 to run the build -->
-                            <version>[1.5,)</version>
-                        </requireJavaVersion>
-                    </rules>
-                </configuration>
-            </plugin>
-        </plugins>
+                               <groupId>javax.jms</groupId>
+                               <artifactId>jms</artifactId>
+                               <version>1.1</version>
+                       </dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<executions>
+					<execution>
+						<id>enforce-java</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rules>
+						<requireMavenVersion>
+							<!-- require Maven 3.0+ to run the build -->
+							<version>3.0</version>
+						</requireMavenVersion>
+						<requireJavaVersion>
+							<!-- require JDK 1.5 to run the build -->
+							<version>[1.5,)</version>
+						</requireJavaVersion>
+					</rules>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -251,40 +275,40 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-    </build>
-    
+	</build>
+
 	<repositories>
-    	<repository>
-        	<id>jboss-public-repository-group</id>
-          	<name>JBoss Public Maven Repository Group</name>
-          	<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-          	<layout>default</layout>
-          	<releases>
-            	<enabled>true</enabled>
-            	<updatePolicy>never</updatePolicy>
-          	</releases>
-          	<snapshots>
-            	<enabled>true</enabled>
-            	<updatePolicy>never</updatePolicy>
-          	</snapshots>
-        </repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
-    
-    <profiles>
-        <!-- =============================== -->
-        <!-- Profiles                        -->
-        <!-- =============================== -->
-        
-    	<profile>
-    		<id>tomcat</id>
-    		<activation>
-    			<activeByDefault>true</activeByDefault>
-    		</activation>
-    		<properties>
-    			<distribution>tomcat</distribution>
-    		</properties>
-    	</profile>
-    	
-    </profiles>
-    
+
+	<profiles>
+		<!-- =============================== -->
+		<!-- Profiles -->
+		<!-- =============================== -->
+
+		<profile>
+			<id>tomcat</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<distribution>tomcat</distribution>
+			</properties>
+		</profile>
+
+	</profiles>
+
 </project>

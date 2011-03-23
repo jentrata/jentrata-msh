@@ -16,8 +16,11 @@
 	
 	<runtime>
 		<library name="corvus-ebms-core.jar"/>
-		<library name="ebms-pkg.jar"/>
+		<library name="ebxml-pkg-2.0.20100331-SNAPSHOT.jar"/>
 		<library name="conf/"/>
+		<library name="activemq-core-5.4.2.jar/"/>
+		<library name="activemq-all-5.4.2.jar/"/>
+		<library name="jms-1.1.jar/"/>
 	</runtime>
 
 	<extension point="hk.hku.cecid.piazza.corvus.core.httpd.listener" name="Ebms Plugin Inbound Listener">
