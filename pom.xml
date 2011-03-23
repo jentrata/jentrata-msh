@@ -65,32 +65,36 @@
 	</dependencies>
 
 	<dependencyManagement>
-		<dependencies>
-
+        <dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.4</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-integration</artifactId>
+				<version>1.2.1</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-all</artifactId>
 				<version>1.8.5</version>
 			</dependency>
+        
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+            </dependency>
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.jms</groupId>
-				<artifactId>jms</artifactId>
-				<version>1.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.1</version>
-			</dependency>
-
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.1</version>
+            </dependency>
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-j2ee</artifactId>
@@ -205,6 +209,12 @@
 				<version>5.4.2</version>
 				<optional>false</optional>
 			</dependency>
+			
+			<dependency>
+                               <groupId>javax.jms</groupId>
+                               <artifactId>jms</artifactId>
+                               <version>1.1</version>
+                       </dependency>
 
 		</dependencies>
 	</dependencyManagement>

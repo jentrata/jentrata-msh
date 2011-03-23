@@ -1,0 +1,15 @@
+<module id="piazza.corvus.test" name="Piazza Corvus Test" version="1.0">
+
+	<component id="logger" name="System Logger">
+		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
+		<parameter name="config" value="corvus/corvus.test.log.properties.xml" />		
+		<parameter name="category" value="hk.hku.cecid.piazza" />
+	</component>
+
+	<component id="properties" name="System Properties">
+		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
+		<parameter name="config" value="corvus/corvus.test.properties.xml" />
+	</component>	
+	
+	
+</module>

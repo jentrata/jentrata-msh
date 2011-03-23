@@ -1,0 +1,8 @@
+<module-group name="Piazza-Test">
+
+	<module>
+		<class>hk.hku.cecid.piazza.commons.module.SystemModule</class>
+		<descriptor>corvus/corvus.test.module.xml</descriptor>
+	</module>
+	
+</module-group>

@@ -1,0 +1,14 @@
+<module id="jms" name="JMS Plugin" version="@version@">
+
+	<component id="logger" name="System Logger">
+		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
+		<parameter name="config" value="org/jentrata/spa/jms/conf/log4j.properties.xml" />		
+		<parameter name="category" value="org.jentrata.spa.jms" />
+	</component>
+
+	<component id="properties" name="System Properties">
+		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
+		<parameter name="config" value="org/jentrata/spa/jms/conf/jms.properties.xml" />
+	</component>
+
+</module>

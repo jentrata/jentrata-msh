@@ -20,6 +20,7 @@
  		<module>Corvus.Admin</module>
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
+    	<module>CorvusJMS</module>
     </modules>
     
     <profiles>
@@ -31,7 +32,7 @@
     		</activation>
     		<modules>
     			<module>CorvusEbMS</module>
-    			<module>CorvusEbMS.Admin</module>  
+    			<module>CorvusEbMS.Admin</module>
     			<module>CorvusAS2</module>
     			<module>CorvusAS2.Admin</module>
     			<module>CorvusAS2Plus</module>
@@ -146,5 +147,18 @@
 
         </dependencies>
     </dependencyManagement>
+    
+    <build>
+    	<resources>
+    		<resource>
+    			<directory>src/main/resources</directory>
+    			<targetPath>plugins</targetPath>
+    			<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+    		</resource>
+    	</resources>
+    </build>
     
 </project>
