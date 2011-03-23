@@ -1,0 +1,8 @@
+<module id="jms-test" name="JMS Test Plugin" version="@version@">
+
+	<component id="jms" name="test-jms">
+		<class>org.jentrata.spa.jms.module.JMSComponent</class>
+		<parameter name="connectionFactoryUrl" value="vm://localhost?broker.persistent=false" />		
+	</component>
+
+</module>

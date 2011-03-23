@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>hk.hku.cecid.piazza.plugins</groupId>
+        <artifactId>piazza-plugins-parent</artifactId>
+        <version>2.0.20100331-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>piazza-corvus-jms</artifactId>
+
+    <name>Plugins: Corvus JMS</name>
+    <description>Piazza Plugin Corvus JMS</description>
+    
+    <dependencies>
+    
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-integration</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>    
+    
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.ext</groupId>
+    		<artifactId>piazza-commons-test</artifactId>
+    		<scope>test</scope>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza.core</groupId>
+    		<artifactId>piazza-corvus-core</artifactId>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>hk.hku.cecid.piazza</groupId>
+    		<artifactId>piazza-commons</artifactId>
+    	</dependency>
+    	
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.plugins</groupId>
+			<artifactId>piazza-corvus-ebms</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>5.4.2</version>
+			<optional>false</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.6.0-fuse-00-00</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jms</artifactId>
+			<version>2.6.0-fuse-00-00</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>	
+		
+    	<dependency>
+    		<groupId>jaxen</groupId>
+    		<artifactId>jaxen</artifactId>
+    	</dependency>	
+
+    
+    </dependencies>
+    
+</project>
