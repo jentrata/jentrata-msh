@@ -10,6 +10,7 @@
 package hk.hku.cecid.piazza.commons.spa;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Plugin extends PluginComponent {
 
     private boolean activated;
     
-    private Collection  libraries;
+    private Collection<Library>  libraries;
 
     private Collection  extensionPoints;
     
@@ -101,14 +102,17 @@ public class Plugin extends PluginComponent {
      * @throws PluginException if the libraries specified in the descriptor are invalid.
      */
     private URL[] getLibraryURLs() throws PluginException {
-        ArrayList urls = new ArrayList();
-        Iterator libraryNames = libraries.iterator();
-        while (libraryNames.hasNext()) {
-            Library library = (Library) libraryNames.next();
+        ArrayList<URL> urls = new ArrayList<URL>();
+        for(Library library: libraries) {
             File libFile = new File(pluginFolder, library.getName());
             if (libFile.exists()) {
                 try {
-                    urls.add(libFile.toURI().toURL());
+                    if(libFile.isFile()) {
+                        urls.add(libFile.toURI().toURL());
+                    } else if(libFile.isDirectory()) {
+                        urls.add(libFile.toURI().toURL());
+                        addNestedJars(libFile, urls);
+                    }
                 }
                 catch (MalformedURLException e) {
                     throw new PluginException("Invalid library URL", e);
@@ -116,6 +120,18 @@ public class Plugin extends PluginComponent {
             }
         }
         return (URL[]) urls.toArray(new URL[]{});
+    }
+
+    private void addNestedJars(File dir, ArrayList<URL> urls) throws MalformedURLException {
+        
+        File [] files = dir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename) {
+                return filename.endsWith(".jar");
+            }
+        });
+        for(File f: files) {
+            urls.add(f.toURI().toURL());
+        }
     }
 
     /**

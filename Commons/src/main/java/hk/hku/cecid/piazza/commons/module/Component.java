@@ -9,6 +9,8 @@
 
 package hk.hku.cecid.piazza.commons.module;
 
+import hk.hku.cecid.piazza.commons.util.PropertiesEditor;
+
 import java.util.Properties;
 
 /**
@@ -99,7 +101,7 @@ public abstract class Component {
      * @param parameters the parameters of this component.
      */
     protected void setParameters(Properties parameters) {
-        this.parameters = parameters;
+        this.parameters = new PropertiesEditor(parameters);
     }
     
     /**

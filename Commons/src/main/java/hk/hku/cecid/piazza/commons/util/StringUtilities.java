@@ -12,8 +12,11 @@ package hk.hku.cecid.piazza.commons.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A StringUtilities is a convenient class for handling some common text
@@ -730,4 +733,46 @@ public final class StringUtilities {
   	  	}
   	  	return result;
   	}
+    
+    /**
+     * @param string
+     * @param regex
+     * @param group the <b>one-based</b> index of the target group. 
+     * The default group is the zeroth group, which is the whole expression
+     * @return each match of the specified group
+     */
+    public static List<String> extractRegexMulti(String string, String regex, int group) {
+        List<String> result = new ArrayList<String>();
+        
+        if (string == null) {
+            return result;
+        }
+        
+        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(string);
+        
+        while (matcher.find()) {
+            if (group > matcher.groupCount()) {
+            } else {
+                result.add(matcher.group(group));
+            }
+        }
+        return result;
+    }
+    
+    public static  String propertyValue(String value) {
+        if(value == null) {
+            return null;
+        }
+        String result = value;
+        if(result.contains("${")) {
+            List<String> variables = StringUtilities.extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
+            for(String var: variables) {
+                if(System.getProperties().containsKey(var)) {
+                    result = result.replaceAll("\\$\\{(" + var + "+)\\}", System.getProperty(var));
+                }
+            }
+        }
+        return result;
+    }
 }
