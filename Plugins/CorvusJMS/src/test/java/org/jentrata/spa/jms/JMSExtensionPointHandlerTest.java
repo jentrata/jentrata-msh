@@ -6,15 +6,15 @@ package org.jentrata.spa.jms;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.*;
+import hk.hku.cecid.piazza.commons.message.Message;
+import hk.hku.cecid.piazza.commons.message.MessageHandler;
 import hk.hku.cecid.piazza.commons.spa.Extension;
 import hk.hku.cecid.piazza.commons.spa.Plugin;
 import hk.hku.cecid.piazza.commons.spa.PluginException;
 
 import java.util.Properties;
 
-import org.apache.camel.Message;
 import org.jentrata.spa.jms.handler.JMSExtensionPointHandler;
-import org.jentrata.spa.jms.handler.MessageHandler;
 import org.jentrata.spa.jms.module.JMSComponent;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class JMSExtensionPointHandlerTest {
     public void setup() {
         ep = spy(new JMSExtensionPointHandler());
         mockJMS = mock(JMSComponent.class);
-        doReturn(mockJMS).when(ep).getJMSComponent();
+        doReturn(mockJMS).when(ep).getJMSComponent("jms:queue:testQueue");
     }
     
     @Test

@@ -14,8 +14,9 @@
 	</requires>
 	
 	<runtime>
-		<library name="conf/"/>
 		<library name="${project.artifactId}.jar"/>
+		<library name="conf/"/>
+		<library name="lib/"/>
 	</runtime>
 	
 	<extension-point id="org.jentrata.jms.sender" name="JMS Extension Point Hanlder" class="org.jentrata.spa.jms.handler.JMSExtensionPointHandler" />

@@ -53,6 +53,11 @@
 			<groupId>hk.hku.cecid.piazza.ext</groupId>
 			<artifactId>ebxml-pkg</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.plugins</groupId>
+			<artifactId>piazza-corvus-jms</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>

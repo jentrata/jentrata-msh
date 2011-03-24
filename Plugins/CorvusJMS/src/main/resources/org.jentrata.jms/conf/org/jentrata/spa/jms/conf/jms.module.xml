@@ -10,5 +10,10 @@
 		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
 		<parameter name="config" value="org/jentrata/spa/jms/conf/jms.properties.xml" />
 	</component>
+	
+	<component id="jms" name="esb-jms">
+		<class>org.jentrata.spa.jms.module.JMSComponent</class>
+		<parameter name="connectionFactoryUrl" value="vm://localhost?broker.persistent=false" />		
+	</component>
 
 </module>

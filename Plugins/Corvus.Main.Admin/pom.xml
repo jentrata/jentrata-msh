@@ -19,6 +19,11 @@
     		<groupId>hk.hku.cecid.piazza</groupId>
     		<artifactId>piazza-commons</artifactId>
     	</dependency>
+    	
+		<dependency>
+			<groupId>hk.hku.cecid.piazza.core</groupId>
+			<artifactId>piazza-corvus-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>hk.hku.cecid.piazza.plugins</groupId>

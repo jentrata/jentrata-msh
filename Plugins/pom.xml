@@ -89,12 +89,14 @@
 				<groupId>hk.hku.cecid.piazza.ext</groupId>
 				<artifactId>piazza-commons-test</artifactId>
 				<version>${project.version}</version>
+				<scope>test</scope>
 			</dependency>
         
 			<dependency>
 				<groupId>hk.hku.cecid.piazza</groupId>
 				<artifactId>piazza-commons</artifactId>
 				<version>${project.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			
 			<dependency>
@@ -107,6 +109,7 @@
 				<groupId>hk.hku.cecid.piazza.core</groupId>
 				<artifactId>piazza-corvus-core</artifactId>
 				<version>${project.version}</version>
+				<scope>provided</scope>
 			</dependency>			
 
 			<dependency>
@@ -142,6 +145,12 @@
 			<dependency>
 				<groupId>hk.hku.cecid.piazza.plugins</groupId>
 				<artifactId>piazza-corvus-ebms</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>piazza-corvus-jms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

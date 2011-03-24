@@ -18,11 +18,13 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-integration</artifactId>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
 		</dependency>    
     
     	<dependency>
@@ -34,18 +36,15 @@
     	<dependency>
     		<groupId>hk.hku.cecid.piazza.core</groupId>
     		<artifactId>piazza-corvus-core</artifactId>
+    		<scope>provided</scope>
     	</dependency>
     	
     	<dependency>
     		<groupId>hk.hku.cecid.piazza</groupId>
     		<artifactId>piazza-commons</artifactId>
+    		<scope>provided</scope>
     	</dependency>
     	
-		<dependency>
-			<groupId>hk.hku.cecid.piazza.plugins</groupId>
-			<artifactId>piazza-corvus-ebms</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-core</artifactId>
@@ -80,13 +79,14 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>	
 		
     	<dependency>
     		<groupId>jaxen</groupId>
     		<artifactId>jaxen</artifactId>
+    		<scope>provided</scope>
     	</dependency>	
-
     
     </dependencies>
     

@@ -134,6 +134,34 @@
 			</binaries>
 		</moduleSet>
 		
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-jms</include>
+			</includes>
+			<binaries>
+				<outputDirectory>plugins/org.jentrata.jms</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>true</includeDependencies>
+				<dependencySets>
+					<dependencySet>
+						<outputDirectory>plugins/org.jentrata.jms/lib</outputDirectory>
+						<includes>
+							<include>org.apache.activemq:activemq-all</include>
+							<include>org.apache.camel:camel-core</include>
+							<include>org.apache.camel:camel-jms</include>
+							<include>org.fusesource.*:*</include>
+							<include>org.springframework:*</include>
+						</includes>
+						<scope>runtime</scope>
+					</dependencySet>
+				</dependencySets>
+				<outputFileNameMapping>${module.artifactId}.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
+			</binaries>
+		</moduleSet>
+		
 		<!-- hk.hku.cecid.ebms plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -146,15 +174,10 @@
 				<includeDependencies>true</includeDependencies>
 				<dependencySets>
 					<dependencySet>
+						<outputDirectory>plugins/hk.hku.cecid.ebms/lib</outputDirectory>
 						<includes>
 							<include>hk.hku.cecid.piazza.ext:ebxml-pkg</include>
-						</includes>
-						<outputFileNameMapping>ebxml-pkg.jar</outputFileNameMapping>
-					</dependencySet>
-					<dependencySet>
-						<includes>
 							<include>javax.jms:jms</include>
-							<include>org.apache.activemq:activemq-core</include>
 							<include>org.apache.activemq:activemq-all</include>
 						</includes>
 					</dependencySet>
@@ -177,6 +200,7 @@
 				<includeDependencies>true</includeDependencies>
 				<dependencySets>
 					<dependencySet>
+						<outputDirectory>plugins/hk.hku.cecid.ebms.admin/lib</outputDirectory>
 						<includes>
 							<include>commons-fileupload:commons-fileupload</include>
 						</includes>
@@ -272,6 +296,7 @@
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main-admin</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-admin</include>
+				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-jms</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms-admin</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2</include>

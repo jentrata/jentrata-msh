@@ -3,6 +3,7 @@
  */
 package org.jentrata.spa.jms.handler;
 
+import hk.hku.cecid.piazza.commons.message.MessageHandler;
 import hk.hku.cecid.piazza.commons.spa.Extension;
 import hk.hku.cecid.piazza.commons.spa.ExtensionPointIteratedHandler;
 import hk.hku.cecid.piazza.commons.spa.PluginException;
@@ -41,14 +42,14 @@ public class JMSExtensionPointHandler extends ExtensionPointIteratedHandler {
     }
     
     public void register(String queue, Class<?> handlerClass) throws Exception {
-        JMSComponent jms = getJMSComponent();
+        JMSComponent jms = getJMSComponent(queue);
         
         Instance i = new Instance(handlerClass);
         jms.registerHandler(queue, (MessageHandler) i.getObject());
     }
     
-    public JMSComponent getJMSComponent() {
-        return JMSProcessor.getInstance().getJmsComponent();
+    public JMSComponent getJMSComponent(String queue) {
+        return JMSProcessor.getInstance().getJmsComponent(queue);
     }
 
 }

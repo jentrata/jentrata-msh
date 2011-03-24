@@ -5,10 +5,10 @@
    provider-name="hk.hku.cecid">
 
 	<runtime>
-		<library name="commons-fileupload-1.0.jar"/>
 		<library name="corvus-ebms-admin.jar"/>
 		<library name="conf/"/>
 		<library name="graphics/"/>
+		<library name="lib/"/>
 	</runtime>
 
 	<requires>

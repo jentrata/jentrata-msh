@@ -11,10 +11,12 @@
 		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/ebms.properties.xml" />
 	</component>
 
+	<!--  
 	<component id="messages" name="System Messages">
 		<class>hk.hku.cecid.piazza.commons.util.MessagesTree</class>
 		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/messenger.properties.xml" />		
 	</component>
+	-->
 
 	<component id="daofactory" name="System DAO Factory">
         <class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>

@@ -3,6 +3,7 @@
  */
 package org.jentrata.spa.jms.module;
 
+import hk.hku.cecid.piazza.commons.message.MessageHandler;
 import hk.hku.cecid.piazza.commons.module.Component;
 
 import javax.jms.ConnectionFactory;
@@ -12,12 +13,10 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.jentrata.spa.jms.JMSProcessor;
-import org.jentrata.spa.jms.handler.MessageHandler;
+import org.jentrata.spa.jms.message.CamelMessage;
 
 /**
  * @author aaronwalker
@@ -35,7 +34,6 @@ public class JMSComponent extends Component {
         camel = new DefaultCamelContext();
         camel.addComponent(getId(), JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
         camel.start();
-        JMSProcessor.core.log.debug("Camel Context Configured");
     }
     
     public void registerHandler(final String queue, MessageHandler handler) throws Exception {
@@ -70,7 +68,7 @@ public class JMSComponent extends Component {
             from(queueUri)
                 .process(new Processor() {
                  public void process(Exchange exchange) throws Exception {
-                    handler.onMessage(exchange.getIn());
+                    handler.onMessage(new CamelMessage(exchange.getIn()));
                 }
             });
         }

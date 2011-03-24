@@ -1,10 +1,7 @@
 /**
  * 
  */
-package org.jentrata.spa.jms.handler;
-
-import org.apache.camel.Message;
-
+package hk.hku.cecid.piazza.commons.message;
 
 /**
  * @author aaronwalker
@@ -13,5 +10,4 @@ import org.apache.camel.Message;
 public interface MessageHandler {
     
     public void onMessage(Message message);
-
 }

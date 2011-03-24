@@ -57,7 +57,19 @@ public class JMSProcessor implements PluginHandler {
         moduleGroup.stopActiveModules();
     }
     
-    public JMSComponent getJmsComponent() {
-        return (JMSComponent) core.getComponent(JMS_COMP_ID);
+    public JMSComponent getJmsComponent(String queue) {
+        
+        return (JMSComponent) core.getComponent(getJMSComponentName(queue));
+    }
+
+    private String getJMSComponentName(String queue) {
+        if(queue == null) {
+            return JMS_COMP_ID;
+        }
+        String [] s = queue.split(":");
+        if(s == null || s.length < 1) {
+            return JMS_COMP_ID;
+        }
+        return s[0];
     }
 }
