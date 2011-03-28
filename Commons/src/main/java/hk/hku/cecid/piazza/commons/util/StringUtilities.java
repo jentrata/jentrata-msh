@@ -768,8 +768,28 @@ public final class StringUtilities {
         if(result.contains("${")) {
             List<String> variables = StringUtilities.extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
             for(String var: variables) {
-                if(System.getProperties().containsKey(var)) {
-                    result = result.replaceAll("\\$\\{(" + var + "+)\\}", System.getProperty(var));
+                String defaultValue = result;
+                String varKey = var;
+                
+                //Does the property variable contain a default value
+                //in the form ${property:defaultValue}
+                if(var.contains(":")) {
+                    String [] s = var.split(":");
+                    varKey = s[0];
+                    defaultValue="";
+                    for(int i=1;i<s.length;i++) {
+                        defaultValue += s[i] + ":";
+                    }
+                    defaultValue = defaultValue.substring(0,defaultValue.length()-1);
+                }
+                //Is the variable in the System Properties
+                //If so replace the variable with it
+                if(System.getProperties().containsKey(varKey)) {
+                    result = result.replaceAll("\\$\\{(" + var + "+)\\}", System.getProperty(varKey));
+                }
+                else {
+                    //Otherwise use the default value
+                    result = defaultValue; 
                 }
             }
         }
