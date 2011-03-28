@@ -780,7 +780,12 @@ public final class StringUtilities {
                     for(int i=1;i<s.length;i++) {
                         defaultValue += s[i] + ":";
                     }
-                    defaultValue = defaultValue.substring(0,defaultValue.length()-1);
+                    if(defaultValue.endsWith(":")) {
+                        defaultValue = defaultValue.substring(0,defaultValue.length()-1);
+                    }
+                    else {
+                        defaultValue = null;
+                    }
                 }
                 //Is the variable in the System Properties
                 //If so replace the variable with it

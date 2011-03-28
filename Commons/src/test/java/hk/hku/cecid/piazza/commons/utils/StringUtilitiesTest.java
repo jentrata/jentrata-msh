@@ -47,4 +47,16 @@ public class StringUtilitiesTest {
         assertEquals("somevalue",StringUtilities.propertyValue(property));
 
     }
+    
+    @Test
+    public void testSystemPropertyReplaceWithEmptyDefault() {
+        String property = "${test.property:}";
+
+        assertEquals(null,StringUtilities.propertyValue(property));
+        
+        System.setProperty("test.property", "somevalue");
+        
+        assertEquals("somevalue",StringUtilities.propertyValue(property));
+
+    }
 }
