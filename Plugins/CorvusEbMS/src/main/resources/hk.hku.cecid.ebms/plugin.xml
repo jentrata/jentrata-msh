@@ -59,10 +59,17 @@
 	  <parameter name="class" value="hk.hku.cecid.ebms.spa.service.EbmsPermitRedownloadService" />
 	  <parameter name="context" value="/ebms/permitdl" />
 	</extension>
-	
+
+	<!-- default EbXML Header parameters they can be overriden by setting them as JMS message properties -->
 	<extension point="org.jentrata.jms.sender" name="Ebms JMS Outbound Message Handler">
-	  <parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
-	  <parameter name="queue" value="jms:queue:Ebms.Outbound" />
+		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
+		<parameter name="queue" value="jms:queue:Ebms.Outbound" />
+		<parameter name="conversationId" value="TEST_CPA_ID"/>
+		<parameter name="fromPartyId" value="TEST_A"/>
+		<parameter name="fromPartyType" value=""/>
+		<parameter name="toPartyId" value="TEST_B"/>
+		<parameter name="toPartyType" value=""/>
+		<parameter name="serviceType" value="TEST_A_TO_TEST_B"/>
 	</extension>
 	
 </plugin>

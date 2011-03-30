@@ -10,6 +10,9 @@
 package hk.hku.cecid.piazza.corvus.core;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -70,6 +73,11 @@ public class Kernel {
             Properties env = Sys.main.properties
                     .createProperties("/corvus/environment/properties/*");
             System.getProperties().putAll(env);
+            
+            String propFile = Sys.main.properties.getProperty("/corvus/environment/propertiesFile");
+            if(propFile != null) {
+                loadSystemProperties(propFile);
+            }
     
             /*
              * Set the default servlet encoding.
@@ -107,6 +115,19 @@ public class Kernel {
         catch (Throwable e) {
             hasErrors = true;
             Sys.main.log.error("Corvus Kernel initialized with errors", e);
+        }
+    }
+
+    private void loadSystemProperties(String propFile) {
+        File f = new File(propFile);
+        if(f.exists()) {
+            Properties props = new Properties();
+            try {
+                props.load(new FileInputStream(f));
+                System.getProperties().putAll(props);
+            } catch (IOException e) {
+                Sys.main.log.warn("unable to load " + propFile + " into system properties");
+            }
         }
     }
 

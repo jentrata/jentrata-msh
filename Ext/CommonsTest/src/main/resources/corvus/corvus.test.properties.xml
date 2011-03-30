@@ -18,6 +18,7 @@
 	
 	<!-- Environment settings -->
 	<environment>
+		<propertiesFile>${corvus.home}/conf/corvus.conf</propertiesFile>
 		<properties>
 			<http.proxyHost></http.proxyHost>
 			<http.proxyPort></http.proxyPort>

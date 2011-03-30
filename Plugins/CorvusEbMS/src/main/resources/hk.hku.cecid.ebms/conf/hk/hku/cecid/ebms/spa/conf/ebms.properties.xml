@@ -4,21 +4,21 @@
     <mail>
         <smtp>
             <enable>false</enable>
-            <host>smtpout.cs.hku.hk</host>
+            <host>${jentrata.smtp.host:localhost}</host>
             <protocol>smtp</protocol>
-            <port></port>
-            <from_mail_address></from_mail_address>
-            <username></username>
-            <password></password>
+            <port>${jentrata.smtp.port:25}</port>
+            <from_mail_address>${jentrata.smtp.from:}</from_mail_address>
+            <username>${jentrata.smtp.user:}</username>
+            <password>${jentrata.smtp.pass:}</password>
         </smtp>
         <pop>
             <enable>false</enable>            
-            <host>mail.cecid.hku.hk</host>
+            <host>${jentrata.pop3.host:localhost}</host>
             <protocol>pop3</protocol>
             <port></port>
             <folder>INBOX</folder>
-            <username></username>
-            <password></password>
+            <username>${jentrata.pop3.user:}</username>
+            <password>${jentrata.pop3.pass:}</password>
         </pop>
     </mail>
     <!-- Outbound agreement checking is used for client self-generated Ebxml Message -->

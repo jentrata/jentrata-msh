@@ -13,7 +13,11 @@
 	
 	<component id="jms" name="esb-jms">
 		<class>org.jentrata.spa.jms.module.JMSComponent</class>
-		<parameter name="connectionFactoryUrl" value="vm://localhost?broker.persistent=false" />		
+		<!-- Currently only ActiveMQ is supported -->
+		<!-- connectionFactoryUrl is the ActiveMQ connection factory URL -->
+		<!-- example tcp://somehost:61616 -->
+		<!-- see http://activemq.apache.org/uri-protocols.html for more details -->
+		<parameter name="connectionFactoryUrl" value="${jentrata.activemq.connectionFactoryUrl:vm://localhost?broker.persistent=false}" />
 	</component>
 
 </module>

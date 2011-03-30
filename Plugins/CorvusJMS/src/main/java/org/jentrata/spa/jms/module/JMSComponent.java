@@ -46,7 +46,8 @@ public class JMSComponent extends Component {
     }
     
     protected ConnectionFactory buildConnectionFactory() {
-        ConnectionFactory cf = new ActiveMQConnectionFactory(getConnectionFactoryUrl());
+        String connectionFactoryUrl = getConnectionFactoryUrl();
+        ConnectionFactory cf = new ActiveMQConnectionFactory(connectionFactoryUrl);
         return cf;
     }
     

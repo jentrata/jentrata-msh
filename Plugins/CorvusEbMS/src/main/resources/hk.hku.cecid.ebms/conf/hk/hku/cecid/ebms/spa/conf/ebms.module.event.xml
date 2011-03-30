@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <module id="eventModule" name="Corvus ebMS Event Module" version="1.0">
+
 	<component id="messageListenerJMSClient" name="Message listener JMS Client">
 		<class>hk.hku.cecid.ebms.spa.client.jms.MessageListenerJMSClient</class>
-		<parameter name="connectionUrl"
-			value="tcp://127.0.0.1:61617" />
-			<parameter name="queueName"
-			value="SS-UWMS.QUEUE.AssetTransferNotification" />
+		<parameter name="connectionUrl"	value="${jentrata.activemq.connectionFactoryUrl:vm://localhost?broker.persistent=false}" />
+		<parameter name="queueName"	value="${jentrata.activemq.inbound.queue:Ebms.Inbound" />
 	</component>
+	
 </module>
