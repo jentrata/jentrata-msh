@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
  */
 public final class StringUtilities {
 
+    private static final String DEFAULT_VALUE_SEPARTOR = ":";
     public final static String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
     
     /**
@@ -761,42 +763,59 @@ public final class StringUtilities {
     }
     
     public static  String propertyValue(String value) {
+        return propertyValue(value,System.getProperties());
+    }
+    
+    
+    public static  String propertyValue(String value, Properties props) {
         if(value == null) {
             return null;
         }
+        boolean hadDefault = false;
         String result = value;
         if(result.contains("${")) {
+
             List<String> variables = StringUtilities.extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
             for(String var: variables) {
-                String defaultValue = result;
-                String varKey = var;
-                
-                //Does the property variable contain a default value
+
+                //split the varible into the key and default value (if present)
                 //in the form ${property:defaultValue}
-                if(var.contains(":")) {
-                    String [] s = var.split(":");
-                    varKey = s[0];
-                    defaultValue="";
-                    for(int i=1;i<s.length;i++) {
-                        defaultValue += s[i] + ":";
-                    }
-                    if(defaultValue.endsWith(":")) {
-                        defaultValue = defaultValue.substring(0,defaultValue.length()-1);
-                    }
-                    else {
-                        defaultValue = null;
-                    }
-                }
+                String [] variable = splitFirst(var,DEFAULT_VALUE_SEPARTOR);
+                
                 //Is the variable in the System Properties
                 //If so replace the variable with it
-                if(System.getProperties().containsKey(varKey)) {
-                    result = result.replaceAll("\\$\\{(" + var + "+)\\}", System.getProperty(varKey));
+                if(props.containsKey(variable[0])) {
+                    result = result.replace("${"+ var + "}", props.getProperty(variable[0]));
                 }
-                else {
+                else if(variable[1] != null) {
                     //Otherwise use the default value
-                    result = defaultValue; 
+                    hadDefault = true;
+                    result = result.replace("${"+ var + "}", variable[1]);
                 }
             }
+        }
+        if(hadDefault && "".equals(result)) {
+            return null;
+        }
+        return result;
+    }
+
+    public static String[] splitFirst(String value, String separator)
+    {
+        if(value == null) {
+            return null;
+        }
+        
+        String [] result = new String[2];
+        
+        int pos = value.indexOf(separator);
+        //separator can't be the first element
+        if(pos > 0) {
+            result[0] = value.substring(0,pos);
+            result[1] = value.substring(pos+1, value.length());
+        } else {
+            result[0] = value;
+            result[1] = null;
         }
         return result;
     }
