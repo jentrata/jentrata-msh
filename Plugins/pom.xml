@@ -94,7 +94,6 @@
 				<groupId>hk.hku.cecid.piazza</groupId>
 				<artifactId>piazza-commons</artifactId>
 				<version>${project.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			
 			<dependency>

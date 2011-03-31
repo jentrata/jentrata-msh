@@ -116,7 +116,7 @@
 			<dependency>
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
-				<version>1.0</version>
+				<version>1.2</version>
 			</dependency>
 
 			<dependency>
@@ -203,6 +203,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.activemq</groupId>
 				<artifactId>activemq-all</artifactId>
@@ -211,10 +212,10 @@
 			</dependency>
 			
 			<dependency>
-                               <groupId>javax.jms</groupId>
-                               <artifactId>jms</artifactId>
-                               <version>1.1</version>
-                       </dependency>
+				<groupId>javax.jms</groupId>
+				<artifactId>jms</artifactId>
+				<version>1.1</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
