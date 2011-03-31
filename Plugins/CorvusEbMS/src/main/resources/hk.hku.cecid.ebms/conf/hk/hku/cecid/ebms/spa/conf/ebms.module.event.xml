@@ -4,7 +4,7 @@
 	<component id="messageListenerJMSClient" name="Message listener JMS Client">
 		<class>hk.hku.cecid.ebms.spa.client.jms.MessageListenerJMSClient</class>
 		<parameter name="connectionUrl"	value="${jentrata.activemq.connectionFactoryUrl:vm://localhost?broker.persistent=false}" />
-		<parameter name="queueName"	value="${jentrata.activemq.inbound.queue:Ebms.Inbound" />
+		<parameter name="queueName"	value="${jentrata.activemq.inbound.queue:Ebms.Inbound}" />
 	</component>
 	
 </module>

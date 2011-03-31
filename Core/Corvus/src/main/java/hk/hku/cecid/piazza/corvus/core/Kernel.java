@@ -9,16 +9,15 @@
 
 package hk.hku.cecid.piazza.corvus.core;
 
+import hk.hku.cecid.piazza.commons.Sys;
+import hk.hku.cecid.piazza.commons.servlet.http.HttpDispatcherContext;
+import hk.hku.cecid.piazza.commons.spa.PluginRegistry;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-
-import hk.hku.cecid.piazza.commons.servlet.http.HttpDispatcherContext;
-import hk.hku.cecid.piazza.commons.spa.PluginRegistry;
-import hk.hku.cecid.piazza.commons.Sys;
 
 /**
  * Kernel is the nucleus of Piazza Corvus. It initializes the basic configuration and

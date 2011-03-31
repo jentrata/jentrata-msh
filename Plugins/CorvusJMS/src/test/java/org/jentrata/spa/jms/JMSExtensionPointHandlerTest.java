@@ -44,7 +44,7 @@ public class JMSExtensionPointHandlerTest {
         
         assertRegisterExtensionPoint(config);
         
-        verify(mockJMS).registerHandler(eq("jms:queue:testQueue"), isA(MockMsgHandler.class));
+        verify(mockJMS).registerHandler(eq("jms:queue:testQueue"), isA(MockMsgHandler.class),isA(Properties.class));
     }
     
     @Test(expected=PluginException.class)
@@ -59,7 +59,7 @@ public class JMSExtensionPointHandlerTest {
         Properties config = new Properties();
         config.setProperty("queue", "jms:queue:testQueue");
         
-        doThrow(new Exception()).when(mockJMS).registerHandler(anyString(),(MessageHandler) anyObject());
+        doThrow(new Exception()).when(mockJMS).registerHandler(anyString(),(MessageHandler) anyObject(),isA(Properties.class));
         
         assertRegisterExtensionPoint(config);
     }

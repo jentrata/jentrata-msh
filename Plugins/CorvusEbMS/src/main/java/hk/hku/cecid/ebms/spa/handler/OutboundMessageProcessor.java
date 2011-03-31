@@ -26,6 +26,7 @@ import hk.hku.cecid.ebms.spa.dao.RepositoryDVO;
 import hk.hku.cecid.ebms.spa.listener.EbmsRequest;
 import hk.hku.cecid.ebms.spa.listener.EbmsResponse;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
+import hk.hku.cecid.piazza.commons.message.Message;
 import hk.hku.cecid.piazza.commons.soap.SOAPRequest;
 import hk.hku.cecid.piazza.commons.soap.WebServicesRequest;
 import hk.hku.cecid.piazza.commons.util.Generator;
@@ -81,6 +82,8 @@ public class OutboundMessageProcessor {
 					validMessage = handleSOAPRequest((SOAPRequest) requestSource, ebxmlMsg);
 				} else if (requestSource instanceof WebServicesRequest) {
 					validMessage = handleWebServiceRequest((WebServicesRequest) requestSource, ebxmlMsg);
+				} else if(requestSource instanceof Message) {
+				    validMessage = handleMessageRequest((Message)requestSource, ebxmlMsg);
 				} else {
 					validMessage = false;
 				}
@@ -100,7 +103,21 @@ public class OutboundMessageProcessor {
 		}
 	}
 
-	/**
+	private boolean handleMessageRequest(Message requestSource, EbxmlMessage ebxmlMsg) throws DAOException, MessageServiceHandlerException, SOAPException {
+        
+//	    String contentType = (String)requestSource.getHeader().get("content-type");
+//        MessageClassifier messageClassifier = new MessageClassifier(ebxmlMsg);
+//        if (messageClassifier.isMessageOrder()) {
+//            storeOutgoingOrderedMessage(ebxmlMsg, contentType);
+//        } else {
+//            storeOutgoingMessage(ebxmlMsg, contentType);
+//        }
+	    generateAndStoreEbxmlMessage(ebxmlMsg);
+        
+        return true;
+    }
+
+    /**
 	 * Handle message came from EbmsOutboundListener
 	 * 
 	 * @param request

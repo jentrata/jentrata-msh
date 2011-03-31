@@ -32,7 +32,7 @@ public class JMSExtensionPointHandler extends ExtensionPointIteratedHandler {
 
             if (className != null) { 
                 Class<?> handlerClass = extension.getPlugin().loadClass(className);
-                register(queueName, handlerClass);
+                register(queueName, handlerClass,config);
             } else {
                 throw new PluginException("Unable to register handler: No handler class defined");                
             }
@@ -41,11 +41,11 @@ public class JMSExtensionPointHandler extends ExtensionPointIteratedHandler {
         }        
     }
     
-    public void register(String queue, Class<?> handlerClass) throws Exception {
+    public void register(String queue, Class<?> handlerClass, Properties config) throws Exception {
         JMSComponent jms = getJMSComponent(queue);
         
         Instance i = new Instance(handlerClass);
-        jms.registerHandler(queue, (MessageHandler) i.getObject());
+        jms.registerHandler(queue, (MessageHandler) i.getObject(),config);
     }
     
     public JMSComponent getJMSComponent(String queue) {

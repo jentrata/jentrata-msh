@@ -3,6 +3,8 @@
  */
 package org.jentrata.spa.jms.module;
 
+import java.util.Properties;
+
 import hk.hku.cecid.piazza.commons.message.MessageHandler;
 import hk.hku.cecid.piazza.commons.module.Component;
 
@@ -36,8 +38,8 @@ public class JMSComponent extends Component {
         camel.start();
     }
     
-    public void registerHandler(final String queue, MessageHandler handler) throws Exception {
-        RouteBuilder builder = new MessageHandlerRouteBuilder(queue,handler);
+    public void registerHandler(final String queue, MessageHandler handler, Properties config) throws Exception {
+        RouteBuilder builder = new MessageHandlerRouteBuilder(queue,handler,config);
         camel.addRoutes(builder);
     }
     
@@ -59,17 +61,19 @@ public class JMSComponent extends Component {
         
         private String queueUri;
         private MessageHandler handler;
+        private Properties config;
 
-        public MessageHandlerRouteBuilder(String queueUri, MessageHandler handler) {
+        public MessageHandlerRouteBuilder(String queueUri, MessageHandler handler, Properties config) {
             this.queueUri = queueUri;
             this.handler = handler;
+            this.config = config;
         }
         
         public void configure() {
             from(queueUri)
                 .process(new Processor() {
                  public void process(Exchange exchange) throws Exception {
-                    handler.onMessage(new CamelMessage(exchange.getIn()));
+                    handler.onMessage(new CamelMessage(exchange.getIn(),config));
                 }
             });
         }
