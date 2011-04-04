@@ -59,19 +59,34 @@
 	  <parameter name="class" value="hk.hku.cecid.ebms.spa.service.EbmsPermitRedownloadService" />
 	  <parameter name="context" value="/ebms/permitdl" />
 	</extension>
-
-	<!-- default EbXML Header parameters they can be overriden by setting them as JMS message properties -->
-	<extension point="org.jentrata.jms.sender" name="Ebms JMS Outbound Message Handler">
+	
+	<!-- EbXML Header parameters for Jemena, they can be overriden by setting them as JMS message properties -->
+	<extension point="org.jentrata.jms.sender" name="Jemena Ebms JMS Outbound Message Handler">
 		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
-		<parameter name="queue" value="jms:queue:Ebms.Outbound" />
-		<parameter name="cpaId" value="cpaid"/>
-		<parameter name="service" value="http://localhost:8080/corvus/httpd/ebms/inbound"/>
-		<parameter name="serviceType" value=""/>
-		<parameter name="action" value="action"/>
-		<parameter name="conversationId" value="test_conversationId"/>
-		<parameter name="fromPartyId" value="test_a"/>
+		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.OUTBOUND.JEN" />
+		<parameter name="cpaId" value="JENAndS_STREAM"/>
+		<parameter name="service" value="MSH_Service"/>
+		<parameter name="serviceType" value="MSH_ServiceType"/>
+		<parameter name="action" value="Action_S_STREAM_ABID_SEND"/>
+		<parameter name="conversationId" value="S_STREAM_2_JEN"/>
+		<parameter name="fromPartyId" value="S_STREAM"/>
 		<parameter name="fromPartyType" value="ParticipantID"/>
-		<parameter name="toPartyId" value="test_b"/>
+		<parameter name="toPartyId" value="JEN"/>
+		<parameter name="toPartyType" value="ParticipantID"/>
+	</extension>
+	
+	<!-- EbXML Header parameters for Jemena, they can be overriden by setting them as JMS message properties -->
+	<extension point="org.jentrata.jms.sender" name="UED Ebms JMS Outbound Message Handler">
+		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
+		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.OUTBOUND.UED" />
+		<parameter name="cpaId" value="UEDAndS_STREAM"/>
+		<parameter name="service" value="MSH_Service"/>
+		<parameter name="serviceType" value="MSH_ServiceType"/>
+		<parameter name="action" value="Action_S_STREAM_ABID_SEND"/>
+		<parameter name="conversationId" value="S_STREAM_2_UED"/>
+		<parameter name="fromPartyId" value="S_STREAM"/>
+		<parameter name="fromPartyType" value="ParticipantID"/>
+		<parameter name="toPartyId" value="JEN"/>
 		<parameter name="toPartyType" value="ParticipantID"/>
 	</extension>
 	
