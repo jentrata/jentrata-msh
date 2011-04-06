@@ -63,7 +63,7 @@
 	<!-- EbXML Header parameters for Jemena, they can be overriden by setting them as JMS message properties -->
 	<extension point="org.jentrata.jms.sender" name="Jemena Ebms JMS Outbound Message Handler">
 		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
-		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.OUTBOUND.JEN" />
+		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.EBMS.JEN.OUTBOUND" />
 		<parameter name="cpaId" value="JENAndS_STREAM"/>
 		<parameter name="service" value="MSH_Service"/>
 		<parameter name="serviceType" value="MSH_ServiceType"/>
@@ -78,7 +78,7 @@
 	<!-- EbXML Header parameters for Jemena, they can be overriden by setting them as JMS message properties -->
 	<extension point="org.jentrata.jms.sender" name="UED Ebms JMS Outbound Message Handler">
 		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
-		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.OUTBOUND.UED" />
+		<parameter name="queue" value="jms:queue:SS-MDH.QUEUE.EBMS.UED.OUTBOUND" />
 		<parameter name="cpaId" value="UEDAndS_STREAM"/>
 		<parameter name="service" value="MSH_Service"/>
 		<parameter name="serviceType" value="MSH_ServiceType"/>
