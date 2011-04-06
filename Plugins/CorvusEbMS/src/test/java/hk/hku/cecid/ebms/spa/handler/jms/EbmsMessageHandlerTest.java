@@ -67,7 +67,7 @@ public class EbmsMessageHandlerTest {
                 
                 //Check the payload
                 assertThat(ebxml.getPayloadCount(),equalTo(1));
-                assertThat(ebxml.getPayloadContainer("Payload-0").getContentType(),equalTo("application/octet-stream"));
+                assertThat(ebxml.getPayloadContainer("Payload-0").getContentType(),equalTo("text/xml"));
                 return null;
             }
         }).when(msh).processOutboundMessage((EbmsRequest) any(), (EbmsResponse) isNull());
