@@ -37,6 +37,7 @@ public class EbmsMessageHandler implements MessageHandler {
             getMSH().processOutboundMessage(ebmsRequest, null);
         } catch (Exception e) {
             log().error("Failed to process outbound message: " + e);
+            log().debug("",e);
             throw new RuntimeException(e);
         }
     }
@@ -72,11 +73,12 @@ public class EbmsMessageHandler implements MessageHandler {
 
         addFromParty(ebxmlHeader,fromPartyIds,fromPartyIdTypes);
         addToParty(ebxmlHeader,toPartyIds,toPartyIdTypes);
-        ebxmlHeader.setAction(action);
-        ebxmlHeader.setCpaId(cpaId);
-        ebxmlHeader.setService(service);
-        ebxmlHeader.setConversationId(conversationId);
         
+        //These methods need to be call in this exact order
+        ebxmlHeader.setCpaId(cpaId);
+        ebxmlHeader.setConversationId(conversationId);
+        ebxmlHeader.setService(service);
+        ebxmlHeader.setAction(action);        
         
         if (serviceType != null && !serviceType.equals("")) {
             ebxmlHeader.setServiceType(serviceType);
@@ -121,7 +123,7 @@ public class EbmsMessageHandler implements MessageHandler {
     private void attachPayloads(EbxmlMessage ebxml, List<byte[]> payloads) throws Exception {
         int i=0;
         for(byte [] payload:payloads) {
-            ebxml.addPayloadContainer(new DataHandler(new ByteArrayDataSource(payload)), "Payload-" + i++, null);
+            ebxml.addPayloadContainer(new DataHandler(new String(payload),"text/xml"), "Payload-" + i++, null);
         }
     }
     
