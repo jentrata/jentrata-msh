@@ -223,6 +223,7 @@
 						<outputDirectory>plugins/hk.hku.cecid.ebms.admin/lib</outputDirectory>
 						<includes>
 							<include>commons-fileupload:commons-fileupload</include>
+							<include>commons-io:commons-io</include>
 						</includes>
 					</dependencySet>
 				</dependencySets>
