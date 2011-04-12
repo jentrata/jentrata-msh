@@ -132,9 +132,15 @@ public class AgreementHandler {
                 partnershipDVO.setService(orgMessageDVO.getService());
                 partnershipDVO.setAction(orgMessageDVO.getAction());
             } else {
-                throw new MessageValidationException(
-                        "Cannot find the ref to message: "
-                                + message.getRefToMessageId());
+                EbmsProcessor.core.log.debug("message type: " + message.getMessageType());
+                if(message.getMessageType().equalsIgnoreCase(MessageClassifier.MESSAGE_TYPE_PING)) {
+                    partnershipDVO.setService(message.getService());
+                    partnershipDVO.setAction(message.getAction());
+                } else {
+                    throw new MessageValidationException(
+                            "Cannot find the ref to message: "
+                                    + message.getRefToMessageId());
+                }
             }
         }
 
