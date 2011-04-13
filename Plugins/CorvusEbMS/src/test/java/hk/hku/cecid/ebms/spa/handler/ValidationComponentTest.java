@@ -45,7 +45,7 @@ public class ValidationComponentTest {
 	@Before
 	public void setUp() {
 		instance = spy(new ValidationComponent());
-		doReturn("src/test/resources/hk.hku.cecid.ebms.handler.ValidationComponentTest/ClientSchema/dnspXML_r2.xsd").when(
+		doReturn("src/test/resources/hk.hku.cecid.ebms.handler.ValidationComponentTest/Schema/shiporder.xsd").when(
 				instance).getSchemaLocation();
 		attachment = mock(AttachmentPart.class);
 		

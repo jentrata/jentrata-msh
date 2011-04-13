@@ -2,63 +2,70 @@
 
 	<component id="logger" name="System Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
-		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/log4j.properties.xml" />		
+		<parameter name="config"
+			value="hk/hku/cecid/ebms/spa/conf/log4j.properties.xml" />
 		<parameter name="category" value="hk.hku.cecid.ebms.spa" />
 	</component>
 
 	<component id="properties" name="System Properties">
 		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
-		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/ebms.properties.xml" />
+		<parameter name="config"
+			value="hk/hku/cecid/ebms/spa/conf/ebms.properties.xml" />
 	</component>
 
-	<!--  TODO: fix maven resource copy to handle UTF-16LE encoded files -->
-	<!--
-	<component id="messages" name="System Messages">
-		<class>hk.hku.cecid.piazza.commons.util.MessagesTree</class>
-		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/messenger.properties.xml" />		
-	</component>
-	-->
-	
-	<component id="validator" name="Validator">
-		<class>hk.hku.cecid.ebms.spa.handler.ValidationComponent</class>
-		<parameter name="schemaLocation" value="${jentrata.ebms.validator.schema.location}" />
-	</component>
+	<!-- TODO: fix maven resource copy to handle UTF-16LE encoded files -->
+	<!-- <component id="messages" name="System Messages"> <class>hk.hku.cecid.piazza.commons.util.MessagesTree</class> 
+		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/messenger.properties.xml" 
+		/> </component> -->
 
 	<component id="daofactory" name="System DAO Factory">
-        <class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>
-		<parameter name="driver" value="${jentrata.ebms.db.driver.class:org.postgresql.Driver}" />
-		<parameter name="url" value="${jentrata.ebms.db.url:jdbc:postgresql://localhost:5432/ebms}" />
+		<class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>
+		<parameter name="driver"
+			value="${jentrata.ebms.db.driver.class:org.postgresql.Driver}" />
+		<parameter name="url"
+			value="${jentrata.ebms.db.url:jdbc:postgresql://localhost:5432/ebms}" />
 		<parameter name="username" value="${jentrata.ebms.db.user:corvus}" />
 		<parameter name="password" value="${jentrata.ebms.db.pass:corvus}" />
-        <parameter name="pooling" value="${jentrata.ebms.db.pool:true}" />
-        <parameter name="maxActive" value="${jentrata.ebms.db.pool.max:30}" />
-        <parameter name="maxIdle" value="${jentrata.ebms.db.pool.min:10}" />
-        <parameter name="maxWait" value="${jentrata.ebms.db.pool.wait:-1}" />
-        <parameter name="testOnBorrow" value="${jentrata.ebms.db.pool.testOnBorrow:true}" />
-        <parameter name="testOnReturn" value="${jentrata.ebms.db.pool.testOnReturn:false}" />
-        <parameter name="testWhileIdle" value="${jentrata.ebms.db.pool.testWhileIdle:false}" />
-		<parameter name="validationQuery" value="${jentrata.ebms.db.validationQuery:SELECT now()}" />
-		<parameter name="config">${jentrata.ebms.db.dao.config:hk/hku/cecid/ebms/spa/conf/ebms.dao.xml}</parameter>
+		<parameter name="pooling" value="${jentrata.ebms.db.pool:true}" />
+		<parameter name="maxActive" value="${jentrata.ebms.db.pool.max:30}" />
+		<parameter name="maxIdle" value="${jentrata.ebms.db.pool.min:10}" />
+		<parameter name="maxWait" value="${jentrata.ebms.db.pool.wait:-1}" />
+		<parameter name="testOnBorrow" value="${jentrata.ebms.db.pool.testOnBorrow:true}" />
+		<parameter name="testOnReturn"
+			value="${jentrata.ebms.db.pool.testOnReturn:false}" />
+		<parameter name="testWhileIdle"
+			value="${jentrata.ebms.db.pool.testWhileIdle:false}" />
+		<parameter name="validationQuery"
+			value="${jentrata.ebms.db.validationQuery:SELECT now()}" />
+		<parameter name="config">${jentrata.ebms.db.dao.config:hk/hku/cecid/ebms/spa/conf/ebms.dao.xml}
+		</parameter>
 	</component>
-    
-    <component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
+
+	<component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="/Users/mhanda/keys/cecid.p12" />
-		<parameter name="keystore-password" value="mohit" />
-		<parameter name="key-alias" value="mohit" />
-		<parameter name="key-password" value="mohit" />
+		<parameter name="keystore-location"
+			value="${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}" />
+		<parameter name="keystore-password"
+			value="${jentrata.ebms.keystore.password:password}" />
+		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
+		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
 		<parameter name="keystore-type" value="${jentrata.ebms.keystore.type:PKCS12}" />
-		<parameter name="keystore-provider" value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
+		<parameter name="keystore-provider"
+			value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
 	</component>
-    
-    <component id="keystore-manager-for-decryption" name="Key Store Manager for Decryption (ebMS over SMTP)">
+
+	<component id="keystore-manager-for-decryption"
+		name="Key Store Manager for Decryption (ebMS over SMTP)">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="/Users/mhanda/keys/cecid.p12" />
-		<parameter name="keystore-password" value="mohit" />
-		<parameter name="key-alias" value="mohit" />
-		<parameter name="key-password" value="mohit" />
+		<parameter name="keystore-location"
+			value="${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}" />
+		<parameter name="keystore-password"
+			value="${jentrata.ebms.keystore.password:password}" />
+		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
+		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
 		<parameter name="keystore-type" value="${jentrata.ebms.keystore.type:PKCS12}" />
-		<parameter name="keystore-provider" value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
+		<parameter name="keystore-provider"
+			value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
 	</component>
-	
+
 </module>
