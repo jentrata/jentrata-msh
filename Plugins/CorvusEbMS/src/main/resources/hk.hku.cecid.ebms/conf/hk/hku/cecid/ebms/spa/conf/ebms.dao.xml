@@ -93,7 +93,7 @@
 		<!-- only for check the allowance of reset message -->    
 		<parameter type="finder" name="find_ordered_messages_by_message_box_and_cpa_and_status" value="select * from message where message_box=? and cpa_id=? and service=? and action=? and conv_id=? and status=? and sequence_no&lt;&gt;-1 LIMIT 1" />
 		
-		<parameter type="finder" name="find_message_by_history" value="select * from message where message_type = 'Order'" />
+		<parameter type="finder" name="find_message_by_history" value="select * from message where (message_type = 'Order' or message_type = 'Ping')" />
 		<parameter type="filter" name="find_message_by_history_filter_message_box" value="message_box = ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_message_id" value="message_id LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_cpa_id" value="cpa_id LIKE ?"/>
