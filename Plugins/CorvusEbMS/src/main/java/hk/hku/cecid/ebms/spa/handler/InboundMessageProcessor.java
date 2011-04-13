@@ -13,6 +13,7 @@ import hk.hku.cecid.ebms.spa.EbmsUtility;
 import hk.hku.cecid.ebms.pkg.Description;
 import hk.hku.cecid.ebms.pkg.EbxmlMessage;
 import hk.hku.cecid.ebms.pkg.ErrorList;
+import hk.hku.cecid.ebms.pkg.MessageHeader;
 import hk.hku.cecid.ebms.pkg.Signature;
 import hk.hku.cecid.ebms.pkg.SignatureException;
 import hk.hku.cecid.ebms.pkg.SignatureHandler;
@@ -667,6 +668,7 @@ public class InboundMessageProcessor {
         if (hasRefMessageId) {
             // store the pong msg in repository
             storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
+            updatePingRefMessage(ebxmlRequestMessage);
         	
         } else {
             EbmsProcessor.core.log.error("Cannot find the ref to message: : "
@@ -700,6 +702,50 @@ public class InboundMessageProcessor {
             }
         }
         return ebxmlResponseMessage;
+    }
+
+    private void updatePingRefMessage(EbxmlMessage ebxmlRequestMessage) throws MessageServiceHandlerException {
+        // Try to query the Ping message corresponding to this Pong message.
+        try {
+            MessageHeader header = ebxmlRequestMessage.getMessageHeader();
+            if (header != null && header.getRefToMessageId() != null) {
+                
+                String refMsgId = header.getRefToMessageId();
+                
+                MessageDAO msgDAO = (MessageDAO) EbmsProcessor.core.dao.createDAO(MessageDAO.class);
+                MessageDVO refToMsgDVO = (MessageDVO) msgDAO.createDVO();
+                refToMsgDVO.setMessageId(refMsgId);
+                refToMsgDVO.setMessageBox(MessageClassifier.MESSAGE_BOX_OUTBOX);
+                boolean hasRefMessageId = msgDAO.findMessage(refToMsgDVO);
+                if(hasRefMessageId) {
+                    if (!refToMsgDVO.getStatus().equalsIgnoreCase(
+                        MessageClassifier.INTERNAL_STATUS_DELIVERY_FAILURE)){
+                       // If it is failed already..don't mark it as deliveried 
+                       // it is because it is timeout failure
+                       EbmsProcessor.core.log.info(
+                             "Reliable message (" 
+                           + refToMsgDVO.getMessageId()
+                           + ") - pong received with message id: " + ebxmlRequestMessage.getMessageId());                
+                       
+                       refToMsgDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PROCESSED);
+                       refToMsgDVO.setStatusDescription("Pong received");
+                       refToMsgDVO.setTimeoutTimestamp(null);
+                       msgDAO.updateMessage(refToMsgDVO);
+                   } else {
+                       EbmsProcessor.core.log.info(
+                             "Reliable message (" 
+                           + refToMsgDVO.getMessageId()
+                           + ") - has been timed-out already");                        
+                   }                    
+                }
+            }
+        } catch(DAOException ex) {
+            EbmsProcessor.core.log
+            .error("Cannot update ping msg in processing invalid pong message: "
+                    + ebxmlRequestMessage.getMessageId() + " " + ex);
+            throw new MessageServiceHandlerException("Cannot update ping msg in processing invalid pong message: "
+                    + ebxmlRequestMessage.getMessageId(), ex);              
+        }
     }
 
     /**
