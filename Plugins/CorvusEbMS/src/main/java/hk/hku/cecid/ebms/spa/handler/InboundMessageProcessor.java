@@ -499,7 +499,7 @@ public class InboundMessageProcessor {
 				EbmsProcessor.core.log.warn(e); //should this be governed by the service provider?
 				return false;
 			} catch (SOAPException e) {
-				e.printStackTrace();
+				EbmsProcessor.core.log.error(e);
 			}
 		}
 		return true;

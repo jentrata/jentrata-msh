@@ -1,5 +1,6 @@
 package hk.hku.cecid.ebms.spa.handler;
 
+import hk.hku.cecid.ebms.spa.EbmsProcessor;
 import hk.hku.cecid.piazza.commons.module.Component;
 
 import java.io.File;
@@ -40,8 +41,7 @@ public class ValidationComponent extends Component {
 		} catch (SAXException e) {
 			throw new InvalidAttachmentException(e);
 		} catch (IOException e) {
-			// TODO Log error here
-			e.printStackTrace();
+			EbmsProcessor.core.log.error(e);
 		}
 
 	}
