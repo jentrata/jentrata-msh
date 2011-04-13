@@ -18,6 +18,11 @@
 		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/messenger.properties.xml" />		
 	</component>
 	-->
+	
+	<component id="validator" name="Validator">
+		<class>hk.hku.cecid.ebms.spa.handler.ValidationComponent</class>
+		<parameter name="schemaLocation" value="${jentrata.ebms.validator.schema.location}" />
+	</component>
 
 	<component id="daofactory" name="System DAO Factory">
         <class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>
@@ -38,20 +43,20 @@
     
     <component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}" />
-		<parameter name="keystore-password" value="${jentrata.ebms.keystore.password:password}" />
-		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
-		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
+		<parameter name="keystore-location" value="/Users/mhanda/keys/cecid.p12" />
+		<parameter name="keystore-password" value="mohit" />
+		<parameter name="key-alias" value="mohit" />
+		<parameter name="key-password" value="mohit" />
 		<parameter name="keystore-type" value="${jentrata.ebms.keystore.type:PKCS12}" />
 		<parameter name="keystore-provider" value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
 	</component>
     
     <component id="keystore-manager-for-decryption" name="Key Store Manager for Decryption (ebMS over SMTP)">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}" />
-		<parameter name="keystore-password" value="${jentrata.ebms.keystore.password:password}" />
-		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
-		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
+		<parameter name="keystore-location" value="/Users/mhanda/keys/cecid.p12" />
+		<parameter name="keystore-password" value="mohit" />
+		<parameter name="key-alias" value="mohit" />
+		<parameter name="key-password" value="mohit" />
 		<parameter name="keystore-type" value="${jentrata.ebms.keystore.type:PKCS12}" />
 		<parameter name="keystore-provider" value="${jentrata.ebms.keystore.provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
 	</component>

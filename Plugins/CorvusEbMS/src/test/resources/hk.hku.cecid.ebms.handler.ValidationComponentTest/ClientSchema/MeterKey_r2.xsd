@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+
+
+	<xsd:simpleType name="CustomerID">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="60"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="KeyDetails">
+		<xsd:sequence>
+			<xsd:element name="HighKey" type="xsd:string"/>
+			<xsd:element name="LowKey" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	
+	<xsd:complexType name="Key">
+		<xsd:sequence>
+			<xsd:element name="Level0" type="KeyDetails"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PasswordGroup">
+		<xsd:sequence>
+			<xsd:element name="Level0" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Level1" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Level2" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Level3" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Level4" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="Meters">
+		<xsd:sequence>
+			<xsd:element name="MeterInfo" type="MeterInfo" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="expiry" type="xsd:date" use="required"/>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="MeterInfo">
+		<xsd:sequence>
+			<xsd:element name="SerialNumber" type="xsd:string"/>
+			<xsd:element name="AuthorisationKey" type="Key" minOccurs="0"/>
+			<xsd:element name="EncryptionKey" type="Key" minOccurs="0"/>
+			<xsd:element name="Password" type="PasswordGroup" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PRISecurity">
+		<xsd:sequence>
+			<xsd:element name="CustomerID" type="CustomerID"/>
+			<xsd:element name="SignKeyID" type="xsd:string"/>
+			<xsd:element name="Meters" type="Meters"/>
+		</xsd:sequence>
+		<xsd:attribute name="Signature" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="PRI">
+		<xsd:sequence>
+			<xsd:element name="Security" type="PRISecurity"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MeterKeyNotification">
+		<xsd:sequence>
+			<xsd:element name="PRI" type="PRI"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+	</xsd:complexType>
+	
+</xsd:schema>

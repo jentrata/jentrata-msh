@@ -10,7 +10,6 @@ import hk.hku.cecid.ebms.spa.EbmsUtility;
 import hk.hku.cecid.ebms.spa.handler.MessageServiceHandler;
 import hk.hku.cecid.ebms.spa.listener.EbmsRequest;
 import hk.hku.cecid.ebms.spa.util.PartnershipDAOHelper;
-import hk.hku.cecid.piazza.commons.activation.ByteArrayDataSource;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.message.Message;
 import hk.hku.cecid.piazza.commons.message.MessageHandler;

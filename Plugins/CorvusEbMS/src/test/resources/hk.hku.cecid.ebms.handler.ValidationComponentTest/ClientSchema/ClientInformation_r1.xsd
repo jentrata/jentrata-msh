@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by XMLSpy 2009 Professional Ed., Installed for 21 users (with SMP from 2009-08-07 to 2010-08-08) (Jemena) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation>This schema file is part of the aseXML schema set, and is subject to the terms and conditions that are detailed in the aseXML_r*.xsd schema file with which this file is used</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>
+Purpose - Define "client" information 
+Detail - This schema provides the definitions necessary for handling addesses, people's names and telephone numbers within aseXML. 
+It is based on Australian Standard AS4590.
+</xsd:documentation>
+	</xsd:annotation>
+	<!-- Support Types -->
+	<xsd:simpleType name="AustralianFlatOrUnitNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define flat or unit number as per Australian Standard AS4590
+Detail - Note that alphabetic characters are permitted allowing for "100A"  etc.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}\p{P}\s]{1,7}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianFloorOrLevelNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define floor or level number as per Australian Standard AS4590
+Detail - Note that alphabetic characters are permitted.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}\p{P}\s]{1,5}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianBuildingOrPropertyName">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define building or property name as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="30"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianLocationDescriptor">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define location descriptor as per Australian Standard AS4590
+Detail - This is a "catch all" field for non-standard address information.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}\p{P}\s]{1,30}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianHouseNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define house number as per Australian Standard AS4590
+Detail - Note that any alphabetic information should be included in the house number suffix
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:maxInclusive value="99999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianHouseNumberSuffix">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define house number suffix as per Australian Standard AS4590
+Detail - Any non-numeric information should be entered here
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}]{1}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianLotNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define lot number as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}\p{P}\s]{1,6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianStreetName">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define street name as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}\s\-']{1,30}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianPostalDeliveryNumberPrefix">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define postal delivery number prefix as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{Lu}]{1,3}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianPostalDeliveryNumberValue">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define postal delivery number value as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:maxInclusive value="99999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianPostalDeliveryNumberSuffix">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define postal delivery number suffix as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{Lu}]{1,3}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianAddressLine">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a line of unstructured Australian address information
+Detail - An unstructured format allows for legacy or non-specific address/location information to be carried along with structured addresses within a common address container.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianSuburbOrPlaceOrLocality">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define suburb or locality as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="46"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianStateOrTerritory">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian states and territories as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AAT"/>
+			<xsd:enumeration value="ACT"/>
+			<xsd:enumeration value="NSW"/>
+			<xsd:enumeration value="NT"/>
+			<xsd:enumeration value="QLD"/>
+			<xsd:enumeration value="SA"/>
+			<xsd:enumeration value="TAS"/>
+			<xsd:enumeration value="VIC"/>
+			<xsd:enumeration value="WA"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianPostCode">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian postcode as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{N}]{4}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianDeliveryPointIdentifier">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian delivery point identifier as per Australian Standard AS4590/Australia Post AMAS standard
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:minInclusive value="10000000"/>
+			<xsd:maxInclusive value="99999999"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InternationalAddressLine">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a line of unstructured International address information
+Detail - Given the wide variety of international addresses, the aseXML address format currently supports only unstructured international addresses.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InternationalCountryCode">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define International country code as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{Lu}]{1,3}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InternationalPostCode">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define International postcode as per Australian Standard AS4590
+Detail - In order to provide better validation of Australian postcodes, the definition for International postcodes has been separated from that of Australian poscodes.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\p{L}\p{N}]{1,12}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PersonNameTitle">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a person's title as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PersonNameGiven">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a person's given name as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PersonNameFamily">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a person's family name as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PersonNameSuffix">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a person's name suffix as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PersonNameType">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define the types of people's names as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LGL"/>
+			<xsd:enumeration value="MDN"/>
+			<xsd:enumeration value="BTH"/>
+			<xsd:enumeration value="TRB"/>
+			<xsd:enumeration value="PRF"/>
+			<xsd:enumeration value="AKA"/>
+			<xsd:enumeration value="XFR"/>
+			<xsd:enumeration value="STG"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianTelephonePrefix">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian telephone number prefix as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianTelephoneNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian telephone number as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianTelephoneServiceComment">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian telephone service comment as per Australian Standard AS4590
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AustralianTelephoneServiceType">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define Australian telephone service types
+Detail - AS4590 indicates that service types need to be agreed between exchnaging parties. It is anticipated this list will be extended as new services are defined.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Fixed Voice"/>
+			<xsd:enumeration value="Mobile Voice"/>
+			<xsd:enumeration value="Fax"/>
+			<xsd:enumeration value="Modem"/>
+			<xsd:enumeration value="Pager"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AustralianStructuredAddressPartialComponents">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define those fields of an Australian address that are only provided as part of a structured address
+Detail - See the definition of AustralianAddress for more details. Note that all the fields are optional in this type to allow for only portions of an address to be provided. The AustralianStructuredAddressComponents type restricts the content of this type for the case where a complete address is being exchanged.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FlatOrUnit" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="FlatOrUnitType" type="AustralianFlatOrUnitType" nillable="true" minOccurs="0"/>
+						<xsd:element name="FlatOrUnitNumber" type="AustralianFlatOrUnitNumber" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="FloorOrLevel" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="FloorOrLevelType" type="AustralianFloorOrLevelType" nillable="true" minOccurs="0"/>
+						<xsd:element name="FloorOrLevelNumber" type="AustralianFloorOrLevelNumber" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="BuildingOrPropertyName" type="AustralianBuildingOrPropertyName" nillable="true" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="LocationDescriptor" type="AustralianLocationDescriptor" nillable="true" minOccurs="0"/>
+			<xsd:element name="House" minOccurs="0" maxOccurs="2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="HouseNumber" type="AustralianHouseNumber" nillable="true" minOccurs="0"/>
+						<xsd:element name="HouseNumberSuffix" type="AustralianHouseNumberSuffix" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Lot" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="LotNumber" type="AustralianLotNumber" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Street" minOccurs="0" maxOccurs="2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StreetName" type="AustralianStreetName" nillable="true" minOccurs="0"/>
+						<xsd:element name="StreetType" type="AustralianStreetType" nillable="true" minOccurs="0"/>
+						<xsd:element name="StreetSuffix" type="AustralianStreetSuffix" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="PostalDelivery" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="PostalDeliveryType" type="AustralianPostalDeliveryType" nillable="true" minOccurs="0"/>
+						<xsd:element name="PostalDeliveryNumber" nillable="true" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="PostalDeliveryNumberPrefix" type="AustralianPostalDeliveryNumberPrefix" minOccurs="0"/>
+									<xsd:element name="PostalDeliveryNumberValue" type="AustralianPostalDeliveryNumberValue" minOccurs="0"/>
+									<xsd:element name="PostalDeliveryNumberSuffix" type="AustralianPostalDeliveryNumberSuffix" minOccurs="0"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AustralianStructuredAddressComponents">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define those fields of an Australian address that are only provided as part of a structured address
+Detail - See the definition of AustralianAddress for more details. This type should be used where a complete address is being provided. If only part of an address is being provided, use the AustralianStructuredAddressPartialComponents type.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FlatOrUnit" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="FlatOrUnitType" type="AustralianFlatOrUnitType" nillable="true"/>
+						<xsd:element name="FlatOrUnitNumber" type="AustralianFlatOrUnitNumber" nillable="true"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="FloorOrLevel" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="FloorOrLevelType" type="AustralianFloorOrLevelType" nillable="true"/>
+						<xsd:element name="FloorOrLevelNumber" type="AustralianFloorOrLevelNumber" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="BuildingOrPropertyName" type="AustralianBuildingOrPropertyName" nillable="true" minOccurs="0" maxOccurs="2"/>
+			<xsd:element name="LocationDescriptor" type="AustralianLocationDescriptor" nillable="true" minOccurs="0"/>
+			<xsd:element name="House" minOccurs="0" maxOccurs="2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="HouseNumber" type="AustralianHouseNumber" nillable="true"/>
+						<xsd:element name="HouseNumberSuffix" type="AustralianHouseNumberSuffix" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Lot" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="LotNumber" type="AustralianLotNumber" nillable="true"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Street" minOccurs="0" maxOccurs="2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StreetName" type="AustralianStreetName" nillable="true"/>
+						<xsd:element name="StreetType" type="AustralianStreetType" nillable="true" minOccurs="0"/>
+						<xsd:element name="StreetSuffix" type="AustralianStreetSuffix" nillable="true" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="PostalDelivery" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="PostalDeliveryType" type="AustralianPostalDeliveryType" nillable="true"/>
+						<xsd:element name="PostalDeliveryNumber" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="PostalDeliveryNumberPrefix" type="AustralianPostalDeliveryNumberPrefix" nillable="true" minOccurs="0"/>
+									<xsd:element name="PostalDeliveryNumberValue" type="AustralianPostalDeliveryNumberValue" nillable="true" minOccurs="0"/>
+									<xsd:element name="PostalDeliveryNumberSuffix" type="AustralianPostalDeliveryNumberSuffix" nillable="true" minOccurs="0"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Main Types -->
+	<xsd:complexType name="AustralianPartialAddress">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define an Australian address
+Detail - This type allows the transfer of portions of an Australian address. where a complete address is to be transferred, the AustralianAddress type should be used.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="StructuredAddress" type="AustralianStructuredAddressPartialComponents"/>
+				<xsd:element name="UnstructuredAddress">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="AddressLine" type="AustralianAddressLine" nillable="true" maxOccurs="3"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="SuburbOrPlaceOrLocality" type="AustralianSuburbOrPlaceOrLocality" nillable="true" minOccurs="0"/>
+			<xsd:element name="StateOrTerritory" type="AustralianStateOrTerritory" nillable="true" minOccurs="0"/>
+			<xsd:element name="PostCode" type="AustralianPostCode" nillable="true" minOccurs="0"/>
+			<xsd:element name="DeliveryPointIdentifier" type="AustralianDeliveryPointIdentifier" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AustralianAddress">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define an Australian address
+Detail - The Australian address format allows for either a structured or an unstructured physical address, with locality, state and postcode always being carried as structured elements. In addition, it supports postal address formats. It follows the definitions and rules set out in AS4590 for address exchange. 
+
+It is important to note the occurrence frequency of elements within the format, particularly BuildingOrPropertyName, House and Street.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="StructuredAddress" type="AustralianStructuredAddressComponents"/>
+				<xsd:element name="UnstructuredAddress">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="AddressLine" type="AustralianAddressLine" nillable="true" maxOccurs="3"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="SuburbOrPlaceOrLocality" type="AustralianSuburbOrPlaceOrLocality" nillable="true" minOccurs="0"/>
+			<xsd:element name="StateOrTerritory" type="AustralianStateOrTerritory"/>
+			<xsd:element name="PostCode" type="AustralianPostCode"/>
+			<xsd:element name="DeliveryPointIdentifier" type="AustralianDeliveryPointIdentifier" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AustralianAddressSearch">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define the structure to allow provision of search parameters for an address.
+Detail - This definition is essentially the same as the structured part of Australian address except that either postcode or locality or both may be provided. This allows some flexibility in searching whilst constraining the subset of records to be considered.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="StructuredAddress" type="AustralianStructuredAddressComponents"/>
+			<xsd:element name="SuburbOrPlaceOrLocality" type="AustralianSuburbOrPlaceOrLocality" nillable="true" minOccurs="0"/>
+			<xsd:element name="StateOrTerritory" type="AustralianStateOrTerritory" nillable="true" minOccurs="0"/>
+			<xsd:element name="PostCode" type="AustralianPostCode" nillable="true" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InternationalAddress">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define an International address
+Detail - AS4590 provides differing definitions of some address components depending on whether they are for addresses internal or external to Australia. In order to provide maximum validation of Australian addresses, whilst supporting International formats, aseXML provides different formats for the two. 
+
+Because of the wide variety of International formats, aseXML currently only defines an unstructured format for Internaitonal addresses. It does, however, follow the same structure as that used for Australian addresses, allowing the definition of structured International addresses in the future.
+
+Country and postcode are provided as structured fields , as per AS4590.
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="UnstructuredAddress">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="AddressLine" type="InternationalAddressLine" maxOccurs="6"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="CountryCode" type="InternationalCountryCode" minOccurs="0"/>
+			<xsd:element name="PostCode" type="InternationalPostCode" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Address">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define an address capable of representing both domestic and International addresses
+	</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="AustralianAddress" type="AustralianAddress"/>
+			<xsd:element name="InternationalAddress" type="InternationalAddress"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="PersonName">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define a person's name
+Detail - This format follows AS4590. By default, a legal name is assumed. 
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NameTitle" type="PersonNameTitle" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="GivenName" type="PersonNameGiven" maxOccurs="unbounded"/>
+			<xsd:element name="FamilyName" type="PersonNameFamily" minOccurs="0"/>
+			<xsd:element name="NameSuffix" type="PersonNameSuffix" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="nameType" type="PersonNameType" default="LGL"/>
+	</xsd:complexType>
+	<xsd:complexType name="AustralianPhoneNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+Purpose - Define an Australian telephone service number
+Detail - This format follows AS4590. 
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Prefix" type="AustralianTelephonePrefix" minOccurs="0"/>
+			<xsd:element name="Number" type="AustralianTelephoneNumber"/>
+			<xsd:element name="ServiceComment" type="AustralianTelephoneServiceComment" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="serviceType" type="AustralianTelephoneServiceType"/>
+	</xsd:complexType>
+</xsd:schema>

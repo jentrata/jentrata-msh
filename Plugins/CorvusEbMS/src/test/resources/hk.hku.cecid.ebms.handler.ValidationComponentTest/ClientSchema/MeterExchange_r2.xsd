@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by XMLSpy 2009 Professional Ed., Installed for 21 users (with SMP from 2009-08-07 to 2010-08-08) (Jemena) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:complexType name="ElectricityMeterReadData">
+		<xsd:sequence>
+			<xsd:element name="Read">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="15"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ReadDate" type="xsd:date"/>
+			<xsd:element name="Consumption">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:decimal">
+						<xsd:totalDigits value="15"/>
+						<xsd:fractionDigits value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="MeterSerialNumber">
+		<xsd:annotation>
+			<xsd:documentation>MSATS Data Model Column - MeterSerial</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeterLocationCode">
+		<xsd:annotation>
+			<xsd:documentation>Too many diverse values to make this an enumeration</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="WorkOrderID">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="HazardDescription">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ServicePoint">
+		<xsd:annotation>
+			<xsd:documentation>Cutdown version of aseXML. Purpose - Define service point address and other properties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Address" type="Address" minOccurs="0"/>
+			<xsd:element name="MelwayGridReference" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NMIDetails">
+		<xsd:sequence>
+			<xsd:element name="NMI" type="NMI"/>
+			<xsd:element name="Sequence" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="FRMP" type="PartyIdentifier" minOccurs="0"/>
+			<xsd:element name="LifeSupport" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="LifeSupportComments" type="Comments" minOccurs="0"/>
+			<xsd:element name="NetworkSensitiveLoad" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="NetworkSensitiveLoadComments" type="Comments" minOccurs="0"/>
+			<xsd:element name="DefectFlag" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="CustomerClass" type="CustomerClass" minOccurs="0"/>
+			<xsd:element name="KeyID" type="UniqueIdentifier" minOccurs="0"/>
+			<xsd:element name="Hazard" type="SiteHazard" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="SpecialMessage" type="Comments" minOccurs="0"/>
+			<xsd:element name="EnergisationStatus" type="EnergisationStatus" minOccurs="0"/>
+			<xsd:element name="TariffType" type="Description" minOccurs="0"/>
+			<xsd:element name="TariffDescription" type="Description" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterDetails">
+		<xsd:sequence>
+			<xsd:element name="Meter" type="Meter" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Meter">
+		<xsd:sequence>
+			<xsd:element name="SerialNumber" type="MeterSerialNumber"/>
+			<xsd:element name="Type" type="xsd:string"/>
+			<xsd:element name="Phase" type="MeterPhase" minOccurs="0"/>
+			<xsd:element name="Status" type="MeterStatus" minOccurs="0"/>
+			<xsd:element name="LocationCode" type="MeterLocationCode"/>
+			<xsd:element name="LocationDescription" type="Description"/>
+			<xsd:element name="LocationDetails" type="Comments" minOccurs="0"/>
+			<xsd:element name="TransformerRatio" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="ReadType" type="MeterReadType" minOccurs="0"/>
+			<xsd:element name="MarketType" type="MeterMarketType" minOccurs="0"/>
+			<xsd:element name="NewType" type="NewMeterType"/>
+			<xsd:element name="RegisterConfiguration" type="RegisterConfiguration"/>
+			<xsd:element name="MeterTestDetails" type="MeterTestDetails" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterConfiguration">
+		<xsd:sequence>
+			<xsd:element name="Register" type="RegisterDetails" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterDetails">
+		<xsd:sequence>
+			<xsd:element name="Code" type="MeterSerialNumber"/>
+			<xsd:element name="UOM" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TimeOfDay" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="MeterDials" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Protocol" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ReadSequence" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LowTolerance" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="HighTolerance" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Read" type="ElectricityMeterReadData" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AuxiliaryEquipment">
+		<xsd:sequence>
+			<xsd:element name="AssetType" type="AssetType" minOccurs="0"/>
+			<xsd:element name="AssetID" type="UniqueIdentifier" minOccurs="0"/>
+			<xsd:element name="AssetQuantity" type="xsd:nonNegativeInteger" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterCompleteNotification">
+		<xsd:sequence>
+			<xsd:element name="Meter" type="MeterDetailsCompleteNotification" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterDetailsCompleteNotification">
+		<xsd:sequence>
+			<xsd:element name="SerialNumber" type="MeterSerialNumber"/>
+			<xsd:element name="NewMeter" type="xsd:boolean"/>
+			<xsd:element name="NewMeterType" type="NewMeterType" minOccurs="0"/>
+			<xsd:element name="LocationCode" type="MeterLocationCode"/>
+			<xsd:element name="LocationDescription" type="Description"/>
+			<xsd:element name="TransformerRatio" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="AuxiliaryEquipment" type="AuxiliaryEquipment" minOccurs="0"/>
+			<xsd:element name="MeterTestDetails" type="MeterTestDetails" minOccurs="0"/>
+			<xsd:element name="RegisterConfiguration" type="RegisterConfigurationCompleteNotification"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterConfigurationCompleteNotification">
+		<xsd:sequence>
+			<xsd:element name="Register" type="RegisterCompleteNotification" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterCompleteNotification">
+		<xsd:sequence>
+			<xsd:element name="Code" type="MeterSerialNumber"/>
+			<xsd:element name="Reading" type="ElectricityMeterReadData" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="Meter" type="MeterDetailsDetailsResponse" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterDetailsDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="SerialNumber" type="MeterSerialNumber"/>
+			<xsd:element name="Type" type="xsd:string"/>
+			<xsd:element name="Phase" type="MeterPhase"/>
+			<xsd:element name="Status" type="MeterStatus"/>
+			<xsd:element name="LocationCode" type="MeterLocationCode"/>
+			<xsd:element name="LocationDescription" type="Description"/>
+			<xsd:element name="LocationDetails" type="Comments" minOccurs="0"/>
+			<xsd:element name="ReadType" type="MeterReadType"/>
+			<xsd:element name="MarketType" type="MeterMarketType"/>
+			<xsd:element name="NewMeterType" type="NewMeterType"/>
+			<xsd:element name="RegisterConfiguration" type="RegisterConfigurationDetailsResponse"/>
+			<xsd:element name="EquipmentSerialNumber" type="UniqueIdentifier" minOccurs="0"/>
+			<xsd:element name="EquipmentDescription" type="Description" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterConfigurationDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="Register" type="RegisterDetailsResponse" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RegisterDetailsResponse">
+		<xsd:sequence>
+			<xsd:element name="Code" type="MeterSerialNumber"/>
+			<xsd:element name="UOM" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TimeOfDay" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="MeterDials" type="xsd:string"/>
+			<xsd:element name="Protocol" type="xsd:string"/>
+			<xsd:element name="ReadSequence" type="xsd:string"/>
+			<xsd:element name="LowTolerance" type="xsd:string"/>
+			<xsd:element name="HighTolerance" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterTestDetails">
+		<xsd:sequence>
+			<xsd:element name="NSTPerformed" type="xsd:boolean"/>
+			<xsd:element name="PolarityTestPerformed" type="xsd:boolean"/>
+			<xsd:element name="PhaseSequenceTestPerformed" type="xsd:boolean"/>
+			<xsd:element name="VoltageLoadTestPerformed" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SiteHazard">
+		<xsd:annotation>
+			<xsd:documentation>aseXML Site Hazard</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Code" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Description" type="HazardDescription"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Photos">
+		<xsd:sequence>
+			<xsd:element name="PhotoType" type="PhotoType" minOccurs="0"/>
+			<xsd:element name="PhotoReference" type="Description" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WorkOrderHeader">
+		<xsd:sequence>
+			<xsd:element name="WorkOrderID" type="WorkOrderID"/>
+			<xsd:element name="WorkOrderType" type="WorkOrderType"/>
+			<xsd:element name="NMI" type="NMI"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WorkOrderDetails">
+		<xsd:sequence>
+			<xsd:element name="WorkOrderStatus" type="WorkOrderStatus"/>
+			<xsd:element name="WorkOrderExceptionCode" type="WorkOrderExceptionCode" minOccurs="0"/>
+			<xsd:element name="WorkOrderComments" type="Comments" minOccurs="0"/>
+			<xsd:element name="InstallerID" type="UniqueIdentifier"/>
+			<xsd:element name="ServiceOrderID" type="WorkOrderID"/>
+			<xsd:element name="WorkOrderActivity" type="WorkOrderActivities" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GPSCoordinates">
+		<xsd:sequence>
+			<xsd:element name="XCoordinate" type="xsd:string"/>
+			<xsd:element name="YCoordinate" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Visit">
+		<xsd:sequence>
+			<xsd:element name="NoAccess" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NoAccessDetails" type="Comments" minOccurs="0"/>
+			<xsd:element name="JSAPerformed" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="DefectStatus" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="DefectType" type="DefectType" minOccurs="0"/>
+			<xsd:element name="DefectDescription" type="Comments" minOccurs="0"/>
+			<xsd:element name="GPSCoordinates" type="GPSCoordinates" minOccurs="0"/>
+			<xsd:element name="InstallationCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AppointmentTime" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="AppointmentStatus" type="AppointmentStatus" minOccurs="0"/>
+			<xsd:element name="AppointmentComments" type="Comments" minOccurs="0"/>
+			<xsd:element name="VisitCommenceTime" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="VisitCompletionTime" type="xsd:dateTime" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Route">
+		<xsd:sequence>
+			<xsd:element name="CycleDay">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="RouteID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RouteExchangeDetails">
+		<xsd:sequence>
+			<xsd:element name="Route" type="Route"/>
+			<xsd:element name="ExchangeDetails" type="ExchangeDetails" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ExchangeDetails">
+		<xsd:sequence>
+			<xsd:element name="Route" type="Route" minOccurs="0"/>
+			<!--not used when responding at route level-->
+			<xsd:element name="NMIDetails" type="NMIDetails"/>
+			<xsd:element name="PremiseDetails" type="ServicePoint" minOccurs="0"/>
+			<xsd:element name="CustomerDetails" type="CustomerDetail"/>
+			<xsd:element name="MeterDetails" type="MeterDetailsResponse"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeHighLevelNotification">
+		<xsd:sequence>
+			<xsd:element name="MeterCount" type="xsd:nonNegativeInteger"/>
+			<xsd:element name="StartDate" type="xsd:date"/>
+			<xsd:element name="EndDate" type="xsd:date" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeWorkOrderNotification">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Route" type="Route"/>
+				<xsd:element name="NMI" type="NMI"/>
+			</xsd:choice>
+			<xsd:element name="WorkOrderType" type="WorkOrderType"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeDetailsRequest">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Route" type="Route"/>
+				<xsd:element name="NMI" type="NMI"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeDetailsResponse">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="RouteExchangeDetails" type="RouteExchangeDetails"/>
+				<xsd:element name="ExchangeDetails" type="ExchangeDetails"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeScheduleNotification">
+		<xsd:sequence>
+			<xsd:element name="NMI" type="NMI"/>
+			<xsd:element name="NotificationDate" type="xsd:date"/>
+			<xsd:element name="ScheduledWindowStart" type="xsd:date"/>
+			<xsd:element name="ScheduledWindowEnd" type="xsd:date"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeCompleteNotification">
+		<xsd:sequence>
+			<xsd:element name="WorkOrder" type="WorkOrderHeader"/>
+			<xsd:element name="WorkOrderDetails" type="WorkOrderDetails"/>
+			<xsd:element name="Route" type="Route" minOccurs="0"/>
+			<xsd:element name="NMIDetails" type="NMIDetails"/>
+			<xsd:element name="PremiseDetails" type="ServicePoint" minOccurs="0"/>
+			<xsd:element name="Visit" type="Visit"/>
+			<xsd:element name="Photos" type="Photos" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="MeterDetails" type="MeterCompleteNotification"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeWorkRequest">
+		<xsd:sequence>
+			<xsd:element name="WorkOrder" type="WorkOrderHeader"/>
+			<xsd:element name="WorkOrderInstructions" type="Comments" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MeterExchangeAcceptanceNotification">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Route" type="Route"/>
+				<xsd:element name="NMI" type="NMI"/>
+			</xsd:choice>
+			<xsd:element name="CertificateConfirmation" type="CertificateStatus"/>
+			<xsd:element name="CertificateRejectionDetails" type="Comments" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r1" use="required"/>
+	</xsd:complexType>
+</xsd:schema>

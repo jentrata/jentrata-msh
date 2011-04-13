@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dnspXML xmlns="urn:dnspXML:r2"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="urn:dnspXML:r2 file:/Users/mhanda/Desktop/ClientSchema/dnspXML_r2.xsd">
+    <Header xmlns="">
+        <From context="AMI" description="QjSkcEO">RMS-8puag8z68</From>
+        <To context="AMI" description="LMXWU.asSXogEV45nA9">h</To>
+        <MessageID>uea2VpRoMld874UdNv</MessageID>
+        <MessageDate>2012-10-30T12:01:03</MessageDate>
+        <TimeToLive>2012-03-03T12:01:03</TimeToLive>
+        <TransactionGroup>MTKY</TransactionGroup>
+        <Priority>Low</Priority>
+        <SecurityContext>RxJ4uqn38</SecurityContext>
+        <Market>ISV</Market>
+    </Header>
+        <Transactions xmlns="">
+            <Transaction transactionID="i6XqxTxkra.skeTTgXPIBI_j09mn9" transactionDate="2012-02-10T12:01:03" initiatingTransactionID="tALKZTdYh.d7yOd">
+                <MeterExchangeWorkOrderNotification version="r2">
+                        <Route>
+                            <CycleDay>U</CycleDay>
+                            <RouteID>T</RouteID>
+                        </Route>
+                    <WorkOrderType>Final Read</WorkOrderType>
+                </MeterExchangeWorkOrderNotification>
+            </Transaction>
+            <Transaction transactionID="EF" transactionDate="2012-07-07T12:01:03" initiatingTransactionID="jRySk_rnJ_-gjysYq">
+                <MeterExchangeWorkOrderNotification version="r2">
+                        <Route>
+                            <CycleDay>sA</CycleDay>
+                            <RouteID>s</RouteID>
+                        </Route>
+                    <WorkOrderType>Revisit</WorkOrderType>
+                </MeterExchangeWorkOrderNotification>
+            </Transaction>
+        </Transactions>
+</dnspXML>

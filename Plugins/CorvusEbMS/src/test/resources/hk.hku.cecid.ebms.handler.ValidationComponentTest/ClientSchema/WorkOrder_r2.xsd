@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by XMLSpy 2009 Professional Ed., Installed for 21 users (with SMP from 2009-08-07 to 2010-08-08) (Jemena) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="ESPWorkOrderType">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid Work Order types</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="New Connection"/>
+			<xsd:enumeration value="Re-energisation"/>
+			<xsd:enumeration value="De-energisation"/>
+			<xsd:enumeration value="Special Read"/>
+			<xsd:enumeration value="Adds And Alts"/>
+			<xsd:enumeration value="Meter Reconfiguration"/>
+			<xsd:enumeration value="Meter Investigation"/>
+			<xsd:enumeration value="Supply Abolishment"/>
+			<xsd:enumeration value="Miscellaneous"/>
+			<xsd:enumeration value="Comms Installation"/>
+			<xsd:enumeration value="Comms Maintenance"/>
+			<xsd:enumeration value="Device Installation"/>
+			<xsd:enumeration value="Device Maintenance"/>
+			<xsd:enumeration value="Faults And Repairs"/>
+			<xsd:enumeration value="AMI Meter Exchange"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ESPWorkOrderSubType">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid Work Order sub types</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Exchange Meter"/>
+			<xsd:enumeration value="Install Hot Water"/>
+			<xsd:enumeration value="Install Meter"/>
+			<xsd:enumeration value="Move Meter"/>
+			<xsd:enumeration value="Remove Meter"/>
+			<xsd:enumeration value="Pole to Pit Quote"/>
+			<xsd:enumeration value="Pole to Pit Installation"/>
+			<xsd:enumeration value="Pillar-Box Pit Or Pole-Top"/>
+			<xsd:enumeration value="Pillar-Box Pit Or Pole-Top (Non-Payment)"/>
+			<xsd:enumeration value="Remove Fuse"/>
+			<xsd:enumeration value="Remove Fuse (Non-Payment)"/>
+			<xsd:enumeration value="Permanent"/>
+			<xsd:enumeration value="Temporary"/>
+			<xsd:enumeration value="Temporary In Permanent"/>
+			<xsd:enumeration value="After Disconnection For Non-Payment"/>
+			<xsd:enumeration value="New Reading Required"/>
+			<xsd:enumeration value="Retrospective Move-in"/>
+			<xsd:enumeration value="Inspect"/>
+			<xsd:enumeration value="Meter Test"/>
+			<xsd:enumeration value="Tamper"/>
+			<xsd:enumeration value="Change Controlled Load"/>
+			<xsd:enumeration value="Change Tariff"/>
+			<xsd:enumeration value="Change Timeswitch"/>
+			<xsd:enumeration value="Check Read"/>
+			<xsd:enumeration value="Final Read"/>
+			<xsd:enumeration value="AMI MRO Meter Exchange for Mass rollout"/>
+			<xsd:enumeration value="Type 6 to Type 5 conversion"/>
+			<xsd:enumeration value="Access Point/Relay Installation part of Mass Rollout"/>
+			<xsd:enumeration value="External antenna installation"/>
+			<xsd:enumeration value="Sample CT Testing"/>
+			<xsd:enumeration value="Sample Meter Testing"/>
+			<xsd:enumeration value="Meter Testing"/>
+			<xsd:enumeration value="Maintenance CT Testing"/>
+			<xsd:enumeration value="Faults"/>
+			<xsd:enumeration value="Revenue Protection"/>
+			<xsd:enumeration value="AMI Device Maintenance"/>
+			<xsd:enumeration value="Install/Replace AMI Comms"/>
+			<xsd:enumeration value="AMI Comms Maintenance"/>
+			<xsd:enumeration value="Planned AMI Meter Replacement"/>
+			<xsd:enumeration value="Emergency AMI Meter Replacement"/>
+			<xsd:enumeration value="Emergency AMI Comms Replacement"/>
+			<!--Adds and Alts subtypes-->
+			<!--De-energisation subtypes-->
+			<!--New Connection subtypes-->
+			<!--Re-energisation subtypes-->
+			<!--Meter Investigation subtypes-->
+			<!--Meter Reconfiguration subtypes-->
+			<!--Special Read subtypes-->
+			<!--AMI Meter Exchange subtypes-->
+			<!--Device Maintenance subtypes-->
+			<!--Faults And Repairs subtypes-->
+			<!--Miscellaneous subtypes (none)-->
+			<!--Supply Abolishment subtypes (none)-->
+			<!--Comms Maintenance subtypes (none) -->
+			<!--Comms Installation subtypes (none) -->
+			<!--Device Installation subtypes (none) -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ESPWorkOrderStatus">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid service order status codes</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Completed"/>
+			<xsd:enumeration value="Partially Completed"/>
+			<xsd:enumeration value="Not Completed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ConnectionType">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid Connection types</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Normal"/>
+			<xsd:enumeration value="Gross Cogeneration"/>
+			<xsd:enumeration value="Net Cogeneration"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ESPWorkOrderTypeType">
+		<xsd:sequence>
+			<xsd:element name="ESPWorkOrderType" type="ESPWorkOrderType"/>
+		</xsd:sequence>
+		<xsd:attribute name="workSubType" type="ESPWorkOrderSubType" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="WorkCenter">
+		<xsd:sequence>
+			<xsd:element name="WorkCenterID"/>
+		</xsd:sequence>
+		<xsd:attribute name="description" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="WOAuxiliaryEquipment">
+		<xsd:sequence>
+			<xsd:element name="Category" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SerialNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Quantity" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="ManufacturerModel" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ESPContact">
+		<xsd:sequence>
+			<xsd:element name="Name" type="PersonName" minOccurs="0"/>
+			<xsd:element name="BusinessName" type="BusinessName" minOccurs="0"/>
+			<xsd:element name="PhoneNumber" type="AustralianPhoneNumber" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="AttendanceRequired" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WorkOrderActivity">
+		<xsd:sequence>
+			<xsd:element name="Number" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Type" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Text" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LongText" type="Comments" minOccurs="0"/>
+			<xsd:element name="MeterProgramID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EquipmentNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Category" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ExceptionCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ActualStartDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="ActualEndDate" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="SerialNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="InstallerID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NewActivityIndicator" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="ConnectionType" type="ConnectionType" minOccurs="0"/>
+			<xsd:element name="CtPrimaryRatio" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CtSecondaryRatio" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Multiplier" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WorkOrderNMIDetails">
+		<xsd:sequence>
+			<xsd:element name="NMI" type="NMI"/>
+			<xsd:element name="LifeSupport" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="LifeSupportComments" type="Comments" minOccurs="0"/>
+			<xsd:element name="InstallationType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="InstallationDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CustomerClass" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CustomerClassDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EnergisationStatus" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Longitude" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Latitude" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="MelwayGridReference" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WorkOrderSiteDetails">
+		<xsd:sequence>
+			<xsd:element name="CustomerName" type="PersonName" minOccurs="0"/>
+			<xsd:element name="CustomerNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="HomePhone" type="AustralianPhoneNumber" minOccurs="0"/>
+			<xsd:element name="WorkPhone" type="AustralianPhoneNumber" minOccurs="0"/>
+			<xsd:element name="Address" type="AustralianAddress" minOccurs="0"/>
+			<xsd:element name="AddressUpdated" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FaultNotification">
+		<xsd:sequence>
+			<xsd:element name="LocationCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LocationDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SiteDefect" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NotificationNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NotificationType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CodeGroup" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ObjectCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ObjectGroup" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TimeOfCall" type="xsd:dateTime" minOccurs="0"/>
+			<xsd:element name="FaultDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="FaultLongDescription" type="Comments" minOccurs="0"/>
+			<xsd:element name="CauseCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CauseCodeGroup" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="DamageCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="DamageCodeGroup" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Category" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SerialNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NewDefect" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeviceDetails">
+		<xsd:sequence>
+			<xsd:element name="SerialNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EquipmentNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NewDevice" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LocationCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LocationDescription" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TransformerRatio" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Category" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Multiplier" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="KeyID" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Longitude" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Latitude" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="MelwayGridReference" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="9"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DeviceTest" type="DeviceTest" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeviceTest">
+		<xsd:sequence>
+			<xsd:element name="TestType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="TestClass" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="LatestTestDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="DeviceTestPoints" type="DeviceTestPoints" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DeviceTestPoints">
+		<xsd:sequence>
+			<xsd:element name="PointNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PointType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PointResult" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="PointResultDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="PointRequiresTest" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ESPWorkOrderHeader">
+		<xsd:sequence>
+			<xsd:element name="WorkOrderType" type="ESPWorkOrderTypeType" minOccurs="0"/>
+			<xsd:element name="WorkOrderNumber" type="UniqueIdentifier" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HazardOrAccessDetails">
+		<xsd:sequence>
+			<xsd:element name="Code" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="NewStatus" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="LongDescription" type="Comments" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ESPWorkOrderRequestDetails">
+		<xsd:sequence>
+			<xsd:element name="WorkCentre" type="WorkCenter" minOccurs="0"/>
+			<xsd:element name="WorkCentreNumber" type="UniqueIdentifier" minOccurs="0"/>
+			<xsd:element name="CESNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CESDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EWRDate" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SoldToParty" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SpecialInstructions" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ContactDetails" type="ESPContact" minOccurs="0"/>
+			<xsd:element name="WorkOrderActivity" type="WorkOrderActivity" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="NMIDetails" type="WorkOrderNMIDetails" minOccurs="0"/>
+			<xsd:element name="SiteDetails" type="WorkOrderSiteDetails" minOccurs="0"/>
+			<xsd:element name="FaultNotification" type="FaultNotification" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Visit" type="Visit" minOccurs="0"/>
+			<xsd:element name="DeviceDetails" type="DeviceDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DistributorAccessDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DistributorHazardDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RetailerAccessDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RetailerHazardDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ESPWorkOrderResponseDetails">
+		<xsd:sequence>
+			<xsd:element name="WorkOrderStatus" type="ESPWorkOrderStatus" minOccurs="0"/>
+			<xsd:element name="WorkOrderActivity" type="WorkOrderActivity" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="SiteDetails" type="WorkOrderSiteDetails" minOccurs="0"/>
+			<xsd:element name="FaultNotification" type="FaultNotification" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Visit" type="Visit" minOccurs="0"/>
+			<xsd:element name="NMIDetails" type="WorkOrderNMIDetails" minOccurs="0"/>
+			<xsd:element name="DeviceDetails" type="DeviceDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DistributorAccessDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DistributorHazardDetails" type="HazardOrAccessDetails" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="AuxiliaryEquipment" type="WOAuxiliaryEquipment" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Transaction Types -->
+	<xsd:complexType name="ESPWorkRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+Application - Work Order
+TransactionExchange - 
+TransactionGroup - WORD
+Priority - Medium
+Purpose - Submit Work Order Request to the Service Provider
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WorkOrder" type="ESPWorkOrderHeader" minOccurs="0"/>
+			<xsd:element name="RequestData" type="ESPWorkOrderRequestDetails" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+		<xsd:attribute name="blockID" type="xsd:string"/>
+		<xsd:attribute name="blockMaximumTransactionCount" type="xsd:integer"/>
+		<xsd:attribute name="blockTransactionCount" type="xsd:integer"/>
+	</xsd:complexType>
+	<xsd:complexType name="ESPWorkResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+Application - Work Order
+TransactionExchange - 
+TransactionGroup - WORD
+Priority - Medium
+Purpose - Submit Work Order completion details to the DNSP
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WorkOrder" type="ESPWorkOrderHeader" minOccurs="0"/>
+			<xsd:element name="ResponseData" type="ESPWorkOrderResponseDetails" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r2" use="required"/>
+	</xsd:complexType>
+</xsd:schema>

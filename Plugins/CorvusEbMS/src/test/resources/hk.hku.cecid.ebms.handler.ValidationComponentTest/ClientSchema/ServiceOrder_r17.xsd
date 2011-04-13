@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation>This schema file is part of the aseXML schema set, and is subject to the terms and conditions that are detailed in the aseXML_r*.xsd schema file with which this file is used</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Purpose - Define the structure of Service Order transactions to extend the aseXML</xsd:documentation>
+	</xsd:annotation>
+	<!-- Support Types -->
+	<xsd:simpleType name="SpecialReadReasonCode">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid Special Read reason codes</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Account Investigation"/>
+			<xsd:enumeration value="Final Read"/>
+			<xsd:enumeration value="Final Read for Disconnection on Non-Payment"/>
+			<xsd:enumeration value="Final and Opening Read"/>
+			<xsd:enumeration value="Opening Read"/>
+			<xsd:enumeration value="Change of Retailer"/>
+			<xsd:enumeration value="Change of Customer"/>
+			<xsd:enumeration value="Check Read"/>
+			<xsd:enumeration value="Other"/>
+			<xsd:enumeration value="Sticker Removed"/>
+			<xsd:enumeration value="Final Read Stickered"/>
+			<xsd:enumeration value="Read Following Disconnection for Non-Payment"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServiceOrderStatus">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid service order status codes</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Completed"/>
+			<xsd:enumeration value="Partially Completed"/>
+			<xsd:enumeration value="Not Completed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ActionType">
+		<xsd:annotation>
+			<xsd:documentation>Purpose - Defines a list of valid update statuses</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="New"/>
+			<xsd:enumeration value="Update"/>
+			<xsd:enumeration value="Cancel"/>
+			<xsd:enumeration value="Replace"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ResponseType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Initial"/>
+			<xsd:enumeration value="Closure"/>
+			<xsd:enumeration value="Appointment"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ServiceOrderHeader">
+		<xsd:annotation>
+			<xsd:documentation>Schema - ServiceOrder</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="NMI" type="NMI"/>
+				<xsd:element name="Address" type="Address"/>
+			</xsd:choice>
+			<xsd:element name="ServiceOrderType" type="ElectricityServiceOrderType" minOccurs="0"/>
+			<xsd:element name="ServiceOrderNumber" type="UniqueIdentifier" minOccurs="0"/>
+			<xsd:element name="ServiceProviderReference" type="UniqueIdentifier" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--Abstract types for fuel specific extension-->
+	<xsd:complexType name="ServiceOrderTypeBase" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation>Base type for type substitution in instance documents using xsi:type construct.  Types currently based on this type are:
+ServiceOrderTypeGas-Gas schema
+ServiceOrderTypeElectricity- Electricity schema</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceOrderRequestData" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation>Schema - ServiceOrder</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SpecialInstructions" type="SpecialComments" minOccurs="0"/>
+			<xsd:element name="NMIStandingData" type="ElectricityStandingData" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceOrderNotificationData" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation>Schema - ServiceOrder</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SpecialNotes" type="SpecialComments" minOccurs="0"/>
+			<xsd:element name="NMIStandingData" type="ElectricityStandingData" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--Electricity specific extensions of abstract types-->
+	<!--Gas specific extensions of abstract types-->
+	<!-- Transaction Types -->
+	<xsd:complexType name="ServiceOrderRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+Application - Service Order
+TransactionExchange - 
+TransactionGroup - SORD
+Priority - Medium
+Purpose - Submit Service Order Request to the Service Provider
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ServiceOrder" type="ServiceOrderHeader"/>
+			<xsd:element name="ServicePoint" type="ServicePoint" minOccurs="0"/>
+			<xsd:element name="ContactDetail" type="CustomerDetail" minOccurs="0"/>
+			<xsd:element name="CustomerDetail" type="CustomerDetail" minOccurs="0"/>
+			<xsd:element name="AppointmentDetail" type="AppointmentDetail" minOccurs="0"/>
+			<xsd:element name="RequestData" type="ElectricityServiceOrderDetails" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r17" use="required"/>
+		<xsd:attribute name="actionType" type="ActionType" default="New"/>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceOrderResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+Application - Service Order
+TransactionExchange - 
+TransactionGroup - SORD
+Priority - Medium
+Purpose - Submit Service Order completion details to the Retailer
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ServiceOrder" type="ServiceOrderHeader"/>
+			<xsd:element name="ContactDetail" type="CustomerDetail" minOccurs="0"/>
+			<xsd:element name="AppointmentDetail" type="AppointmentDetail" minOccurs="0"/>
+			<xsd:element name="NotificationData" type="ElectricityServiceOrderNotificationData" minOccurs="0"/>
+			<xsd:element name="Event" type="Event" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="r17" use="required"/>
+		<xsd:attribute name="responseType" type="ResponseType" default="Closure"/>
+	</xsd:complexType>
+	<xsd:complexType name="FieldWorkNotification">
+		<xsd:annotation>
+			<xsd:documentation>Schema - ServiceOrder</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CSVTimeExpiredMeters" type="CSVRequestFormat"/>
+			<xsd:element name="CSVMainsServiceRenewal" type="CSVRequestFormat"/>
+		</xsd:choice>
+		<xsd:attribute name="version" type="r9" use="required"/>
+	</xsd:complexType>
+</xsd:schema>

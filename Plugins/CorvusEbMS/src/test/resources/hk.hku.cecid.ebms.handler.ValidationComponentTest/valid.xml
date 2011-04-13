@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n1:dnspXML xmlns:n1="urn:dnspXML:r2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:dnspXML:r2 dnspXML_r2.xsd">
+    <Header>
+        <From>S_STREAM</From>
+        <To>JEN</To>
+        <MessageID>msgid-03</MessageID>
+        <MessageDate>2008-10-01T01:32:24+10:00</MessageDate>
+        <TimeToLive>2010-10-01T01:32:24+10:00</TimeToLive>
+        <TransactionGroup>ASTM</TransactionGroup>
+        <Priority>Medium</Priority>
+        <Market>ESP</Market>
+    </Header>
+    <Transactions>
+        <Transaction transactionID="txnid-03" transactionDate="2008-10-01T01:32:24+10:00">
+            <AssetTransferNotification version="r1">
+                <TransactionType>Receipt</TransactionType>
+                <AssetType>AMI Meter</AssetType>
+                <AssetID>555</AssetID>
+                <BarCodeID>000000</BarCodeID>
+                <AssetQuantity>1</AssetQuantity>
+                <ReceiptDate>2008-10-01</ReceiptDate>
+                <PurchaseOrderNumber>001</PurchaseOrderNumber>
+                <PurchaseOrderLineItem>Line item</PurchaseOrderLineItem>
+                <AssetLocation>Warehouse</AssetLocation>
+                <TransferDate>2008-10-01T01:32:24+10:00</TransferDate>
+            </AssetTransferNotification>
+        </Transaction>
+    </Transactions>
+</n1:dnspXML>

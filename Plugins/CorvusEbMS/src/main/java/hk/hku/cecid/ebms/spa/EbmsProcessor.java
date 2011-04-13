@@ -9,6 +9,7 @@
 
 package hk.hku.cecid.ebms.spa;
 
+import hk.hku.cecid.ebms.spa.handler.ValidationComponent;
 import hk.hku.cecid.piazza.commons.Sys;
 import hk.hku.cecid.piazza.commons.module.ModuleException;
 import hk.hku.cecid.piazza.commons.module.ModuleGroup;
@@ -42,6 +43,8 @@ public class EbmsProcessor implements PluginHandler {
     private static final String COMPONENT_KEYSTORE_MANAGER_FOR_SIGNATURE = "keystore-manager-for-signature";
     
     private static final String COMPONENT_KEYSTORE_MANAGER_FOR_DECRYPTION = "keystore-manager-for-decryption";
+    
+    private static final String COMPONENT_VALIDATOR = "validator";
     
     private static ModuleGroup moduleGroup;
     
@@ -90,6 +93,16 @@ public class EbmsProcessor implements PluginHandler {
         }
         else {
             return m;
+        }
+    }
+    
+    public static ValidationComponent getValidator() {
+        ValidationComponent v = (ValidationComponent) core.getComponent(COMPONENT_VALIDATOR);
+        if (v==null) {
+            throw new ModuleException("Validator not found");
+        }
+        else {
+            return v;
         }
     }
 
