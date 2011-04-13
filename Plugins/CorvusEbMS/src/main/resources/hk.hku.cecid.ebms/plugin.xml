@@ -72,7 +72,6 @@
 		<parameter name="fromPartyId" value="test_a"/>
 		<parameter name="fromPartyType" value="ParticipantID"/>
 		<parameter name="toPartyId" value="test_b"/>
-		<parameter name="toPartyType" value="ParticipantID"/>
 	</extension>
 	-->
 	

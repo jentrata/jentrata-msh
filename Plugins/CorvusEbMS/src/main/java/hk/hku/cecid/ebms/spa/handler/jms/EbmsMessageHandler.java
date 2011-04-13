@@ -122,7 +122,7 @@ public class EbmsMessageHandler implements MessageHandler {
     private void attachPayloads(EbxmlMessage ebxml, List<byte[]> payloads) throws Exception {
         int i=0;
         for(byte [] payload:payloads) {
-            ebxml.addPayloadContainer(new DataHandler(new String(payload),"text/xml"), "Payload-" + i++, null);
+            ebxml.addPayloadContainer(new DataHandler(new String(payload),"text/xml; charset=UTF-8"), "Payload-" + i++, null);
         }
     }
     

@@ -494,6 +494,19 @@ function showResendAsNewMessage(pmid) {
       </tr>
     </xsl:if>
   </xsl:if>
+  <xsl:if test="./message_type = 'Ping'">
+  	<xsl:if test="./status = 'PS'">
+  	  <tr>
+        <td width="40%">has Pong</td>
+        <td width="60%">
+          <a href="#1" title="Click here to show the ping">
+            <xsl:attribute name="onclick">showMDN('<xsl:value-of select="./message_id" />','<xsl:value-of select="./message_box" />','Error')</xsl:attribute>
+            <font color="blue">Pong</font>
+          </a>
+        </td>
+      </tr>
+    </xsl:if>
+  </xsl:if>
   <tr>
     <td width="40%">Timestamp</td>
     <td width="60%"><xsl:value-of select="./time_stamp" /></td>

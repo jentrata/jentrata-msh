@@ -65,9 +65,9 @@ public class EbmsMessageHandlerTest {
                 assertThat(first(ebxml.getFromPartyIds()),equalTo("test_a"));
                 assertThat(first(ebxml.getToPartyIds()),equalTo("test_b"));
                 
-                //Check the payload
+                //Check the payload.
                 assertThat(ebxml.getPayloadCount(),equalTo(1));
-                assertThat(ebxml.getPayloadContainer("Payload-0").getContentType(),equalTo("text/xml"));
+                assertThat(ebxml.getPayloadContainer("Payload-0").getContentType(),equalTo("text/xml; charset=UTF-8"));
                 return null;
             }
         }).when(msh).processOutboundMessage((EbmsRequest) any(), (EbmsResponse) isNull());

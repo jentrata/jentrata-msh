@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPMessage;
@@ -100,11 +101,10 @@ public class SOAPHttpConnector extends HttpConnector {
             MimeHeaders responseHeaders = headers.getMimeHeaders();
             MessageFactory msgFactory = MessageFactory.newInstance();
             byte[] responseBytes = IOHandler.readBytes(instream);
-            if (responseBytes.length > 0) {
+            if (responseBytes.length > 0 && connection.getResponseCode() != HttpServletResponse.SC_NO_CONTENT) {
                 instream = new ByteArrayInputStream(responseBytes);
                 return msgFactory.createMessage(responseHeaders, instream);
-            }
-            else {
+            } else {
                 return null;
             }
         }
