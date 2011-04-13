@@ -7,14 +7,11 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import hk.hku.cecid.ebms.pkg.EbxmlMessage;
-import hk.hku.cecid.ebms.pkg.MessageHeader;
-import hk.hku.cecid.ebms.pkg.MessageHeader.PartyId;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.jms.BytesMessage;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -22,6 +19,7 @@ import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -98,7 +96,7 @@ public class MessageListenerJMSClientTest {
 		SOAPMessage inMsg = mock(SOAPMessage.class);
 		AttachmentPart inPart = mock(AttachmentPart.class);
 		
-		doReturn(messageBody.getBytes()).when(inPart).getRawContentBytes();
+		doReturn(new ByteArrayInputStream(messageBody.getBytes())).when(inPart).getRawContent();
 		List<AttachmentPart> attachments = new ArrayList<AttachmentPart>();
 		attachments.add(inPart);
 		doReturn(attachments.iterator()).when(inMsg).getAttachments();
@@ -118,19 +116,15 @@ public class MessageListenerJMSClientTest {
 		consumer = session.createConsumer(queue);
 		Message message = consumer.receive(100);
 		assertNotNull(message);
-		assertTrue(message instanceof BytesMessage);
+		assertTrue(message instanceof TextMessage);
 
-		BytesMessage byteMessage = (BytesMessage) message;
-		int msgLength = messageBody.getBytes().length;
-		
-		byte[] m = new byte[msgLength];
-		byteMessage.readBytes(m);
-		assertEquals(messageBody.getBytes().length, byteMessage.getBodyLength());
-		assertEquals(messageBody, new String(m));
-		assertEquals("cpaid2", byteMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_CPA_ID));
-		assertEquals("http://10.1.1.234:8080/corvus/httpd/ebms/inbound", byteMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_SERVICE));
-		assertEquals("B_Send_to_A", byteMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_ACTION));
-		assertEquals("convid", byteMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_CONV_ID));
-		assertEquals("serviceType", byteMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_SERVICE_TYPE));
+		TextMessage textMessage = (TextMessage) message;
+		assertEquals(messageBody.length(), textMessage.getText().length());
+		assertEquals(messageBody, textMessage.getText());
+		assertEquals("cpaid2", textMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_CPA_ID));
+		assertEquals("http://10.1.1.234:8080/corvus/httpd/ebms/inbound", textMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_SERVICE));
+		assertEquals("B_Send_to_A", textMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_ACTION));
+		assertEquals("convid", textMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_CONV_ID));
+		assertEquals("serviceType", textMessage.getStringProperty(MessageListenerJMSClient.MSG_PROPERTY_SERVICE_TYPE));
 	}
 }

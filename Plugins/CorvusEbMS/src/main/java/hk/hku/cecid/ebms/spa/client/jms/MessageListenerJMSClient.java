@@ -5,15 +5,22 @@ import hk.hku.cecid.ebms.pkg.MessageHeader.PartyId;
 import hk.hku.cecid.ebms.spa.EbmsProcessor;
 import hk.hku.cecid.ebms.spa.task.EbmsEventListener;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Iterator;
 
-import javax.jms.BytesMessage;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -31,7 +38,7 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 	private ConnectionFactory connectionFactory;
 
 	private Queue queue;
-	
+
 	protected static final String MSG_PROPERTY_CPA_ID = "cpa_id";
 	protected static final String MSG_PROPERTY_SERVICE = "service";
 	protected static final String MSG_PROPERTY_SERVICE_TYPE = "service_type";
@@ -55,7 +62,7 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 		try {
 			initialiseJMSConnection();
 			sendMessageToQueue(requestMessage);
-			closeJMSConnection();
+			closeSession();
 		} catch (JMSException e) {
 			EbmsProcessor.core.log.error(e);
 		}
@@ -77,19 +84,25 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	private void sendMessageToQueue(EbxmlMessage requestMessage)
 			throws JMSException {
-		BytesMessage bytesMessage = session.createBytesMessage();
-		
-		bytesMessage.setStringProperty(MSG_PROPERTY_CPA_ID, requestMessage.getCpaId());
-		bytesMessage.setStringProperty(MSG_PROPERTY_SERVICE, requestMessage.getService());
-		bytesMessage.setStringProperty(MSG_PROPERTY_ACTION, requestMessage.getAction());
-		bytesMessage.setStringProperty(MSG_PROPERTY_CONV_ID, requestMessage.getConversationId());
-		if(requestMessage.getFromPartyIds().hasNext()){
+		TextMessage textMessage = session.createTextMessage();
+
+		textMessage.setStringProperty(MSG_PROPERTY_CPA_ID,
+				requestMessage.getCpaId());
+		textMessage.setStringProperty(MSG_PROPERTY_SERVICE,
+				requestMessage.getService());
+		textMessage.setStringProperty(MSG_PROPERTY_ACTION,
+				requestMessage.getAction());
+		textMessage.setStringProperty(MSG_PROPERTY_CONV_ID,
+				requestMessage.getConversationId());
+		if (requestMessage.getFromPartyIds().hasNext()) {
 			PartyId partyId = (PartyId) requestMessage.getFromPartyIds().next();
-			bytesMessage.setStringProperty(MSG_PROPERTY_PARTY_ID, partyId.getId());
-			bytesMessage.setStringProperty(MSG_PROPERTY_PARTY_TYPE, partyId.getType());
+			textMessage.setStringProperty(MSG_PROPERTY_PARTY_ID,
+					partyId.getId());
+			textMessage.setStringProperty(MSG_PROPERTY_PARTY_TYPE,
+					partyId.getType());
 		}
-		bytesMessage.setStringProperty(MSG_PROPERTY_SERVICE_TYPE, requestMessage.getServiceType());
-		
+		textMessage.setStringProperty(MSG_PROPERTY_SERVICE_TYPE,
+				requestMessage.getServiceType());
 
 		SOAPMessage msg = requestMessage.getSOAPMessage();
 		Iterator it = msg.getAttachments();
@@ -99,19 +112,42 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 			AttachmentPart attachment = (AttachmentPart) o;
 
 			try {
-				bytesMessage.writeBytes(attachment.getRawContentBytes());
+				textMessage.setText(convertStreamToString(attachment.getRawContent()));
 			} catch (SOAPException e) {
 				EbmsProcessor.core.log.error("SOAP exception", e);
 			}
+			catch (IOException e) {
+				EbmsProcessor.core.log.error("IO exception", e);
+			}
 
 		}
-		producer.send(bytesMessage);
+		producer.send(textMessage);
 	}
 
-	private void closeJMSConnection() throws JMSException {
+	private String convertStreamToString(InputStream is) throws IOException {
+		if (is != null) {
+			Writer writer = new StringWriter();
+
+			char[] buffer = new char[1024];
+			try {
+				Reader reader = new BufferedReader(new InputStreamReader(is,
+						"UTF-8"));
+				int n;
+				while ((n = reader.read(buffer)) != -1) {
+					writer.write(buffer, 0, n);
+				}
+			} finally {
+				is.close();
+			}
+			return writer.toString();
+		} else {
+			return "";
+		}
+	}
+
+	private void closeSession() throws JMSException {
 		producer.close();
 		session.close();
-		connection.close();
 	}
 
 	@Override
