@@ -13,6 +13,12 @@
 			value="hk/hku/cecid/ebms/spa/conf/ebms.properties.xml" />
 	</component>
 
+	<!-- Following is the component that can be used to validate the xml attachments 
+		with the request message -->
+	<!--component id="validator" name="Validator"> <class>hk.hku.cecid.ebms.spa.handler.ValidationComponent</class> 
+		<parameter name="schemaLocation" value="${jentrata.ebms.validator.schema.location}" 
+		/> </component -->
+
 	<!-- TODO: fix maven resource copy to handle UTF-16LE encoded files -->
 	<!-- <component id="messages" name="System Messages"> <class>hk.hku.cecid.piazza.commons.util.MessagesTree</class> 
 		<parameter name="config" value="hk/hku/cecid/ebms/spa/conf/messenger.properties.xml" 

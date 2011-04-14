@@ -488,15 +488,13 @@ public class InboundMessageProcessor {
 
 	private boolean validateAttachments(EbxmlMessage requestMessage) {
 		SOAPMessage msg = requestMessage.getSOAPMessage();
-		Iterator it = msg.getAttachments();
+		Iterator<AttachmentPart> it = msg.getAttachments();
 
 		while (it.hasNext()) {
-			Object o = it.next();
-			AttachmentPart attachment = (AttachmentPart) o;
 			try {
-				validateAttachment(attachment);
+				validateAttachment(it.next());
 			} catch (InvalidAttachmentException e) {
-				EbmsProcessor.core.log.warn(e); //should this be governed by the service provider?
+				EbmsProcessor.core.log.warn(e);
 				return false;
 			} catch (SOAPException e) {
 				EbmsProcessor.core.log.error(e);
@@ -507,7 +505,9 @@ public class InboundMessageProcessor {
 
 	private void validateAttachment(AttachmentPart attachment)
 			throws InvalidAttachmentException, SOAPException {
-		EbmsProcessor.getValidator().validate(attachment);
+		if (EbmsProcessor.getValidator() != null) {
+			EbmsProcessor.getValidator().validate(attachment);
+		}
 	}
 
 	/**
@@ -543,7 +543,7 @@ public class InboundMessageProcessor {
 		}
 		return false;
 	}
-	
+
 	private EbxmlMessage processInvalidAttachmentMessage(
 			EbxmlMessage ebxmlRequestMessage, boolean isSync)
 			throws MessageServiceHandlerException {
@@ -570,282 +570,280 @@ public class InboundMessageProcessor {
 		}
 		return ebxmlResponseMessage;
 	}
-	
-    /**
-     * @param ebxmlRequestMessage
-     * @return
-     * @throws MessageServiceHandlerException
-     */
-    private EbxmlMessage processExpiredMessage(
-            EbxmlMessage ebxmlRequestMessage, boolean isSync)
-            throws MessageServiceHandlerException {
-        EbxmlMessage ebxmlResponseMessage = null;
-        try {
-            EbxmlMessage errorMessage = SignalMessageGenerator
-                    .generateErrorMessage(ebxmlRequestMessage,
-                            ErrorList.CODE_TIME_TO_LIVE_EXPIRED,
-                            ErrorList.SEVERITY_ERROR,
-                            "TimeToLive value expired", null);
-            if (isSync) {
-                ebxmlResponseMessage = errorMessage;
-                storeOutgoingMessage(ebxmlResponseMessage);
-            } else {
-                sendAsyncMessage(errorMessage);
-            }
-        } catch (SOAPException e) {
-            EbmsProcessor.core.log
-                    .error("Cannot generate error msg in processing expired message: "
-                            + ebxmlRequestMessage.getMessageId());
-            throw new MessageServiceHandlerException(
-                    "Cannot generate error msg in processing expired message: "
-                            + ebxmlRequestMessage.getMessageId(), e);
-        }
-        return ebxmlResponseMessage;
-    }
 
-    /**
-     * @param ebxmlRequestMessage
-     * @return
-     * @throws MessageServiceHandlerException
-     */
-    private EbxmlMessage processStatusResponseMessage(
-            EbxmlMessage ebxmlRequestMessage, boolean isSync,
-            String messageType, String contentType)
-            throws MessageServiceHandlerException {
+	/**
+	 * @param ebxmlRequestMessage
+	 * @return
+	 * @throws MessageServiceHandlerException
+	 */
+	private EbxmlMessage processExpiredMessage(
+			EbxmlMessage ebxmlRequestMessage, boolean isSync)
+			throws MessageServiceHandlerException {
+		EbxmlMessage ebxmlResponseMessage = null;
+		try {
+			EbxmlMessage errorMessage = SignalMessageGenerator
+					.generateErrorMessage(ebxmlRequestMessage,
+							ErrorList.CODE_TIME_TO_LIVE_EXPIRED,
+							ErrorList.SEVERITY_ERROR,
+							"TimeToLive value expired", null);
+			if (isSync) {
+				ebxmlResponseMessage = errorMessage;
+				storeOutgoingMessage(ebxmlResponseMessage);
+			} else {
+				sendAsyncMessage(errorMessage);
+			}
+		} catch (SOAPException e) {
+			EbmsProcessor.core.log
+					.error("Cannot generate error msg in processing expired message: "
+							+ ebxmlRequestMessage.getMessageId());
+			throw new MessageServiceHandlerException(
+					"Cannot generate error msg in processing expired message: "
+							+ ebxmlRequestMessage.getMessageId(), e);
+		}
+		return ebxmlResponseMessage;
+	}
 
-    	EbxmlMessage ebxmlResponseMessage = null;
-        boolean hasRefMessageId = checkRefToMessage(ebxmlRequestMessage);
-        if (hasRefMessageId) {
-            // store the response msg in repository
-            storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
+	/**
+	 * @param ebxmlRequestMessage
+	 * @return
+	 * @throws MessageServiceHandlerException
+	 */
+	private EbxmlMessage processStatusResponseMessage(
+			EbxmlMessage ebxmlRequestMessage, boolean isSync,
+			String messageType, String contentType)
+			throws MessageServiceHandlerException {
 
-        } else {
-            EbmsProcessor.core.log.error("Cannot find the ref to message: "
-                    + ebxmlRequestMessage.getMessageId());
+		EbxmlMessage ebxmlResponseMessage = null;
+		boolean hasRefMessageId = checkRefToMessage(ebxmlRequestMessage);
+		if (hasRefMessageId) {
+			// store the response msg in repository
+			storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
 
-            // store process error message
-            storeIncomingMessage(ebxmlRequestMessage,
-                    MessageClassifier.MESSAGE_TYPE_PROCESSED_ERROR, contentType);
-            
-            // generate error msg
-            EbxmlMessage responseMessage;
-            try {
-                responseMessage = SignalMessageGenerator.generateErrorMessage(
-                        ebxmlRequestMessage,
-                        ErrorList.CODE_VALUE_NOT_RECOGNIZED,
-                        ErrorList.SEVERITY_ERROR, "Unknown Ref To Message Id",
-                        null);
-            } catch (SOAPException e) {
-                EbmsProcessor.core.log
-                        .error("Cannot generate error msg in processing unknown status response message: "
-                                + ebxmlRequestMessage.getMessageId());
-                throw new MessageServiceHandlerException(
-                        "Cannot generate error msg in processing unknown status response message: "
-                                + ebxmlRequestMessage.getMessageId(), e);
-            }
-            if (isSync) {
-                ebxmlResponseMessage = responseMessage;
-                storeOutgoingMessage(ebxmlResponseMessage);
-            } else {
-                sendAsyncMessage(responseMessage);
-            }
-        }
-        return ebxmlResponseMessage;
-    }
+		} else {
+			EbmsProcessor.core.log.error("Cannot find the ref to message: "
+					+ ebxmlRequestMessage.getMessageId());
 
-    /**
-     * @param ebxmlRequestMessage
-     * @return
-     * @throws MessageServiceHandlerException
-     */
-    private EbxmlMessage processStatusRequestMessage(
-            EbxmlMessage ebxmlRequestMessage, boolean isSync,
-            String messageType, String contentType)
-            throws MessageServiceHandlerException {
+			// store process error message
+			storeIncomingMessage(ebxmlRequestMessage,
+					MessageClassifier.MESSAGE_TYPE_PROCESSED_ERROR, contentType);
 
-    	// store the request message in repository
-        storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
+			// generate error msg
+			EbxmlMessage responseMessage;
+			try {
+				responseMessage = SignalMessageGenerator.generateErrorMessage(
+						ebxmlRequestMessage,
+						ErrorList.CODE_VALUE_NOT_RECOGNIZED,
+						ErrorList.SEVERITY_ERROR, "Unknown Ref To Message Id",
+						null);
+			} catch (SOAPException e) {
+				EbmsProcessor.core.log
+						.error("Cannot generate error msg in processing unknown status response message: "
+								+ ebxmlRequestMessage.getMessageId());
+				throw new MessageServiceHandlerException(
+						"Cannot generate error msg in processing unknown status response message: "
+								+ ebxmlRequestMessage.getMessageId(), e);
+			}
+			if (isSync) {
+				ebxmlResponseMessage = responseMessage;
+				storeOutgoingMessage(ebxmlResponseMessage);
+			} else {
+				sendAsyncMessage(responseMessage);
+			}
+		}
+		return ebxmlResponseMessage;
+	}
 
-    	EbxmlMessage ebxmlResponseMessage = null;
-        try {
-            MessageDAO messageDAO = (MessageDAO) EbmsProcessor.core.dao
-                    .createDAO(MessageDAO.class);
-            MessageDVO messageDVO = (MessageDVO) messageDAO.createDVO();
-            messageDVO.setMessageId(ebxmlRequestMessage.getMessageHeader()
-                    .getRefToMessageId());
-            messageDVO.setMessageBox(MessageClassifier.MESSAGE_BOX_INBOX);
-            EbxmlMessage responseMessage = null;
-            Date timestamp = new Date();
-            String status = new String();
-            // map the message status obey specification
-            if (messageDAO.findMessage(messageDVO)) {
-                if (messageDVO.getStatus().equals(
-                        MessageClassifier.INTERNAL_STATUS_PENDING)
-                        || messageDVO.getStatus().equals(
-                                MessageClassifier.INTERNAL_STATUS_PROCESSED)) {
-                    status = MessageClassifier.STATUS_RECEIVED;
-                } else if (messageDVO.getStatus().equals(
-                        MessageClassifier.INTERNAL_STATUS_DELIVERED)
-                        || messageDVO
-                                .getStatus()
-                                .equals(
-                                        MessageClassifier.INTERNAL_STATUS_PROCESSED_ERROR)) {
-                    status = MessageClassifier.STATUS_PROCESSED;
-                }
-                timestamp = messageDVO.getTimeStamp();
-            } else {
-                status = MessageClassifier.STATUS_NOT_RECOGNIZED;
-            }
-            responseMessage = SignalMessageGenerator
-                    .generateStatusResponseMessage(ebxmlRequestMessage, status,
-                            timestamp);
-            if (isSync) {
-                ebxmlResponseMessage = responseMessage;
-                storeOutgoingMessage(ebxmlResponseMessage);
-            } else {
-                sendAsyncMessage(responseMessage);
-            }
+	/**
+	 * @param ebxmlRequestMessage
+	 * @return
+	 * @throws MessageServiceHandlerException
+	 */
+	private EbxmlMessage processStatusRequestMessage(
+			EbxmlMessage ebxmlRequestMessage, boolean isSync,
+			String messageType, String contentType)
+			throws MessageServiceHandlerException {
 
-        } catch (Exception e) {
-            EbmsProcessor.core.log
-                    .error("Cannot generate status response message: "
-                            + ebxmlRequestMessage.getMessageId());
-            throw new MessageServiceHandlerException(
-                    "Cannot generate status response message: "
-                            + ebxmlRequestMessage.getMessageId(), e);
-        }
-        return ebxmlResponseMessage;
-    }
+		// store the request message in repository
+		storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
 
-    /**
-     * @param ebxmlRequestMessage
-     * @return
-     * @throws MessageServiceHandlerException
-     */
-    private EbxmlMessage processPongMessage(
-    		EbxmlMessage ebxmlRequestMessage,
-            boolean isSync, String messageType, 
-            String contentType) 
-    	throws MessageServiceHandlerException {
+		EbxmlMessage ebxmlResponseMessage = null;
+		try {
+			MessageDAO messageDAO = (MessageDAO) EbmsProcessor.core.dao
+					.createDAO(MessageDAO.class);
+			MessageDVO messageDVO = (MessageDVO) messageDAO.createDVO();
+			messageDVO.setMessageId(ebxmlRequestMessage.getMessageHeader()
+					.getRefToMessageId());
+			messageDVO.setMessageBox(MessageClassifier.MESSAGE_BOX_INBOX);
+			EbxmlMessage responseMessage = null;
+			Date timestamp = new Date();
+			String status = new String();
+			// map the message status obey specification
+			if (messageDAO.findMessage(messageDVO)) {
+				if (messageDVO.getStatus().equals(
+						MessageClassifier.INTERNAL_STATUS_PENDING)
+						|| messageDVO.getStatus().equals(
+								MessageClassifier.INTERNAL_STATUS_PROCESSED)) {
+					status = MessageClassifier.STATUS_RECEIVED;
+				} else if (messageDVO.getStatus().equals(
+						MessageClassifier.INTERNAL_STATUS_DELIVERED)
+						|| messageDVO
+								.getStatus()
+								.equals(MessageClassifier.INTERNAL_STATUS_PROCESSED_ERROR)) {
+					status = MessageClassifier.STATUS_PROCESSED;
+				}
+				timestamp = messageDVO.getTimeStamp();
+			} else {
+				status = MessageClassifier.STATUS_NOT_RECOGNIZED;
+			}
+			responseMessage = SignalMessageGenerator
+					.generateStatusResponseMessage(ebxmlRequestMessage, status,
+							timestamp);
+			if (isSync) {
+				ebxmlResponseMessage = responseMessage;
+				storeOutgoingMessage(ebxmlResponseMessage);
+			} else {
+				sendAsyncMessage(responseMessage);
+			}
 
-    	EbxmlMessage ebxmlResponseMessage = null;
-        boolean hasRefMessageId = checkRefToMessage(ebxmlRequestMessage);
-        if (hasRefMessageId) {
-            // store the pong msg in repository
-            storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
-            updatePingRefMessage(ebxmlRequestMessage);
-        	
-        } else {
-            EbmsProcessor.core.log.error("Cannot find the ref to message: : "
-                    + ebxmlRequestMessage.getMessageId());
+		} catch (Exception e) {
+			EbmsProcessor.core.log
+					.error("Cannot generate status response message: "
+							+ ebxmlRequestMessage.getMessageId());
+			throw new MessageServiceHandlerException(
+					"Cannot generate status response message: "
+							+ ebxmlRequestMessage.getMessageId(), e);
+		}
+		return ebxmlResponseMessage;
+	}
 
-            // store process error message
-            storeIncomingMessage(ebxmlRequestMessage,
-                    MessageClassifier.MESSAGE_TYPE_PROCESSED_ERROR, contentType);
-            
-            // generate error msg
-            EbxmlMessage responseMessage;
-            try {
-                responseMessage = SignalMessageGenerator.generateErrorMessage(
-                        ebxmlRequestMessage,
-                        ErrorList.CODE_VALUE_NOT_RECOGNIZED,
-                        ErrorList.SEVERITY_ERROR, "Unknown Ref To Message Id",
-                        null);
-            } catch (SOAPException e) {
-                EbmsProcessor.core.log
-                        .error("Cannot generate error msg in processing invalid pong message: "
-                                + ebxmlRequestMessage.getMessageId());
-                throw new MessageServiceHandlerException(
-                        "Cannot generate error msg in processing invalid pong message: "
-                                + ebxmlRequestMessage.getMessageId(), e);
-            }
-            if (isSync) {
-                ebxmlResponseMessage = responseMessage;
-                storeOutgoingMessage(ebxmlResponseMessage);
-            } else {
-                sendAsyncMessage(responseMessage);
-            }
-        }
-        return ebxmlResponseMessage;
-    }
+	/**
+	 * @param ebxmlRequestMessage
+	 * @return
+	 * @throws MessageServiceHandlerException
+	 */
+	private EbxmlMessage processPongMessage(EbxmlMessage ebxmlRequestMessage,
+			boolean isSync, String messageType, String contentType)
+			throws MessageServiceHandlerException {
 
-    private void updatePingRefMessage(EbxmlMessage ebxmlRequestMessage) throws MessageServiceHandlerException {
-        // Try to query the Ping message corresponding to this Pong message.
-        try {
-            MessageHeader header = ebxmlRequestMessage.getMessageHeader();
-            if (header != null && header.getRefToMessageId() != null) {
-                
-                String refMsgId = header.getRefToMessageId();
-                
-                MessageDAO msgDAO = (MessageDAO) EbmsProcessor.core.dao.createDAO(MessageDAO.class);
-                MessageDVO refToMsgDVO = (MessageDVO) msgDAO.createDVO();
-                refToMsgDVO.setMessageId(refMsgId);
-                refToMsgDVO.setMessageBox(MessageClassifier.MESSAGE_BOX_OUTBOX);
-                boolean hasRefMessageId = msgDAO.findMessage(refToMsgDVO);
-                if(hasRefMessageId) {
-                    if (!refToMsgDVO.getStatus().equalsIgnoreCase(
-                        MessageClassifier.INTERNAL_STATUS_DELIVERY_FAILURE)){
-                       // If it is failed already..don't mark it as deliveried 
-                       // it is because it is timeout failure
-                       EbmsProcessor.core.log.info(
-                             "Reliable message (" 
-                           + refToMsgDVO.getMessageId()
-                           + ") - pong received with message id: " + ebxmlRequestMessage.getMessageId());                
-                       
-                       refToMsgDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PROCESSED);
-                       refToMsgDVO.setStatusDescription("Pong received");
-                       refToMsgDVO.setTimeoutTimestamp(null);
-                       msgDAO.updateMessage(refToMsgDVO);
-                   } else {
-                       EbmsProcessor.core.log.info(
-                             "Reliable message (" 
-                           + refToMsgDVO.getMessageId()
-                           + ") - has been timed-out already");                        
-                   }                    
-                }
-            }
-        } catch(DAOException ex) {
-            EbmsProcessor.core.log
-            .error("Cannot update ping msg in processing invalid pong message: "
-                    + ebxmlRequestMessage.getMessageId() + " " + ex);
-            throw new MessageServiceHandlerException("Cannot update ping msg in processing invalid pong message: "
-                    + ebxmlRequestMessage.getMessageId(), ex);              
-        }
-    }
+		EbxmlMessage ebxmlResponseMessage = null;
+		boolean hasRefMessageId = checkRefToMessage(ebxmlRequestMessage);
+		if (hasRefMessageId) {
+			// store the pong msg in repository
+			storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
+			updatePingRefMessage(ebxmlRequestMessage);
 
-    /**
-     * @param ebxmlRequestMessage
-     * @return
-     * @throws MessageServiceHandlerException
-     */
-    private EbxmlMessage processPingMessage(
-    		EbxmlMessage ebxmlRequestMessage,
-            boolean isSync, String messageType, 
-            String contentType) 
-    	throws MessageServiceHandlerException {
+		} else {
+			EbmsProcessor.core.log.error("Cannot find the ref to message: : "
+					+ ebxmlRequestMessage.getMessageId());
 
-    	// store the ping msg in repository
-        storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
-    	
-        EbxmlMessage ebxmlResponseMessage = null;
-        try {
-            EbxmlMessage responseMessage = SignalMessageGenerator
-                    .generatePongMessage(ebxmlRequestMessage);
-            if (isSync) {
-                ebxmlResponseMessage = responseMessage;
-                storeOutgoingMessage(ebxmlResponseMessage);
-            } else {
-                sendAsyncMessage(responseMessage);
-            }
-        } catch (SOAPException e) {
-            EbmsProcessor.core.log.error("Cannot generate pong message: "
-                    + ebxmlRequestMessage.getMessageId());
-            throw new MessageServiceHandlerException(
-                    "Cannot generate pong message: "
-                            + ebxmlRequestMessage.getMessageId(), e);
-        }
-        return ebxmlResponseMessage;
-    }
+			// store process error message
+			storeIncomingMessage(ebxmlRequestMessage,
+					MessageClassifier.MESSAGE_TYPE_PROCESSED_ERROR, contentType);
+
+			// generate error msg
+			EbxmlMessage responseMessage;
+			try {
+				responseMessage = SignalMessageGenerator.generateErrorMessage(
+						ebxmlRequestMessage,
+						ErrorList.CODE_VALUE_NOT_RECOGNIZED,
+						ErrorList.SEVERITY_ERROR, "Unknown Ref To Message Id",
+						null);
+			} catch (SOAPException e) {
+				EbmsProcessor.core.log
+						.error("Cannot generate error msg in processing invalid pong message: "
+								+ ebxmlRequestMessage.getMessageId());
+				throw new MessageServiceHandlerException(
+						"Cannot generate error msg in processing invalid pong message: "
+								+ ebxmlRequestMessage.getMessageId(), e);
+			}
+			if (isSync) {
+				ebxmlResponseMessage = responseMessage;
+				storeOutgoingMessage(ebxmlResponseMessage);
+			} else {
+				sendAsyncMessage(responseMessage);
+			}
+		}
+		return ebxmlResponseMessage;
+	}
+
+	private void updatePingRefMessage(EbxmlMessage ebxmlRequestMessage)
+			throws MessageServiceHandlerException {
+		// Try to query the Ping message corresponding to this Pong message.
+		try {
+			MessageHeader header = ebxmlRequestMessage.getMessageHeader();
+			if (header != null && header.getRefToMessageId() != null) {
+
+				String refMsgId = header.getRefToMessageId();
+
+				MessageDAO msgDAO = (MessageDAO) EbmsProcessor.core.dao
+						.createDAO(MessageDAO.class);
+				MessageDVO refToMsgDVO = (MessageDVO) msgDAO.createDVO();
+				refToMsgDVO.setMessageId(refMsgId);
+				refToMsgDVO.setMessageBox(MessageClassifier.MESSAGE_BOX_OUTBOX);
+				boolean hasRefMessageId = msgDAO.findMessage(refToMsgDVO);
+				if (hasRefMessageId) {
+					if (!refToMsgDVO.getStatus().equalsIgnoreCase(
+							MessageClassifier.INTERNAL_STATUS_DELIVERY_FAILURE)) {
+						// If it is failed already..don't mark it as deliveried
+						// it is because it is timeout failure
+						EbmsProcessor.core.log.info("Reliable message ("
+								+ refToMsgDVO.getMessageId()
+								+ ") - pong received with message id: "
+								+ ebxmlRequestMessage.getMessageId());
+
+						refToMsgDVO
+								.setStatus(MessageClassifier.INTERNAL_STATUS_PROCESSED);
+						refToMsgDVO.setStatusDescription("Pong received");
+						refToMsgDVO.setTimeoutTimestamp(null);
+						msgDAO.updateMessage(refToMsgDVO);
+					} else {
+						EbmsProcessor.core.log.info("Reliable message ("
+								+ refToMsgDVO.getMessageId()
+								+ ") - has been timed-out already");
+					}
+				}
+			}
+		} catch (DAOException ex) {
+			EbmsProcessor.core.log
+					.error("Cannot update ping msg in processing invalid pong message: "
+							+ ebxmlRequestMessage.getMessageId() + " " + ex);
+			throw new MessageServiceHandlerException(
+					"Cannot update ping msg in processing invalid pong message: "
+							+ ebxmlRequestMessage.getMessageId(), ex);
+		}
+	}
+
+	/**
+	 * @param ebxmlRequestMessage
+	 * @return
+	 * @throws MessageServiceHandlerException
+	 */
+	private EbxmlMessage processPingMessage(EbxmlMessage ebxmlRequestMessage,
+			boolean isSync, String messageType, String contentType)
+			throws MessageServiceHandlerException {
+
+		// store the ping msg in repository
+		storeIncomingMessage(ebxmlRequestMessage, messageType, contentType);
+
+		EbxmlMessage ebxmlResponseMessage = null;
+		try {
+			EbxmlMessage responseMessage = SignalMessageGenerator
+					.generatePongMessage(ebxmlRequestMessage);
+			if (isSync) {
+				ebxmlResponseMessage = responseMessage;
+				storeOutgoingMessage(ebxmlResponseMessage);
+			} else {
+				sendAsyncMessage(responseMessage);
+			}
+		} catch (SOAPException e) {
+			EbmsProcessor.core.log.error("Cannot generate pong message: "
+					+ ebxmlRequestMessage.getMessageId());
+			throw new MessageServiceHandlerException(
+					"Cannot generate pong message: "
+							+ ebxmlRequestMessage.getMessageId(), e);
+		}
+		return ebxmlResponseMessage;
+	}
 
 	/**
 	 * Process the incoming <code>EbXML Acknowledgment Message</code>.
