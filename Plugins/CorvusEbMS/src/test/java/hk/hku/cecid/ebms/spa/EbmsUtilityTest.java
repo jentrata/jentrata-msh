@@ -19,6 +19,7 @@ import org.junit.Ignore;
 import junit.framework.TestCase;
 
 import hk.hku.cecid.ebms.spa.EbmsUtility;
+import hk.hku.cecid.piazza.commons.util.UtilitiesException;
 
 /**
  * The <code>EbmsUtilityTest</code> is the testcase for <code>EbmsUtility</code>.
@@ -613,6 +614,21 @@ public class EbmsUtilityTest extends TestCase{
 		TestCase.assertFalse(
 			"TimeToLive calendar should not eariler than system calendar", 
 			ttlCal.getTime().before(sysCal.getTime()));
+	}
+	
+	public void testTimeToLive() throws UtilitiesException, InterruptedException {
+	    
+	    Calendar sysCal = Calendar.getInstance(TimeZone.getTimeZone("GMT+10:00"));
+        sysCal.set(2007, 06, 10, 12, 01, 14);
+        
+        System.out.println(EbmsUtility.calendar2UTC(sysCal));
+	    
+	    String ttl = EbmsUtility.applyTimeToLiveOffset(sysCal.getTime(),2);
+	    System.out.println(ttl);
+	    Calendar cal = EbmsUtility.UTC2Calendar(ttl);
+	    assertTrue(cal.after(sysCal));
+	    sysCal.add(Calendar.SECOND, 2);
+	    assertEquals(sysCal.getTimeInMillis(), cal.getTimeInMillis());
 	}
 	
 }

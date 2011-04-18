@@ -7,7 +7,8 @@ public interface Message {
     
     public static final String [] VALID_HEADER_KEYS = {"cpaId","service","serviceType",
                                             "action","conversationId","fromPartyId",
-                                            "fromPartyType","toPartyId","toPartyType"};
+                                            "fromPartyType","toPartyId","toPartyType",
+                                            "timeToLiveOffset"};
 
     Map<String,Object> getHeader();
     List<byte[]> getPayloads();

@@ -317,4 +317,30 @@ public class EbmsUtility
 		
 		return GMTdate;
 	}
+
+   /**
+     * Adds an offset to the current time specificed in seconds to current date/time 
+     *  
+     * @param int offset in seconds to apply. 
+     * @return A string object representing the <code>dateTime</code> with offset applied
+     * @throws UtilitiesException   When unable to convert the dateTime format.
+     */
+	public static String applyTimeToLiveOffset(int offset) throws UtilitiesException {
+	    return applyTimeToLiveOffset(new Date(), offset);
+	}
+	
+	
+	   /**
+     * Adds an offset to the current time specificed in seconds to current date/time 
+     *  
+     * @param int offset in seconds to apply. 
+     * @return A string object representing the <code>dateTime</code> with offset applied
+     * @throws UtilitiesException   When unable to convert the dateTime format.
+     */
+    public static String applyTimeToLiveOffset(Date date, int offset) throws UtilitiesException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.SECOND,offset);
+        return date2UTC(cal.getTime(), TimeZone.getDefault());
+    }
 }
