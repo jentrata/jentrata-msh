@@ -21,6 +21,7 @@
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
     	<module>CorvusJMS</module>
+    	<module>jentrata.validation</module>
     </modules>
     
     <profiles>
@@ -148,6 +149,12 @@
 			<dependency>
 				<groupId>hk.hku.cecid.piazza.plugins</groupId>
 				<artifactId>piazza-corvus-jms</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>jentrata-validation</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
