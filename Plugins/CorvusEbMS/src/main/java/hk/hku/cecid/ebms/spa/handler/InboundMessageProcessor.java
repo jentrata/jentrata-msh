@@ -554,24 +554,33 @@ public class InboundMessageProcessor {
 							ErrorList.CODE_MIME_PROBLEM,
 							ErrorList.SEVERITY_ERROR,
 							"Invalid message attachment", null);
+			
 			if (isSync) {
 				ebxmlResponseMessage = errorMessage;
 				storeOutgoingMessage(ebxmlResponseMessage);
 			} else {
 				sendAsyncMessage(errorMessage);
 			}
-		} catch (SOAPException e) {
+			
+            String messageId = ebxmlRequestMessage.getMessageId();
+            if(messageId != null) {
+                updateMessageStatus(messageId,
+                        MessageClassifier.MESSAGE_BOX_INBOX,
+                        MessageClassifier.INTERNAL_STATUS_PROCESSED_ERROR,
+                        "Invalid attachment");
+             }
+		} catch (Exception e) {
 			EbmsProcessor.core.log
-					.error("Cannot generate error msg in processing expired message: "
-							+ ebxmlRequestMessage.getMessageId());
+					.error("Cannot generate error msg in processing invalid attachment message: "
+							+ ebxmlRequestMessage.getMessageId() + " " + e.getMessage());
 			throw new MessageServiceHandlerException(
-					"Cannot generate error msg in processing expired message: "
+					"Cannot generate error msg in processing invalid attachment message: "
 							+ ebxmlRequestMessage.getMessageId(), e);
 		}
 		return ebxmlResponseMessage;
 	}
 
-	/**
+    /**
 	 * @param ebxmlRequestMessage
 	 * @return
 	 * @throws MessageServiceHandlerException
@@ -586,16 +595,25 @@ public class InboundMessageProcessor {
 							ErrorList.CODE_TIME_TO_LIVE_EXPIRED,
 							ErrorList.SEVERITY_ERROR,
 							"TimeToLive value expired", null);
-			if (isSync) {
-				ebxmlResponseMessage = errorMessage;
-				storeOutgoingMessage(ebxmlResponseMessage);
-			} else {
-				sendAsyncMessage(errorMessage);
-			}
-		} catch (SOAPException e) {
+			
+            if (isSync) {
+            	ebxmlResponseMessage = errorMessage;
+            	storeOutgoingMessage(ebxmlResponseMessage);
+            } else {
+            	sendAsyncMessage(errorMessage);
+            }
+			
+            String messageId = ebxmlRequestMessage.getMessageId();
+            if(messageId != null) {
+                updateMessageStatus(messageId,
+                        MessageClassifier.MESSAGE_BOX_INBOX,
+                        MessageClassifier.INTERNAL_STATUS_PROCESSED_ERROR,
+                        "TimeToLive value expired");
+             }
+		} catch (Exception e) {
 			EbmsProcessor.core.log
 					.error("Cannot generate error msg in processing expired message: "
-							+ ebxmlRequestMessage.getMessageId());
+							+ ebxmlRequestMessage.getMessageId() + " " + e.getMessage());
 			throw new MessageServiceHandlerException(
 					"Cannot generate error msg in processing expired message: "
 							+ ebxmlRequestMessage.getMessageId(), e);
@@ -811,6 +829,23 @@ public class InboundMessageProcessor {
 					"Cannot update ping msg in processing invalid pong message: "
 							+ ebxmlRequestMessage.getMessageId(), ex);
 		}
+	}
+	
+	private void updateMessageStatus(String messageId, String messageBox, String status, String description) throws DAOException {
+	    MessageDAO msgDAO = (MessageDAO) EbmsProcessor.core.dao.createDAO(MessageDAO.class);
+	    MessageDVO msgDVO = (MessageDVO) msgDAO.createDVO();
+	    msgDVO.setMessageId(messageId);
+	    msgDVO.setMessageBox(messageBox);
+	    boolean exists = msgDAO.findMessage(msgDVO);
+	    if(exists) {
+            if (!msgDVO.getStatus().equalsIgnoreCase(
+                    MessageClassifier.INTERNAL_STATUS_DELIVERY_FAILURE)) {
+                msgDVO.setStatus(status);
+                msgDVO.setStatusDescription(description);
+                msgDAO.updateMessage(msgDVO);
+
+            }
+	    }
 	}
 
 	/**
