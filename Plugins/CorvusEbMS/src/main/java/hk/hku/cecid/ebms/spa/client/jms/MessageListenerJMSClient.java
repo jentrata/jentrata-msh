@@ -65,12 +65,14 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 			closeSession();
 		} catch (JMSException e) {
 			EbmsProcessor.core.log.error(e);
+			connection = null;
 		}
 	}
 
 	private void reconnect() throws JMSException {
 		if (connection == null) {
 			connection = connectionFactory.createConnection();
+			connection.setExceptionListener(new JMSExceptionListener(connection));
 			connection.start();
 		}
 	}
