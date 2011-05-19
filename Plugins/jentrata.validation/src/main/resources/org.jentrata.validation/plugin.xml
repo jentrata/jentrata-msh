@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin 
+   id="org.jentrata.validation"
+   name="Jentrata Validation Plugin"
+   version="${project.version}"
+   provider-name="org.jentrata"
+   class="org.jentrata.validation.ValidationProcessor">
+
+	<parameters>
+		<parameter name="module-group-descriptor" value="org/jentrata/validation/conf/validation.module-group.xml"/>
+	</parameters>
+	
+	<requires>
+	</requires>
+	
+	<runtime>
+		<library name="${project.artifactId}.jar"/>
+		<library name="conf/"/>
+		<library name="lib/"/>
+	</runtime>
+	
+	<extension-point id="org.jentrata.validator" name="Payload Validator Extension Point Hanlder" class="org.jentrata.validation.extension.PayloadValidationExtensionPointHander" />
+	
+</plugin>

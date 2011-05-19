@@ -55,6 +55,7 @@ public class EbmsMessageHandler implements MessageHandler {
         String serviceType = asString(header, "serviceType");
         String service = asString(header, "service");
         String action = asString(header,"action");
+        Integer timeToLiveOffset = asInt(header, "timeToLiveOffset");
         String refToMessageId = asString(header,"refToMessageId");
         String [] toPartyIds = asStringArray(header,"toPartyId");
         String [] toPartyIdTypes = asStringArray(header, "toPartyType");
@@ -93,6 +94,10 @@ public class EbmsMessageHandler implements MessageHandler {
         
         ebxmlHeader.setTimestamp(EbmsUtility.getCurrentUTCDateTime());
         
+        if(timeToLiveOffset != null) {
+            ebxmlHeader.setTimeToLive(EbmsUtility.applyTimeToLiveOffset(timeToLiveOffset));
+        }
+        
         log().info("Outbound payload received - cpaId: " 
                 + cpaId 
                 + ", service: "     + service 
@@ -103,7 +108,8 @@ public class EbmsMessageHandler implements MessageHandler {
                 + ", fromPartyType: " + fromPartyIdTypes 
                 + ", toPartyId: "     + toPartyIds
                 + ", toPartyType: " + toPartyIdTypes
-                + ", refToMessageId: " + refToMessageId);
+                + ", refToMessageId: " + refToMessageId
+                + ", timeToLiveOffset: " + timeToLiveOffset);
 
         attachPayloads(ebxml,message.getPayloads());
         request.setSource(message);
@@ -150,6 +156,18 @@ public class EbmsMessageHandler implements MessageHandler {
         Object o = map.get(key);
         if(o != null) {
             return o.toString();
+        }
+        return null;
+    }
+    
+    private Integer asInt(Map<String, Object> map, String key) {
+        Object o = map.get(key);
+        if(o != null) {
+            try {
+                return Integer.parseInt(o.toString());
+            } catch (NumberFormatException ex) {
+                log().warn("unable to parse an integer " + key + " from map " + map);
+            }
         }
         return null;
     }

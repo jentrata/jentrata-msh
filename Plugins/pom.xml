@@ -150,12 +150,25 @@
 				<artifactId>piazza-corvus-jms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<artifactId>jentrata-validation</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
         </dependencies>
     </dependencyManagement>
     
     <build>
     	<resources>
+    		<resource>
+    			<directory>src/main/java</directory>
+    			<filtering>true</filtering>
+				<includes>
+					<include>**/*.wsdl</include>
+				</includes>
+    		</resource>    	
     		<resource>
     			<directory>src/main/resources</directory>
     			<targetPath>plugins</targetPath>

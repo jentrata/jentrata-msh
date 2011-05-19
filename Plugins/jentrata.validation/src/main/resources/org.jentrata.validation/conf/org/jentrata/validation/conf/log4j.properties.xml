@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration>
+        
+  <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+     <layout class="org.apache.log4j.PatternLayout">
+       <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-12.12t] &lt;%-5p&gt; &lt;%m&gt;%n"/>
+     </layout>
+  </appender>
+  
+  <appender name="jms" class="org.apache.log4j.RollingFileAppender">
+     <param name="File" value="${corvus.home}/logs/jms.log"/>
+     <param name="Encoding" value="UTF-8"/>
+     <param name="MaxFileSize" value="5MB"/>
+     <param name="MaxBackupIndex" value="1"/>
+     <layout class="org.apache.log4j.PatternLayout">
+       <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-12.12t] &lt;%-5p&gt; &lt;%m&gt;%n"/>
+     </layout>
+  </appender>
+
+  <category name="org.jentrata.spa.jms">
+    <priority value ="debug" />
+	<appender-ref ref="jms"/>
+  </category>
+
+</log4j:configuration>

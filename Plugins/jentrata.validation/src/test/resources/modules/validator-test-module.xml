@@ -1,0 +1,7 @@
+<module id="validatorTest" name="Validator Component Plugin" version="@version@">
+
+	<component id="payloadValidator" name="Inbound Payload Validator">
+		<class>org.jentrata.validation.ValidatorComponent</class>
+	</component>
+
+</module>

@@ -39,13 +39,13 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	private Queue queue;
 
-	protected static final String MSG_PROPERTY_CPA_ID = "cpa_id";
-	protected static final String MSG_PROPERTY_SERVICE = "service";
-	protected static final String MSG_PROPERTY_SERVICE_TYPE = "service_type";
-	protected static final String MSG_PROPERTY_ACTION = "action";
-	protected static final String MSG_PROPERTY_CONV_ID = "conv_id";
-	protected static final String MSG_PROPERTY_PARTY_ID = "party_id";
-	protected static final String MSG_PROPERTY_PARTY_TYPE = "party_type";
+	protected static final String MSG_PROPERTY_CPA_ID = "ebxml_cpa_id";
+	protected static final String MSG_PROPERTY_SERVICE = "ebxml_service";
+	protected static final String MSG_PROPERTY_SERVICE_TYPE = "ebxml_service_type";
+	protected static final String MSG_PROPERTY_ACTION = "ebxml_action";
+	protected static final String MSG_PROPERTY_CONV_ID = "ebxml_conv_id";
+	protected static final String MSG_PROPERTY_PARTY_ID = "ebxml_party_id";
+	protected static final String MSG_PROPERTY_PARTY_TYPE = "ebxml_party_type";
 
 	@Override
 	public void init() {

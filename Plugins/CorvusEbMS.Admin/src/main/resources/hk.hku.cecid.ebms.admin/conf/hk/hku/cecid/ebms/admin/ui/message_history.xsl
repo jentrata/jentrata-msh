@@ -474,8 +474,16 @@ function showResendAsNewMessage(pmid) {
                         <font color="blue">Positive Acknowledgement</font>
                     </a>
                 </xsl:if>
+                <xsl:if test="./status = 'PE'">
+                    <a href="#1" title="Click here to show the acknowledgement">   
+                        <xsl:attribute name="onclick">showMDN('<xsl:value-of select="./message_id" />','<xsl:value-of select="./message_box" />','Error')</xsl:attribute>
+                        <font color="red">Netgative Acknowledgement</font>
+                    </a>
+                </xsl:if>
                 <xsl:if test="./status != 'PS'">
-                    <xsl:if test="./status != 'DL'">false</xsl:if>
+                    <xsl:if test="./status != 'DL'">
+                    	<xsl:if test="./status != 'PE'">false</xsl:if>
+                    </xsl:if>
                 </xsl:if>
             </xsl:if>
         </td>

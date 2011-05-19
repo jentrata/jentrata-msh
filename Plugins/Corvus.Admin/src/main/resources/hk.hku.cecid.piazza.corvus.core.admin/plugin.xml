@@ -45,7 +45,7 @@
 
 	<extension point="hk.hku.cecid.piazza.corvus.admin.pagelet" name="Admin Page Logo">
 	  <parameter name="id" value="logo, logo_icon" />
-	  <parameter name="pagelet" value="logo.gif, logo_icon.gif" />
+	  <parameter name="pagelet" value="logo.png, logo_icon.png" />
 	</extension>
 
 	<extension point="hk.hku.cecid.piazza.corvus.admin.pagelet" name="Admin Tab Graphics">

@@ -1,0 +1,18 @@
+<module id="validation" name="Validation Plugin" version="@version@">
+
+	<component id="logger" name="System Logger">
+		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
+		<parameter name="config" value="org/jentrata/validation/conf/log4j.properties.xml" />		
+		<parameter name="category" value="org.jentrata.validation" />
+	</component>
+
+	<component id="properties" name="System Properties">
+		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
+		<parameter name="config" value="org/jentrata/validation/conf/validation.properties.xml" />
+	</component>
+	
+	<component id="payloadValidator" name="Inbound Payload Validator">
+		<class>org.jentrata.validation.ValidatorComponent</class>
+	</component>
+
+</module>

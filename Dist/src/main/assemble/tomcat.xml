@@ -182,6 +182,21 @@
 			</binaries>
 		</moduleSet>
 		
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>hk.hku.cecid.piazza.plugins:jentrata-validation</include>
+			</includes>
+			<binaries>
+				<outputDirectory>plugins/org.jentrata.validation</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>false</includeDependencies>
+				<outputFileNameMapping>${module.artifactId}.jar</outputFileNameMapping>
+				<directoryMode>755</directoryMode>
+				<fileMode>755</fileMode>
+			</binaries>
+		</moduleSet>
+		
 		<!-- hk.hku.cecid.ebms plugin -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -318,6 +333,7 @@
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-main-admin</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-admin</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-jms</include>
+				<include>hk.hku.cecid.piazza.plugins:jentrata-validation</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-ebms-admin</include>
 				<include>hk.hku.cecid.piazza.plugins:piazza-corvus-as2</include>
