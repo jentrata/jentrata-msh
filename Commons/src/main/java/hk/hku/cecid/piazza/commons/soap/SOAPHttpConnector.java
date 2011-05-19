@@ -24,7 +24,11 @@ import java.net.MalformedURLException;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -36,6 +40,7 @@ import javax.xml.soap.SOAPMessage;
  */
 public class SOAPHttpConnector extends HttpConnector {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SOAPHttpConnector.class);
     /**
      * Creates a new instance of SOAPHttpConnector.
      * 
@@ -101,12 +106,21 @@ public class SOAPHttpConnector extends HttpConnector {
             MimeHeaders responseHeaders = headers.getMimeHeaders();
             MessageFactory msgFactory = MessageFactory.newInstance();
             byte[] responseBytes = IOHandler.readBytes(instream);
-            if (responseBytes.length > 0 && connection.getResponseCode() != HttpServletResponse.SC_NO_CONTENT) {
+            int responseCode = connection.getResponseCode();
+            if (responseBytes.length > 0 && responseCode != HttpServletResponse.SC_NO_CONTENT) {
                 instream = new ByteArrayInputStream(responseBytes);
-                return msgFactory.createMessage(responseHeaders, instream);
-            } else {
-                return null;
+                try {
+                    //This assumes that any response returned should be a SOAP response
+                    //What if it isn't?
+                    return msgFactory.createMessage(responseHeaders, instream);
+                }
+                catch(SOAPException ex) {
+                    //TODO: Should probably throw a custom exception to communicate failure to parse response
+                    LOG.error("HTTP Response code: {} - Unable to parse response: {}",responseCode,ex.getMessage());
+                    LOG.debug("",ex);
+                }
             }
+            return null;
         }
         catch (Exception e) {
             throw new ConnectionException("Unable to send HTTP SOAP request", e);
