@@ -72,6 +72,8 @@
 		<parameter name="fromPartyId" value="test_a"/>
 		<parameter name="fromPartyType" value="ParticipantID"/>
 		<parameter name="toPartyId" value="test_b"/>
+		<parameter name="payload-contentId" value="Payload-0"/>
+		<parameter name="payload-contentType" value="text/xml; charset=UTF-8"/>
 	</extension>
 	-->
 	
