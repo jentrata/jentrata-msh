@@ -61,7 +61,9 @@ public class EbmsMessageHandler implements MessageHandler {
         String [] toPartyIdTypes = asStringArray(header, "toPartyType");
         String [] fromPartyIds = asStringArray(header,"fromPartyId");
         String [] fromPartyIdTypes = asStringArray(header, "fromPartyType");
-
+        String [] payloadContentIds = asStringArray(header,"payload-contentId");
+        String [] payloadContentTypes = asStringArray(header,"payload-contentType");
+        
         //check if there is a valid registered channel for this message
         if(!checkValidChannel(cpaId, service, action)) {
             throw new RuntimeException("No registered sender channel");
@@ -111,7 +113,13 @@ public class EbmsMessageHandler implements MessageHandler {
                 + ", refToMessageId: " + refToMessageId
                 + ", timeToLiveOffset: " + timeToLiveOffset);
 
-        attachPayloads(ebxml,message.getPayloads());
+        //If no payloadIds then assume the default Payload-0
+        //If no contentIds then assume text/xml
+        if(payloadContentIds == null || payloadContentTypes == null) {
+            attachPayloads(ebxml,message.getPayloads());
+        } else {
+            attachPayloads(ebxml,payloadContentIds,payloadContentTypes,message.getPayloads());
+        }
         request.setSource(message);
         request.setMessage(ebxml);
         return request;
@@ -124,11 +132,19 @@ public class EbmsMessageHandler implements MessageHandler {
     protected Logger log() {
         return EbmsProcessor.core.log;
     }
-    
+
     private void attachPayloads(EbxmlMessage ebxml, List<byte[]> payloads) throws Exception {
+        
+        String [] payloadIds = {"Payload-0"};
+        String [] contentIds = {"text/xml; charset=UTF-8"};
+        attachPayloads(ebxml,payloadIds,contentIds,payloads);
+    }
+    
+    private void attachPayloads(EbxmlMessage ebxml, String [] payloadIds, String [] contentIds, List<byte[]> payloads) throws Exception {
         int i=0;
         for(byte [] payload:payloads) {
-            ebxml.addPayloadContainer(new DataHandler(new String(payload),"text/xml; charset=UTF-8"), "Payload-" + i++, null);
+            ebxml.addPayloadContainer(new DataHandler(new String(payload),contentIds[i]), payloadIds[i], null);
+            i++;
         }
     }
     
