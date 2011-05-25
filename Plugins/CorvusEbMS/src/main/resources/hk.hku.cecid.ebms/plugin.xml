@@ -77,4 +77,13 @@
 	</extension>
 	-->
 	
+	<!-- TODO: Complete implementation of Ebms Inbound handler --> 
+	<!-- An example of adding an ebms inbound message handler
+	<extension point="org.jentrata.jms.inbound" name="Ebms JMS Inbound Message Handler">
+		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsInboundMessageHandler" />
+		<parameter name="queue" value="jms:queue:Ebms.Inbound" />
+		<parameter name="cpaId" value="cpaId"/>
+	</extension>
+	-->
+	
 </plugin>

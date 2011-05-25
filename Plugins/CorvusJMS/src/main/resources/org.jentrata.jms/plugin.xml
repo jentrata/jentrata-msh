@@ -19,6 +19,9 @@
 		<library name="lib/"/>
 	</runtime>
 	
-	<extension-point id="org.jentrata.jms.sender" name="JMS Extension Point Hanlder" class="org.jentrata.spa.jms.handler.JMSExtensionPointHandler" />
+	<extension-point id="org.jentrata.jms.sender" name="JMS Sender Extension Point Hanlder" class="org.jentrata.spa.jms.handler.JMSExtensionPointHandler" />
+
+	<!-- TODO: need to complete implementation of this handler -->
+	<extension-point id="org.jentrata.jms.inbound" name="JMS Receiver Extension Point Hanlder" class="org.jentrata.spa.jms.handler.JMSInboundExtensionPointHandler" />
 	
 </plugin>
