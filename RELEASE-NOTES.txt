@@ -1,4 +1,17 @@
-H2O Release Notes
+
+Jentrat MSH Release Notes
+========================================
+
+May 25, 2011
+- baselined code from hermes http://community.cecid.hku.hk/download/beta/hermes2_src_20100331.zip
+- mavenized build
+- add support for jms to ebMS plugin
+- basic inbound jms support for ebMS plugin
+- simple xml schema payload validation
+
+The release notes for Hermes are still relevant but we will probably drop these over time
+
+Hermes H2O Release Notes
 ========================================
 
 Jan 21, 2009
