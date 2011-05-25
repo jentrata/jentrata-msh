@@ -2,18 +2,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
-        <version>2.0.20100331-SNAPSHOT</version>
+		<groupId>org.jentrata.msh</groupId>
+		<artifactId>jentrata-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-	<groupId>hk.hku.cecid.piazza.core</groupId>
-    <artifactId>piazza-corvus-core-parent</artifactId>
+	<groupId>org.jentrata.msh.core</groupId>
+    <artifactId>jentrata-corvus-core-parent</artifactId>
     <packaging>pom</packaging>
 
     <name>Core: Parent</name>
-    <description>Piazza Core Framework</description>
+    <description>Jentrata Core Framework</description>
     
     <modules>
     	<module>Corvus</module>
@@ -24,14 +24,14 @@
         <dependencies>
         
 			<dependency>
-				<groupId>hk.hku.cecid.piazza</groupId>
-				<artifactId>piazza-commons</artifactId>
+				<groupId>org.jentrata.msh</groupId>
+				<artifactId>jentrata-commons</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.core</groupId>
-				<artifactId>piazza-corvus-core</artifactId>
+				<groupId>org.jentrata.msh.core</groupId>
+				<artifactId>jentrata-corvus-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
         

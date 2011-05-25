@@ -3,25 +3,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>hk.hku.cecid.piazza</groupId>
-	<artifactId>piazza-parent</artifactId>
-	<version>2.0.20100331-SNAPSHOT</version>
+	<groupId>org.jentrata.msh</groupId>
+	<artifactId>jentrata-parent</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Hermes Messaging Gateway: Parent</name>
-	<description>Hermes Messaging Gateway - H2O</description>
-	<url>http://www.cecid.hku.hk/hermes.php</url>
+	<name>Jentrata MSH: Parent</name>
+	<description>Jentrata B2B Message Service Handler</description>
+	<url>http://jentrata,org</url>
 
-	<inceptionYear>2002</inceptionYear>
+	<inceptionYear>2011</inceptionYear>
 
 	<scm>
-		<connection>scm:git@github.com:base2Services/Hermes-Gateway.git</connection>
-		<developerConnection>scm:git@github.com:base2Services/Hermes-Gateway.git</developerConnection>
-		<url>https://github.com/base2Services/Hermes-Gateway</url>
+		<connection>scm:git:git@github.com:jentrata/jentrata-msh.git</connection>
+		<developerConnection>scm:git:git@github.com:jentrata/jentrata-msh.git</developerConnection>
+		<url>https://github.com/jentrata/jentrata-msh</url>
 	</scm>
 
 	<properties>
-		<vendor>CECID, The University of Hong Kong</vendor>
+		<vendor>jentrata.org</vendor>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -135,6 +135,12 @@
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.3</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>jtidy</groupId>
+				<artifactId>jtidy</artifactId>
+				<version>4aug2000r7-dev</version>
 			</dependency>
 
 			<dependency>

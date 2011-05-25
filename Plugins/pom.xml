@@ -2,18 +2,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
-        <version>2.0.20100331-SNAPSHOT</version>
+		<groupId>org.jentrata.msh</groupId>
+		<artifactId>jentrata-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-	<groupId>hk.hku.cecid.piazza.plugins</groupId>
-    <artifactId>piazza-plugins-parent</artifactId>
+	<groupId>org.jentrata.msh.plugins</groupId>
+    <artifactId>jentrata-plugins-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piazza: Plugins</name>
-    <description>Piazza Plugins Parent</description>
+    <name>Jentrata: Plugins</name>
+    <description>Jentrata Plugins Parent</description>
 
 	<!-- Core Plugins -->    
     <modules>
@@ -84,75 +84,75 @@
         <dependencies>
 
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.ext</groupId>
-				<artifactId>piazza-commons-test</artifactId>
+				<groupId>org.jentrata.msh.ext</groupId>
+				<artifactId>jentrata-commons-test</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
         
 			<dependency>
-				<groupId>hk.hku.cecid.piazza</groupId>
-				<artifactId>piazza-commons</artifactId>
+				<groupId>org.jentrata.msh</groupId>
+				<artifactId>jentrata-commons</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.ext</groupId>
-				<artifactId>ebxml-pkg</artifactId>
+				<groupId>org.jentrata.msh.ext</groupId>
+				<artifactId>jentrata-ebxml-pkg</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.core</groupId>
-				<artifactId>piazza-corvus-core</artifactId>
+				<groupId>org.jentrata.msh.core</groupId>
+				<artifactId>jentrata-corvus-core</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>			
 
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-admin</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-admin</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-main</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-main</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-main-admin</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-main-admin</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-as2</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-as2</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-as2-plus</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-as2-plus</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-ebms</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-ebms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
-				<artifactId>piazza-corvus-jms</artifactId>
+				<groupId>org.jentrata.msh.plugins</groupId>
+				<artifactId>jentrata-corvus-jms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.plugins</groupId>
+				<groupId>org.jentrata.msh.plugins</groupId>
 				<artifactId>jentrata-validation</artifactId>
 				<version>${project.version}</version>
 			</dependency>

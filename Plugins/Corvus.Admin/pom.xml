@@ -2,32 +2,32 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza.plugins</groupId>
-        <artifactId>piazza-plugins-parent</artifactId>
-        <version>2.0.20100331-SNAPSHOT</version>
+        <groupId>org.jentrata.msh.plugins</groupId>
+        <artifactId>jentrata-plugins-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piazza-corvus-admin</artifactId>
+    <artifactId>jentrata-corvus-admin</artifactId>
 
     <name>Plugins: Corvus Admin</name>
-    <description>Piazza Plugin Corvus Admin</description>
+    <description>Jetrata Plugin Corvus Admin</description>
     
     <dependencies>
     
     	<dependency>
-    		<groupId>hk.hku.cecid.piazza</groupId>
-    		<artifactId>piazza-commons</artifactId>
+    		<groupId>org.jentrata.msh</groupId>
+    		<artifactId>jentrata-commons</artifactId>
     	</dependency>
 
 		<dependency>
-			<groupId>hk.hku.cecid.piazza.core</groupId>
-			<artifactId>piazza-corvus-core</artifactId>
+			<groupId>org.jentrata.msh.core</groupId>
+			<artifactId>jentrata-corvus-core</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>hk.hku.cecid.piazza.plugins</groupId>
-			<artifactId>piazza-corvus-main</artifactId>
+			<groupId>org.jentrata.msh.plugins</groupId>
+			<artifactId>jentrata-corvus-main</artifactId>
 		</dependency>
     
         <dependency>

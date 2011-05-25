@@ -2,18 +2,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
-        <version>2.0.20100331-SNAPSHOT</version>
+		<groupId>org.jentrata.msh</groupId>
+		<artifactId>jentrata-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-	<groupId>hk.hku.cecid.piazza.clients</groupId>
-    <artifactId>piazza-clients-parent</artifactId>
+	<groupId>org.jentrata.msh.clients</groupId>
+    <artifactId>jentrata-clients-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piazza: Clients</name>
-    <description>Piazza Clients Parent</description>
+    <name>Jentrata: Clients</name>
+    <description>Jentrata Clients Parent</description>
     
     <modules>
  		<module>Corvus.WSClient</module>
@@ -23,20 +23,20 @@
         <dependencies>
 
 			<dependency>
-				<groupId>hk.hku.cecid.piazza</groupId>
-				<artifactId>piazza-commons</artifactId>
+				<groupId>org.jentrata.msh</groupId>
+				<artifactId>jentrata-commons</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.ext</groupId>
-				<artifactId>piazza-commons-test</artifactId>
+				<groupId>org.jentrata.msh.ext</groupId>
+				<artifactId>jentrata-commons-test</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
-				<groupId>hk.hku.cecid.piazza.ext</groupId>
-				<artifactId>piazza-commons-ext</artifactId>
+				<groupId>org.jentrata.msh.ext</groupId>
+				<artifactId>jentrata-commons-ext</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
@@ -44,6 +44,12 @@
 				<groupId>jtidy</groupId>
 				<artifactId>jtidy</artifactId>
 				<version>4aug2000r7-dev</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>jaxen</groupId>
+				<artifactId>jaxen</artifactId>
+				<version>1.1.1</version>
 			</dependency>
 
         </dependencies>

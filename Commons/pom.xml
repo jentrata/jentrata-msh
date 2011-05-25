@@ -2,17 +2,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>hk.hku.cecid.piazza</groupId>
-        <artifactId>piazza-parent</artifactId>
-        <version>2.0.20100331-SNAPSHOT</version>
+		<groupId>org.jentrata.msh</groupId>
+		<artifactId>jentrata-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>piazza-commons</artifactId>
+    <artifactId>jentrata-commons</artifactId>
 
-    <name>Piazza: Commons</name>
-    <description>Piazza Common Library</description>
-    
+    <name>Jentrata: Commons</name>
+    <description>Jentrata Common Library</description>
     
     <dependencies>
     
