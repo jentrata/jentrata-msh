@@ -13,17 +13,21 @@ See [jentrata.org](http://jentrata.org) for complete details on the project
 ### GitHub Setup
 1. Fork Repo into your github account
 2. Run on your local machine:
+
 		git clone git@github.com:<github-username>/jentrata-msh.git
 		cd jentrata-msh.git
-		git remote add upstream git@github.com:base2Services/jentrata-msh.git
+		git remote add upstream git@github.com:jentrata/jentrata-msh.git
 
-You can now pull from the upstream repository
+You can now pull/rebase from the upstream repository
+
 	git pull upstream master
 	
 And push now push these changes to your forked repository
+
 	git push
 	
 Also you should run the following
+
     git config --global user.name "Your Name"
     git config --global user.email <your_email>
 
