@@ -40,19 +40,20 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 1. download and install tomcat 6.x or 7.x
 2. untar jentrata-msh-tomcat.tar.gz
-3. set JENTRATA_HOME environment variable to root jentrata-msh-tomcat dir for example
+3. set JENTRATA_HOME and TOMCAT_HOME environment variables, for example
 
 		export JENTRATA_HOME=/opt/jentrata-msh-tomcat
+		export TOMCAT_HOME=/opt/tomcat
+		
+3. create a symlink to the $JENTRATA_HOME/webapps/corvus in the $TOMCAT_HOME/webapps directory to
 
-3. create a symlink to the <JENTRATA_HOME>/webapps/corvus in the <TOMCAT_HOME>/webapps directory to
-
-		ln -s <JENTRTA_HOME>/webapps/corvus <TOMCAT_HOME>/webapps/corvus
+		ln -s $JENTRTA_HOME/webapps/corvus $TOMCAT_HOME/webapps/corvus
 
 4. set JAVA_OPTS environment variable as follows
 
 		export JAVA_OPTS="$JAVA_OPTS -Dcorvus.home=$JENTRATA_HOME"
 
-5. add the following roles and user to <TOMCAT_HOME>/conf/tomcat-users.xml
+5. add the following roles and user to $TOMCAT_HOME/conf/tomcat-users.xml
 
 		<role rolename="admin"/>
 		<role rolename="corvus"/>
@@ -70,7 +71,9 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 9. Run the db create tables scripts
 
-		./psql -f <JENTRTA_HOME>/sql/ebms.sql ebms
-		./psql -f <JENTRTA_HOME>/as2.sql as2
+		./psql -f $JENTRTA_HOME/sql/ebms.sql ebms
+		./psql -f $JENTRTA_HOME/as2.sql as2
 
-10. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/corvus/admin/home)
+10. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/corvus/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
+
+11. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRTA_HOME/logs for errors
