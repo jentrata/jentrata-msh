@@ -112,10 +112,6 @@ public class AbstractDVOTest extends TestCase {
 		TestCase.assertTrue(today.equals(dvo.getTimestamp("date2")));
 		TestCase.assertTrue(today.equals(dvo.getDate("date2")));
 
-		dvo.getData().put("date3", new oracle.sql.TIMESTAMP(date2));
-		TestCase.assertTrue(today.equals(dvo.getTimestamp("date3")));
-		TestCase.assertTrue(today.equals(dvo.getDate("date3")));
-		
 		java.sql.Date date4 = new java.sql.Date(today.getTime());
 		dvo.setDate("date4", date4);
 		TestCase.assertTrue(today.equals(dvo.getTimestamp("date4")));
