@@ -36,7 +36,7 @@ Requires maven 3.0+  and Java 6
 	
 This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well as an uncompressed version
 
-### How to get Jentrata Running on tomcat using postgresql on unix (incuding Mac) systems
+### How to get Jentrata Running on tomcat using PostgreSQL on unix (incuding Mac) systems
 
 ## Install and configure Tomcat
 
@@ -61,19 +61,19 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		<role rolename="corvus"/>
 		<user username="corvus" password="corvus" roles="tomcat,admin,corvus"/>
 
-## Install and configure database - here postgresSQL
+## Install and configure database - here PostgreSQL
 
 1. install postgresql 8.3+ - On Mac OSX you should read the following link
 
 		http://support.bitrock.com/article/postgresql-cannot-allocate-memory-on-mac-os-x
 		During the install, for the default user 'postgres', make the password 'postgres' (ignore quotes)
 
-2. copy the database creation scripts to your postgresSQL install
+2. copy the database creation scripts to your PostgreSQL install
 
-		copy JENTRATA_HOME/sql/ebms.sql to the postgresSQL bin directory
-		copy JENTRATA_HOME/sql/as2.sql to the postgresSQL bin directory
+		copy JENTRATA_HOME/sql/ebms.sql to the PostgreSQL bin directory
+		copy JENTRATA_HOME/sql/as2.sql to the PostgreSQL bin directory
 
-3. log in as the postgresSQL user 'postgres' created during the install
+3. log in as the PostgreSQL user 'postgres' created during the install
 
 4. set the password for the default user 'postgres' as a temporary environment variable
 
@@ -84,6 +84,7 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		./createuser -s -d -P corvus
 		
 6. create the ebms and as2 databases
+
 		./createdb -O corvus ebms
 		./createdb -O corvus as2
 		
@@ -98,4 +99,4 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 1. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/corvus/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
 
-2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRTA_HOME/logs for errors
+2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRATA_HOME/logs for errors
