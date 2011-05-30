@@ -76,21 +76,23 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 		export PGPASSWORD="postgres"
 
-5. create a postgres user corvus with default password corvus
+5. cd to the PostgreSQL bin directory
+
+6. create a postgres user corvus with default password corvus
 
 		./createuser -s -d -P corvus
 		
-6. create the ebms and as2 databases
+7. create the ebms and as2 databases
 
 		./createdb -O corvus ebms
 		./createdb -O corvus as2
 		
-7. Run the db create tables scripts
+8. Run the db create tables scripts
 
 		./psql -f ebms.sql ebms
 		./psql -f as2.sql as2
 
-8. Logout as user postgres
+9. Logout as user postgres
 
 ## Run Jentrata
 
