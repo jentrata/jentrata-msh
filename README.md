@@ -63,10 +63,9 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 ## Install and configure database - here PostgreSQL
 
-1. install postgresql 8.3+ - On Mac OSX you should read the following link
+1. install postgresql 8.3+ - During the install, for the default user 'postgres', make the password 'postgres' (ignore quotes). On Mac OSX you should read the following link
 
 		http://support.bitrock.com/article/postgresql-cannot-allocate-memory-on-mac-os-x
-		During the install, for the default user 'postgres', make the password 'postgres' (ignore quotes)
 
 2. copy the database creation scripts to your PostgreSQL install
 
