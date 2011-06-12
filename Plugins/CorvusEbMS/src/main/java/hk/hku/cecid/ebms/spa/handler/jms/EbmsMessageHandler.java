@@ -56,6 +56,7 @@ public class EbmsMessageHandler implements MessageHandler {
         String service = asString(header, "service");
         String action = asString(header,"action");
         Integer timeToLiveOffset = asInt(header, "timeToLiveOffset");
+        String ebxmlMessageId = asString(header,"ebxmlMessageId");
         String refToMessageId = asString(header,"refToMessageId");
         String [] toPartyIds = asStringArray(header,"toPartyId");
         String [] toPartyIdTypes = asStringArray(header, "toPartyType");
@@ -85,10 +86,12 @@ public class EbmsMessageHandler implements MessageHandler {
         if (serviceType != null && !serviceType.equals("")) {
             ebxmlHeader.setServiceType(serviceType);
         }
-        
-        String messageId = Generator.generateMessageID();
-        ebxmlHeader.setMessageId(messageId);
-        log().info("Genereating message id: " + messageId);
+
+        if(ebxmlMessageId == null) {
+            ebxmlMessageId = Generator.generateMessageID();
+        }
+        ebxmlHeader.setMessageId(ebxmlMessageId);
+        log().info("ebXML message id: " + ebxmlMessageId);
         
         if(refToMessageId != null) {
             ebxmlHeader.setRefToMessageId(refToMessageId);
@@ -100,8 +103,8 @@ public class EbmsMessageHandler implements MessageHandler {
             ebxmlHeader.setTimeToLive(EbmsUtility.applyTimeToLiveOffset(timeToLiveOffset));
         }
         
-        log().info("Outbound payload received - cpaId: " 
-                + cpaId 
+        log().info("Outbound payload received - cpaId: " + cpaId
+                + ", messageId: "     + ebxmlMessageId 
                 + ", service: "     + service 
                 + ", serviceType:"  + serviceType               
                 + ", action: "      + action 

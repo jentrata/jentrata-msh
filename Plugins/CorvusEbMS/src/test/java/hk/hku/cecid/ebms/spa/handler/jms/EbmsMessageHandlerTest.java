@@ -65,6 +65,7 @@ public class EbmsMessageHandlerTest {
                 assertThat(first(ebxml.getFromPartyIds()),equalTo("test_a"));
                 assertThat(first(ebxml.getToPartyIds()),equalTo("test_b"));
                 assertThat(ebxml.getTimeToLive(),notNullValue());
+                assertThat(ebxml.getMessageId(), equalTo("TEST-123456789"));
                 
                 //Check the payload.
                 assertThat(ebxml.getPayloadCount(),equalTo(1));
@@ -91,6 +92,7 @@ public class EbmsMessageHandlerTest {
         headers.put("toPartyId","test_b");
         headers.put("toPartyType","");
         headers.put("timeToLiveOffset","10800");
+        headers.put("ebxmlMessageId","TEST-123456789");
         
         
         List<byte[]> payloads = new ArrayList<byte[]>();
