@@ -60,7 +60,8 @@
 	  <parameter name="context" value="/ebms/permitdl" />
 	</extension>
 	
-	<!-- default EbXML Header parameters they can be overriden by setting them as JMS message properties 
+	<!-- default EbXML Header parameters they can be overriden by setting them as JMS message properties
+	You can override the default ebxml MessageId by setting a JMS message property ebxmlMessageId
 	<extension point="org.jentrata.jms.sender" name="Ebms JMS Outbound Message Handler">
 		<parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
 		<parameter name="queue" value="jms:queue:Ebms.Outbound" />
