@@ -36,18 +36,20 @@ Requires maven 3.0+  and Java 6
 	
 This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well as an uncompressed version
 
-### How to get Jentrata Running under tomcat using postgresql
+### How to get Jentrata Running on tomcat using PostgreSQL on unix (incuding Mac) systems
+
+## Install and configure Tomcat
 
 1. download and install tomcat 6.x or 7.x
 2. untar jentrata-msh-tomcat.tar.gz
 3. set JENTRATA_HOME and TOMCAT_HOME environment variables, for example
 
-		export JENTRATA_HOME=/opt/jentrata-msh-tomcat
-		export TOMCAT_HOME=/opt/tomcat
+		export JENTRATA_HOME=/dev/jentrata-msh-tomcat
+		export TOMCAT_HOME=/dev/tomcat
 		
 3. create a symlink to the $JENTRATA_HOME/webapps/corvus in the $TOMCAT_HOME/webapps directory to
 
-		ln -s $JENTRTA_HOME/webapps/corvus $TOMCAT_HOME/webapps/corvus
+		ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/corvus
 
 4. set JAVA_OPTS environment variable as follows
 
@@ -59,21 +61,41 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		<role rolename="corvus"/>
 		<user username="corvus" password="corvus" roles="tomcat,admin,corvus"/>
 
-6. install postgresql 8.3+
-7. create a postgres user corvus with default password corvus
+## Install and configure database - here PostgreSQL
+
+1. install postgresql 8.3+ - During the install, for the default user 'postgres', make the password 'postgres' (ignore quotes). For Mac OSX you should read the link - [memory configuration info for OSX](http://support.bitrock.com/article/postgresql-cannot-allocate-memory-on-mac-os-x)
+
+2. copy the database creation scripts to your PostgreSQL install
+
+		copy JENTRATA_HOME/sql/ebms.sql to the PostgreSQL bin directory
+		copy JENTRATA_HOME/sql/as2.sql to the PostgreSQL bin directory
+
+3. log in as the PostgreSQL user 'postgres' created during the install
+
+4. set the password for the default user 'postgres' as a temporary environment variable
+
+		export PGPASSWORD="postgres"
+
+5. cd to the PostgreSQL bin directory
+
+6. create a postgres user corvus with default password corvus
 
 		./createuser -s -d -P corvus
 		
-8. create the ebms and as2 databases
+7. create the ebms and as2 databases
 
 		./createdb -O corvus ebms
 		./createdb -O corvus as2
+		
+8. Run the db create tables scripts
 
-9. Run the db create tables scripts
+		./psql -f ebms.sql ebms
+		./psql -f as2.sql as2
 
-		./psql -f $JENTRTA_HOME/sql/ebms.sql ebms
-		./psql -f $JENTRTA_HOME/as2.sql as2
+9. Logout as user postgres
 
-10. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/corvus/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
+## Run Jentrata
 
-11. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRTA_HOME/logs for errors
+1. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/corvus/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
+
+2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRATA_HOME/logs for errors
