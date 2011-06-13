@@ -12,6 +12,7 @@ import javax.jms.ConnectionFactory;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
+import org.apache.camel.ConsumerTemplate;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
@@ -39,12 +40,21 @@ public class JMSComponent extends Component {
     }
     
     public void registerHandler(final String queue, MessageHandler handler, Properties config) throws Exception {
-        RouteBuilder builder = new MessageHandlerRouteBuilder(queue,handler,config);
+        
+        String errorUri = config.getProperty("errorUri");
+        if(errorUri == null) {
+            errorUri = getErrorUri();
+        }
+        RouteBuilder builder = new MessageHandlerRouteBuilder(queue,errorUri,handler,config);
         camel.addRoutes(builder);
     }
     
     public ProducerTemplate getProducer() {
         return camel.createProducerTemplate();
+    }
+    
+    public ConsumerTemplate getConsumer() {
+        return camel.createConsumerTemplate();
     }
     
     protected ConnectionFactory buildConnectionFactory() {
@@ -57,25 +67,40 @@ public class JMSComponent extends Component {
         return getParameters().getProperty("connectionFactoryUrl");
     }
     
+    protected String getErrorUri() {
+        return getParameters().getProperty("errorUri",getId() + ":queue:DLQ");
+    }
+    
     private static class MessageHandlerRouteBuilder extends RouteBuilder {
         
         private String queueUri;
+        private String errorUri;
         private MessageHandler handler;
         private Properties config;
 
-        public MessageHandlerRouteBuilder(String queueUri, MessageHandler handler, Properties config) {
+        public MessageHandlerRouteBuilder(String queueUri, String errorUri, MessageHandler handler, Properties config) {
             this.queueUri = queueUri;
             this.handler = handler;
             this.config = config;
+            this.errorUri = errorUri;
         }
         
         public void configure() {
             from(queueUri)
+            .doTry()
                 .process(new Processor() {
-                 public void process(Exchange exchange) throws Exception {
-                    handler.onMessage(new CamelMessage(exchange.getIn(),config));
-                }
-            });
+                     public void process(Exchange exchange) throws Exception {
+                         try {
+                             handler.onMessage(new CamelMessage(exchange.getIn(),config));
+                         } catch(Exception ex) {
+                             exchange.getIn().setHeader("dlqReason", ex.getMessage());
+                             throw ex;
+                         }
+                    }
+                })
+            .doCatch(RuntimeException.class)
+                .to(errorUri)
+            .end();
         }
     }
 }

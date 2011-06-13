@@ -76,6 +76,14 @@ public class MessageServerDataSourceDAO extends DataSourceDAO implements
     	
     	setPartnershipId(messageDVO);
 
+        MessageDAO messageDAO = (MessageDAO) getFactory().createDAO(
+                MessageDAO.class);
+        
+        boolean exists = messageDAO.findMessage(messageDVO);
+        if(exists) {
+            throw new DAOException("unable to store message in outbox, message with messageId " + messageDVO.getMessageId() + " already exists");
+        }
+
         DataSourceProcess process = new DataSourceProcess(this) {
             protected void doTransaction(DataSourceTransaction tx)
                     throws DAOException {
