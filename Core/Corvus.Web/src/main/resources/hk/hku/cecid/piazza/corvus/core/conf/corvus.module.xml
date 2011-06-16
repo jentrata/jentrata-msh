@@ -1,4 +1,4 @@
-<module id="piazza.corvus" name="Piazza Corvus" version="1.0">
+<module id="piazza.corvus" name="Jentrata MSH" version="@version@">
 
 	<component id="logger" name="System Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
@@ -11,10 +11,12 @@
 		<parameter name="config" value="hk/hku/cecid/piazza/corvus/core/conf/corvus.properties.xml" />
 	</component>
 
+	<!-- Need to copy the resource using encoding of the source file
 	<component id="messages" name="System Messages">
 		<class>hk.hku.cecid.piazza.commons.util.MessagesTree</class>
 		<parameter name="config" value="hk/hku/cecid/piazza/corvus/core/conf/corvus.messages.xml" />
 	</component>
+	-->
 
 	<!-- Set up a SSL Trust Manager for SSL connection
 	<component id="ssl-trust-manager" name="SSL Trust Manager">

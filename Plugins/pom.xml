@@ -177,6 +177,7 @@
 					<include>**/*.xml</include>
 					<include>**/*.MF</include>
 					<include>**/*.xsl</include>
+					<include>**/*.htm</include>
 				</includes>
     		</resource>
     		<resource>
@@ -187,6 +188,7 @@
 					<exclude>**/*.xml</exclude>
 					<exclude>**/*.MF</exclude>
 					<exclude>**/*.xsl</exclude>
+					<exclude>**/*.htm</exclude>
 				</excludes>
     		</resource>
     	</resources>

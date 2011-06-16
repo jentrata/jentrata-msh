@@ -4,18 +4,15 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-	<title>Piazza Corvus</title>
+	<title>Jentrata MSH</title>
 </head>
 <body>
-<h2>Welcome to Piazza Corvus</h2>
+<h2>Welcome to Jentrata MSH</h2>
 <hr>
-<p>
-&gt; Corvus has started up <%=Kernel.getInstance().hasErrors()? "with errors":"successfully"%>.
-<p>
-&gt; System name: <%=Sys.main.getName()%>
-<p>
-&gt; System version: <%=Sys.main.getVersion()%>
-
+<p>&gt; Jentrata has started up <%=Kernel.getInstance().hasErrors()? "with errors":"successfully"%>.</p>
+<p>&gt; System name: <%=Sys.main.getName()%></p>
+<p>&gt; System version: <%=Sys.main.getVersion()%></p>
+<p><a href="/corvus/admin/home">Jentrata MSH Admin</a></p>
 <!-- Java System Properties -->
 <!--
 <%System.getProperties().list(new java.io.PrintWriter(out));%>

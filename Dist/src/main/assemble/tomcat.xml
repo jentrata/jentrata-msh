@@ -22,6 +22,11 @@
 			<source>../RELEASE-NOTES.txt</source>
 			<fileMode>755</fileMode>
 		</file>
+		<file>
+			<outputDirectory>/</outputDirectory>
+			<source>../README.md</source>
+			<fileMode>755</fileMode>
+		</file>
 	</files>
 	
 	<!-- include various scripts -->

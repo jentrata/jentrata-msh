@@ -1,4 +1,4 @@
-<module id="admin.core" name="Corvus Main System Module" version="1.0">
+<module id="admin.core" name="Corvus Main System Module" version="@version@">
 
 	<component id="logger" name="Corvus Main Loggger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>

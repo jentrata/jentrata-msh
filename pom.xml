@@ -10,8 +10,12 @@
 
 	<name>Jentrata MSH: Parent</name>
 	<description>Jentrata B2B Message Service Handler</description>
-	<url>http://jentrata,org</url>
+	<url>http://jentrata.org</url>
 
+	<organization>
+		<name>Jentrata</name>
+		<url>http://jentrata.org</url>
+	</organization>
 	<inceptionYear>2011</inceptionYear>
 
 	<scm>

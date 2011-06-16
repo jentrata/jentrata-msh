@@ -1,1 +1,1 @@
-<jsp:forward page="/httpd/proxy"/>
+<jsp:forward page="/home/"/>
