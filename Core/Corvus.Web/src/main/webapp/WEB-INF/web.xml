@@ -115,8 +115,12 @@
   </security-constraint>
 
   <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>Corvus Restricted Area</realm-name>
+    <auth-method>FORM</auth-method>
+    <realm-name>Jentrata MSH Admin</realm-name>
+   <form-login-config>
+      <form-login-page>/WEB-INF/jsp/login.jsp</form-login-page>
+      <form-error-page>/WEB-INF/jsp/login.jsp?failed=true</form-error-page>
+   </form-login-config>    
   </login-config>
 
   <security-role> 
