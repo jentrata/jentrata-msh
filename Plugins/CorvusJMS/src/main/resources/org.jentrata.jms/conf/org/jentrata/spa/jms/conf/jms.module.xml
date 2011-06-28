@@ -19,8 +19,8 @@
 		<!-- see http://activemq.apache.org/uri-protocols.html for more details -->
 		<parameter name="connectionFactoryUrl" value="${jentrata.activemq.connectionFactoryUrl:vm://localhost?broker.persistent=false}" />
 		<!-- The endpoint where to route messages that fail to get processed -->
-		<!-- This needs to be a camel endpoint uri -->
-		<parameter name="errorUri" value="jms:queue:ActiveMQ.DLQ"/>
+		<!-- This needs to be a valid camel endpoint uri mostly likely a JMS Queue Endpoint -->
+		<parameter name="errorUri" value="${jentrata.activemq.errorQueue:jms:queue:ActiveMQ.DLQ}"/>
 	</component>
 
 </module>
