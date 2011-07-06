@@ -5,3 +5,5 @@ target/
 *.class
 target-eclipse/
 .DS_Store
+.idea/
+*.iml
