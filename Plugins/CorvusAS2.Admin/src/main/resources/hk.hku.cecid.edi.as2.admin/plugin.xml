@@ -5,7 +5,7 @@
    provider-name="hk.hku.cecid">
 
 	<runtime>
-		<library name="commons-fileupload-1.0.jar"/>
+		<library name="lib/"/>
 		<library name="corvus-as2-admin.jar"/>
 		<library name="conf/"/>
 		<library name="graphics/"/>

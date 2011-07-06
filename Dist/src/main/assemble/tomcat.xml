@@ -304,8 +304,10 @@
 				<includeDependencies>true</includeDependencies>
 				<dependencySets>
 					<dependencySet>
+                        <outputDirectory>plugins/hk.hku.cecid.edi.as2.admin/lib</outputDirectory>
 						<includes>
 							<include>commons-fileupload:commons-fileupload</include>
+                            <include>commons-io:commons-io</include>
 						</includes>
 					</dependencySet>
 				</dependencySets>
