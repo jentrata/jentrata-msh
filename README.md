@@ -61,7 +61,9 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		<role rolename="corvus"/>
 		<user username="corvus" password="corvus" roles="tomcat,admin,corvus"/>
 
-## Install and configure database - here PostgreSQL
+## Install and configure database
+
+### PostgreSQL
 
 1. install postgresql 8.3+ - During the install, for the default user 'postgres', make the password 'postgres' (ignore quotes). For Mac OSX you should read the link - [memory configuration info for OSX](http://support.bitrock.com/article/postgresql-cannot-allocate-memory-on-mac-os-x)
 
@@ -93,6 +95,41 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		./psql -f as2.sql as2
 
 9. Logout as user postgres
+
+### MySQL
+
+1. Install MySQL for your OS (http://mysql.com)
+
+2. Create your databases
+
+		mysql -e "CREATE DATABASE ebms;"
+		mysql -e "CREATE DAYABASE as2;"
+
+3. Create users/permissions to new databases
+
+		mysql -e "GRANT ALL TO 'ebms'@'localhost' IDENTIFIED BY 'ebms';"
+		mysql -e "GRANT ALL TO 'as2'@'localhost' IDENTIFIED BY 'as2';"
+
+4. Import DB Schema
+
+		mysql ebms < JENTRATA_HOME/sql/mysql_ebms.sql
+		mysql as2 < JENTRATA_HOME/sql/mysql_as2.sql
+
+5. Configure Jentrata to use MySQL
+
+	You will need to modify the some parameters of the doafactory component in the 'plugins' directory for each plugin of Jentrata that you wish to use with MySQL.
+    
+		JENTRATA_HOME/plugins/hk.hku.cecid.ebms/conf/hk/hku/cecid/ebms/spa/conf/ebms.module.xml
+		JENTRATA_HOME/plugins/hk.hku.cecid.edi.as2/conf/hk/hku/cecid/edi/as2/conf/as2.module.core.xml
+
+	Look for the following Component:
+        
+		<component id="daofactory" name="System DAO Factory">
+
+	Find the following parameters and change them as follows:
+
+		<parameter name="driver" value="com.mysql.jdbc.Driver"/>
+		<parameter name="url" value="jdbc:mysql://127.0.0.1:3306/ebms"/>
 
 ## Run Jentrata
 
