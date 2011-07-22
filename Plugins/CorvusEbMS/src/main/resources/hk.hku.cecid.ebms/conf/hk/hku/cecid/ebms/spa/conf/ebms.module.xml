@@ -43,7 +43,7 @@
 			value="${jentrata.ebms.db.pool.testWhileIdle:false}" />
 		<parameter name="validationQuery"
 			value="${jentrata.ebms.db.validationQuery:SELECT now()}" />
-		<parameter name="config">${jentrata.ebms.db.dao.config:hk/hku/cecid/ebms/spa/conf/ebms.dao.xml}
+		<parameter name="config" value="${jentrata.ebms.db.dao.config:hk/hku/cecid/ebms/spa/conf/ebms.dao.xml}"/>
 		</parameter>
 	</component>
 
