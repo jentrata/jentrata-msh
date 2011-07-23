@@ -44,7 +44,6 @@
 		<parameter name="validationQuery"
 			value="${jentrata.ebms.db.validationQuery:SELECT now()}" />
 		<parameter name="config" value="${jentrata.ebms.db.dao.config:hk/hku/cecid/ebms/spa/conf/ebms.dao.xml}"/>
-		</parameter>
 	</component>
 
 	<component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
