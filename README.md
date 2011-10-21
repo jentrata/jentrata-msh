@@ -4,7 +4,8 @@ Jentrata MSH is based on Hermes Messaging Gateway developed by CECID, The Univer
 
 See [jentrata.org](http://jentrata.org) for complete details on the project
 
-Build Status - ![Build Status](https://jentrata.ci.cloudbees.com/job/jentrata-msh-master/lastBuild/buildStatus)
+[Current Build Status](https://jentrata.ci.cloudbees.com/job/jentrata-msh-master/lastBuild)
+![Build Status](https://jentrata.ci.cloudbees.com/job/jentrata-msh-master/lastBuild/buildStatus)
 
 ## Building/Contributing
 
