@@ -32,7 +32,7 @@ Also you should run the following
     git config --global user.email <your_email>
 
 ### How to Build Jentrata from source
-Requires maven 3.0+  and Java 6
+Requires maven 3.0+  and Java 6+
 	
 	git clone git@github.com:<github-username>/jentrata-msh.git
 	cd jentrata-msh
