@@ -9,6 +9,7 @@
 
 package hk.hku.cecid.piazza.commons.net;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import hk.hku.cecid.piazza.commons.Sys;
 import hk.hku.cecid.piazza.commons.io.IOHandler;
 import hk.hku.cecid.piazza.commons.module.Component;
@@ -45,7 +46,9 @@ public class HttpConnector {
     private HostnameVerifier hostnameVerifier;
     
     private Map headers;
-    
+    private String username;
+    private String password;
+
     /**
      * Creates a new instance of HttpConnector.
      * 
@@ -95,7 +98,23 @@ public class HttpConnector {
     public HostnameVerifier getHostnameVerifier() {
         return hostnameVerifier == null? HttpsURLConnection.getDefaultHostnameVerifier() : hostnameVerifier;
     }
-    
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /**
      * Adds a key manager for SSL connection.
      * 
@@ -168,6 +187,11 @@ public class HttpConnector {
     public HttpURLConnection createConnection() throws ConnectionException {
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+           if(username != null && password != null) {
+                String encodedPassword = username + ":" + password;
+                String encoded = Base64.encode(encodedPassword.getBytes());
+                connection.setRequestProperty("Authorization", "Basic "+encoded);
+            }
             connection.setUseCaches(false);
     
             if (connection instanceof HttpsURLConnection) {

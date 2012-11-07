@@ -568,6 +568,13 @@ public class OutboxTask implements ActiveTask {
 
         try {
             SOAPHttpConnector connector = new SOAPHttpConnector(link);
+            String username = EbmsProcessor.core.properties.getProperty("/ebms/http_basic_auth/username");
+            String password = EbmsProcessor.core.properties.getProperty("/ebms/http_basic_auth/password");
+            if(username != null && password != null) {
+                connector.setUsername(username);
+                connector.setPassword(password);
+            }
+
             if (!outboxAgreement.isHostnameVerified()) {
                 connector.setHostnameVerifier(new TrustedHostnameVerifier());
             }
@@ -725,7 +732,7 @@ public class OutboxTask implements ActiveTask {
     
 
     /**
-     * @param description
+     * @param failureType
      */
     private void generateErrorMessage(String failureType) {
         // get the ebxml message and sign the message from repository
