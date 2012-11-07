@@ -244,8 +244,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -276,7 +276,7 @@
 						</requireMavenVersion>
 						<requireJavaVersion>
 							<!-- require JDK 1.5 to run the build -->
-							<version>[1.5,)</version>
+							<version>[1.6,)</version>
 						</requireJavaVersion>
 					</rules>
 				</configuration>
