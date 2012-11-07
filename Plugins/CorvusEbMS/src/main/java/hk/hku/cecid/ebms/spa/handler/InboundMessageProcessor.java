@@ -1767,8 +1767,14 @@ public class InboundMessageProcessor {
 				while (i.hasNext()) {
 					ErrorList.Error error = (ErrorList.Error) i.next();
 					Description description = error.getDescription();
-					sb.append(error.getErrorCode() + ": "
-							+ description.getDescription());
+                    String location = error.getLocation();
+                    sb.append(error.getErrorCode());
+                    if(description != null) {
+                        sb.append( ": "
+                                + description.getDescription());
+                    } else if(location != null) {
+                        sb.append(":" + location);
+                    }
 				}
 
 				messageDVO.setStatusDescription(sb.toString());
