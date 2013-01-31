@@ -63,6 +63,8 @@ public class MessageListenerJMSClientTest {
 		
 		doReturn("vm://mdh?broker.persistent=false").when(instance).getConnectionUrl();
 		doReturn("testQueue").when(instance).getQueueName();
+        doReturn(null).when(instance).getUsername();
+        doReturn(null).when(instance).getPassword();
 		instance.init();
 
 		cf = new ActiveMQConnectionFactory("vm://mdh?broker.persistent=false");

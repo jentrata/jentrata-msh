@@ -50,6 +50,9 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 	@Override
 	public void init() {
 		connectionFactory = new ActiveMQConnectionFactory(getConnectionUrl());
+        ((ActiveMQConnectionFactory)connectionFactory).setUserName(getUsername());
+        ((ActiveMQConnectionFactory)connectionFactory).setPassword(getPassword());
+
 	}
 
 	@Override
@@ -168,5 +171,13 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	protected String getConnectionUrl() {
 		return getParameters().getProperty("connectionUrl");
+	}
+
+	protected String getUsername() {
+		return getParameters().getProperty("username");	
+	}
+
+	protected String getPassword() {
+		return getParameters().getProperty("password");	
 	}
 }
