@@ -99,7 +99,8 @@ public class EbmsProcessor implements PluginHandler {
     public static ValidationComponent getValidator() {
         ValidationComponent v = (ValidationComponent) core.getComponent(COMPONENT_VALIDATOR);
         if (v==null) {
-            throw new ModuleException("Validator not found");
+            return null;
+            //throw new ModuleException("Validator not found");
         }
         else {
             return v;
