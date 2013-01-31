@@ -18,6 +18,8 @@
 		<!-- example tcp://somehost:61616 -->
 		<!-- see http://activemq.apache.org/uri-protocols.html for more details -->
 		<parameter name="connectionFactoryUrl" value="${jentrata.activemq.connectionFactoryUrl:vm://localhost?broker.persistent=false}" />
+		<parameter name="username" value="${jentrata.activemq.username:}" />
+		<parameter name="password" value="${jentrata.activemq.password:}" />
 		<!-- The endpoint where to route messages that fail to get processed -->
 		<!-- This needs to be a valid camel endpoint uri mostly likely a JMS Queue Endpoint -->
 		<parameter name="errorUri" value="${jentrata.activemq.errorQueue:jms:queue:ActiveMQ.DLQ}"/>
