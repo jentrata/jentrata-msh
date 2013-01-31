@@ -28,6 +28,8 @@ import org.jentrata.spa.jms.message.CamelMessage;
 public class JMSComponent extends Component {
 
     private ConnectionFactory connectionFactory;
+    private String username = null;
+    private String password = null;
     private CamelContext camel;
 
     @Override
@@ -59,7 +61,9 @@ public class JMSComponent extends Component {
     
     protected ConnectionFactory buildConnectionFactory() {
         String connectionFactoryUrl = getConnectionFactoryUrl();
-        ConnectionFactory cf = new ActiveMQConnectionFactory(connectionFactoryUrl);
+        ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(connectionFactoryUrl);
+        cf.setUserName(getUsername());
+        cf.setPassword(getPassword());
         return cf;
     }
     
@@ -69,6 +73,14 @@ public class JMSComponent extends Component {
     
     protected String getErrorUri() {
         return getParameters().getProperty("errorUri",getId() + ":queue:DLQ");
+    }
+
+    protected String getUsername() {
+        return getParameters().getProperty("username");
+    }
+
+    protected String getPassword() {
+        return getParameters().getProperty("password");
     }
     
     private static class MessageHandlerRouteBuilder extends RouteBuilder {
