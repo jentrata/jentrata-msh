@@ -16,6 +16,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
@@ -170,6 +172,10 @@ public class SimpleDSDAOFactory extends DataSourceDAOFactory {
             this.url = url;
             this.username = username;
             this.password = password;
+        }
+
+        public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+            return Logger.getLogger(getClass().getName());
         }
 
         /**
