@@ -63,7 +63,9 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
         String[] toPartyIds = StringUtilities.tokenize(toPartyId, ",");
         String toPartyType = getText(bodies, "toPartyType");
         String[] toPartyTypes = StringUtilities.tokenize(toPartyType, ",");
-        String refToMessageId = getText(bodies, "refToMessageId");            
+        String refToMessageId = getText(bodies, "refToMessageId");
+        String fromPartyRole = getText(bodies, "fromPartyRole");
+        String toPartyRole = getText(bodies, "toPartyRole");
 
         if (cpaId == null || service == null || action == null
                 || convId == null || fromPartyId == null
@@ -96,8 +98,10 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
                 + ", convId: " 		+ convId 
                 + ", fromPartyId: " + fromPartyId
                 + ", fromPartyType: " + fromPartyType 
-                + ", toPartyId: "	  + toPartyId 
+                + ", fromPartyRole: " + fromPartyRole
+                + ", toPartyId: "	  + toPartyId
                 + ", toPartyType: " + toPartyType
+                + ", toPartyRole: " + toPartyRole
                 + ", refToMessageId: " + refToMessageId);
 
         // Construct Ebxml message
@@ -125,9 +129,15 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
             for (int i = 0; i < fromPartyIds.length; i++) {
                 msgHeader.addFromPartyId(fromPartyIds[i], fromPartyTypes[i]);
             }
+            if(fromPartyRole != null && !fromPartyRole.isEmpty()) {
+                msgHeader.setFromRole(fromPartyRole);
+            }
 
             for (int i = 0; i < toPartyIds.length; i++) {
                 msgHeader.addToPartyId(toPartyIds[i], toPartyTypes[i]);
+            }
+            if(toPartyRole != null && !toPartyRole.isEmpty()) {
+                msgHeader.setToRole(toPartyRole);
             }
 
             if (refToMessageId != null && !refToMessageId.equals("")) {

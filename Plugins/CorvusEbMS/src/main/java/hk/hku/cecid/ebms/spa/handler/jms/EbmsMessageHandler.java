@@ -60,8 +60,10 @@ public class EbmsMessageHandler implements MessageHandler {
         String refToMessageId = asString(header,"refToMessageId");
         String [] toPartyIds = asStringArray(header,"toPartyId");
         String [] toPartyIdTypes = asStringArray(header, "toPartyType");
+        String  toPartyRole = asString(header, "toPartyRole");
         String [] fromPartyIds = asStringArray(header,"fromPartyId");
         String [] fromPartyIdTypes = asStringArray(header, "fromPartyType");
+        String  fromPartyRole = asString(header, "fromPartyRole");
         String [] payloadContentIds = asStringArray(header,"payload-contentId");
         String [] payloadContentTypes = asStringArray(header,"payload-contentType");
         
@@ -75,7 +77,14 @@ public class EbmsMessageHandler implements MessageHandler {
         MessageHeader ebxmlHeader = ebxml.addMessageHeader();
 
         addFromParty(ebxmlHeader,fromPartyIds,fromPartyIdTypes);
+        if(fromPartyRole != null && !fromPartyRole.isEmpty()) {
+            ebxmlHeader.setFromRole(fromPartyRole);
+        }
+
         addToParty(ebxmlHeader,toPartyIds,toPartyIdTypes);
+        if(toPartyRole != null && !toPartyRole.isEmpty()) {
+            ebxmlHeader.setToRole(toPartyRole);
+        }
         
         //These methods need to be call in this exact order
         ebxmlHeader.setCpaId(cpaId);
