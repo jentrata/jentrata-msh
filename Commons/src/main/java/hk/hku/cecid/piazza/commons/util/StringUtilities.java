@@ -775,6 +775,11 @@ public final class StringUtilities {
         String result = value;
         if(result.contains("${")) {
 
+            List<String> defaultVars = StringUtilities.extractRegexMulti(result,"\\$\\{([^:}]+)\\}",1);
+            for(String defaultVar : defaultVars) {
+                result = result.replace("${" + defaultVar + "}", propertyGet(defaultVar,props));
+            }
+
             List<String> variables = StringUtilities.extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
             for(String var: variables) {
 
@@ -796,6 +801,24 @@ public final class StringUtilities {
         }
         if(hadDefault && "".equals(result)) {
             return null;
+        }
+        return result;
+    }
+
+    public static String propertyGet(String property, Properties props) {
+        //split the varible into the key and default value (if present)
+        //in the form ${property:defaultValue}
+        String result = property;
+        String [] variable = splitFirst(property,DEFAULT_VALUE_SEPARTOR);
+
+        //Is the variable in the System Properties
+        //If so replace the variable with it
+        if(props.containsKey(variable[0])) {
+            result = props.getProperty(variable[0]);
+        }
+        else if(variable[1] != null) {
+            //Otherwise use the default value
+            result =variable[1];
         }
         return result;
     }

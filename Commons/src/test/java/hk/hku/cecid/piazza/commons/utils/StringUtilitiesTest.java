@@ -105,4 +105,19 @@ public class StringUtilitiesTest {
         assertEquals("second half|third",result[1]);
         
     }
+
+    @Test
+    public void testPropertyWithDefaultProperty() {
+        System.setProperty("test.prop","jentrata");
+        String result  = StringUtilities.propertyValue("${jentrata.home:${test.prop}/bin}");
+        assertTrue(result.contains("jentrata/bin"));
+    }
+
+    @Test
+    public void testPropertyWithMultipleDefaultProperty() {
+        System.setProperty("test.prop","jentrata");
+        System.setProperty("test.prop2","bin");
+        String result  = StringUtilities.propertyValue("${jentrata.home:${test.prop}/${test.prop2}");
+        assertTrue(result.contains("jentrata/bin"));
+    }
 }
