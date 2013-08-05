@@ -120,4 +120,11 @@ public class StringUtilitiesTest {
         String result  = StringUtilities.propertyValue("${jentrata.home:${test.prop}/${test.prop2}");
         assertTrue(result.contains("jentrata/bin"));
     }
+
+    @Test
+    public void testPropertyWithMultipleDefaultPropertyWithDefault() {
+        System.setProperty("corvus.home","jentrata");
+        String result  = StringUtilities.propertyValue("${jentrata.ebms.keystore.location:${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}}");
+        assertEquals(result,"jentrata/security/corvus.p12");
+    }
 }

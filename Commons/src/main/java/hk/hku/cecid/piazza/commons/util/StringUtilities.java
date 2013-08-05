@@ -775,9 +775,13 @@ public final class StringUtilities {
         String result = value;
         if(result.contains("${")) {
 
-            List<String> defaultVars = StringUtilities.extractRegexMulti(result,"\\$\\{([^:}]+)\\}",1);
+            List<String> defaultVars = StringUtilities.extractRegexMulti(result,"\\$\\{([^{}]+)\\}",1);
             for(String defaultVar : defaultVars) {
                 result = result.replace("${" + defaultVar + "}", propertyGet(defaultVar,props));
+            }
+
+            if(result != null && result.isEmpty()) {
+                return null;
             }
 
             List<String> variables = StringUtilities.extractRegexMulti(result,"\\$\\{([^}]+)\\}",1);
