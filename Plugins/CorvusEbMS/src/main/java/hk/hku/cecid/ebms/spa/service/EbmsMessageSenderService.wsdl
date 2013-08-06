@@ -4,8 +4,7 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
 	xmlns:s="http://www.w3.org/2001/XMLSchema" 
 	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
-	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" 
-	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
 	xmlns="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:p="http://service.ebms.edi.cecid.hku.hk/" 
 	targetNamespace="http://service.ebms.edi.cecid.hku.hk/"
@@ -19,8 +18,10 @@
   <part name="convId" type="s:string" />
   <part name="fromPartyId" type="s:string" />
   <part name="fromPartyType" type="s:string" />
+  <part name="fromPartyRole" type="s:string" />
   <part name="toPartyId" type="s:string" />
   <part name="toPartyType" type="s:string" />
+  <part name="toPartyRole" type="s:string" />
   <part name="refToMessageId" type="s:string" />
   <part name="serviceType" type="s:string" />
 </message>
