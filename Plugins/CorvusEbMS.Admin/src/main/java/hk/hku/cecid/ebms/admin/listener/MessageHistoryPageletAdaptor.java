@@ -222,6 +222,13 @@ public class MessageHistoryPageletAdaptor extends AdminPageletAdaptor {
             dom.setProperty("message[" + pi + "]/has_resend_as_new",
                     checkNullAndReturnEmpty(returnData.getHasResendAsNew()));
 
+            if("PE".equalsIgnoreCase(returnData.getStatus())
+                    || "DF".equalsIgnoreCase(returnData.getStatus())) {
+                dom.setProperty("message[" + pi + "]/status_description",
+                        checkNullAndReturnEmpty(returnData
+                                .getStatusDescription()));
+            }
+
             if (isDetail) {
                 dom.setProperty("message[" + pi + "]/from_party_id",
                         checkNullAndReturnEmpty(returnData.getFromPartyId()));

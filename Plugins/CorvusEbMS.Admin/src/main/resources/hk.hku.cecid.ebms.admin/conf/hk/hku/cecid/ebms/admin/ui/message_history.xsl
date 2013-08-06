@@ -514,6 +514,17 @@ function showResendAsNewMessage(pmid) {
         </td>
       </tr>
     </xsl:if>
+    <xsl:if test="./status = 'PE'">
+      <tr>
+        <td width="40%">has Pong</td>
+        <td width="60%">
+          <a href="#1" title="Click here to show the error">
+            <xsl:attribute name="onclick">showMDN('<xsl:value-of select="./message_id" />','<xsl:value-of select="./message_box" />','Error')</xsl:attribute>
+            <font color="red">Failed</font>
+                  </a>
+              </td>
+          </tr>
+    </xsl:if>
   </xsl:if>
   <tr>
     <td width="40%">Timestamp</td>
@@ -618,7 +629,7 @@ function showResendAsNewMessage(pmid) {
         <td width="60%"><textarea class="special" rows="5" cols="55" wrap="HARD"><xsl:attribute name="readonly"></xsl:attribute><xsl:value-of select="./status_description" /></textarea></td>
       </tr>
   </xsl:if>
-  
+
 </xsl:for-each>
 </table>
   
