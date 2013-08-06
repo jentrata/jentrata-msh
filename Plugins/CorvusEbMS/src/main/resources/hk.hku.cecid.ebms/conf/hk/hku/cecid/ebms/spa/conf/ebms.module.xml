@@ -41,7 +41,7 @@
 
 	<component id="keystore-manager-for-signature" name="Key Store Manager for Digital Signature">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="${jentrata.ebms.keystore.location:${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}}" />
+		<parameter name="keystore-location" value="${jentrata.ebms.keystore.location:${corvus.home}/security/corvus.p12}" />
 		<parameter name="keystore-password"	value="${jentrata.ebms.keystore.password:password}" />
 		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
 		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
@@ -52,7 +52,7 @@
 	<component id="keystore-manager-for-decryption"
 		name="Key Store Manager for Decryption (ebMS over SMTP)">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location"	value="${jentrata.ebms.keystore.location:${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}}" />
+		<parameter name="keystore-location"	value="${jentrata.ebms.keystore.location:${corvus.home}/security/corvus.p12}" />
 		<parameter name="keystore-password"	value="${jentrata.ebms.keystore.password:password}" />
 		<parameter name="key-alias" value="${jentrata.ebms.keystore.alias:corvus}" />
 		<parameter name="key-password" value="${jentrata.ebms.keystore.keypass:password}" />
