@@ -19,6 +19,11 @@
 			<groupId>org.jentrata.msh</groupId>
 			<artifactId>jentrata-commons</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.jentrata.msh.ext</groupId>
+            <artifactId>jentrata-ebxml-cpa</artifactId>
+        </dependency>
     
 		<dependency>
 			<groupId>org.jentrata.msh.plugins</groupId>
@@ -45,7 +50,6 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-    
     </dependencies>
     
 </project>

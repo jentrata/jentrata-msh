@@ -1,0 +1,31 @@
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          version="2.1">
+    <bindings schemaLocation="cpp-cpa-2_0b.xsd" version="2.0b">
+        <!-- Customise the package name -->
+        <schemaBindings>
+            <package name="org.jentrata.ebxml.cpa"/>
+        </schemaBindings>
+
+        <!-- rename the value element -->
+        <bindings node="//xs:element[@name='PartyRef']">
+            <bindings node=".//xs:attribute[@name='type']">
+                <property name="PartyRefType"/>
+            </bindings>
+        </bindings>
+    </bindings>
+    <bindings schemaLocation="http://www.w3.org/TR/xmldsig-core/xmldsig-core-schema.xsd" version="1.0">
+        <!-- Customise the package name -->
+        <schemaBindings>
+            <package name="org.jentrata.ebxml.xmldsig"/>
+        </schemaBindings>
+    </bindings>
+    <bindings schemaLocation="http://www.oasis-open.org/committees/ebxml-msg/schema/xlink.xsd" version="1.0">
+        <!-- Customise the package name -->
+        <schemaBindings>
+            <package name="org.jentrata.ebxml.xlink"/>
+        </schemaBindings>
+    </bindings>
+
+</bindings>

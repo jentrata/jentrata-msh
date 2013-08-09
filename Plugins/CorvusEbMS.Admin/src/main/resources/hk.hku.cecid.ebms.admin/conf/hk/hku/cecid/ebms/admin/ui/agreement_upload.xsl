@@ -14,8 +14,8 @@
     <th colspan="2"/>
   </tr>
   <tr>
-    <td width="40%">Party Name</td>
-    <td width="60%">
+    <td width="20%">Party Name</td>
+    <td width="80%">
     <input type="text">
         <xsl:attribute name="name">party_name</xsl:attribute>
         <xsl:attribute name="value"></xsl:attribute>
@@ -23,8 +23,8 @@
     </td>
   </tr>
   <tr>
-    <td width="40%">File Upload</td>
-    <td width="60%">
+    <td width="20%">File Upload</td>
+    <td width="80%">
     <input type="file">
         <xsl:attribute name="name">cpa</xsl:attribute>
         <xsl:attribute name="value"></xsl:attribute>
@@ -32,8 +32,8 @@
     </td>
   </tr>
   <tr>
-    <td width="40%"></td>
-    <td width="60%">
+    <td width="20%"></td>
+    <td width="80%">
     <input type="Submit" name="action" value="Import"/>
     </td>
   </tr>
@@ -47,106 +47,114 @@
 <br/>
 <table border="0" cellpadding="2" cellspacing="2" width="100%">
   <tr>
-    <th colspan="2">Added <xsl:value-of select="count(partnership)" /> Partnership<xsl:if test="count(sender_channel)>1">s</xsl:if></th>
+    <th colspan="2">Added <xsl:value-of select="count(partnership[./agreement_added='true'])" /> Partnership(s)</th>
   </tr>
-
-<!-- Loop the existing delivery channels - start -->
- 
+  <!-- Loop the existing delivery channels - start -->
   <xsl:for-each select="partnership">
-    
+      <xsl:if test="./agreement_added = 'false'">
+          <tr>
+              <th colspan="2"/>
+          </tr>
+          <tr>
+              <td width="20%"><b>Partnership ID</b></td>
+              <td width="80%"><b><xsl:value-of select="./partnership_id" /></b> already exists</td>
+          </tr>
+      </xsl:if>
+      <xsl:if test="./agreement_added = 'true'">
       <tr>
         <th colspan="2"/>
       </tr>
       <tr>
-        <td width="40%"><b>Partnership ID</b></td>
-        <td width="60%"><b><xsl:value-of select="./partnership_id" /></b></td>
+        <td width="20%"><b>Partnership ID</b></td>
+        <td width="80%"><b><xsl:value-of select="./partnership_id" /></b></td>
       </tr>
       <tr>
-        <td width="40%"><b>CPA ID</b></td>
-        <td width="60%"><b><xsl:value-of select="./cpa_id" /></b></td>
+        <td width="20%"><b>CPA ID</b></td>
+        <td width="80%"><b><xsl:value-of select="./cpa_id" /></b></td>
       </tr>
       <tr>
-        <td width="40%"><b>Service</b></td>
-        <td width="60%"><b><xsl:value-of select="./service" /></b></td>
+        <td width="20%"><b>Service</b></td>
+        <td width="80%"><b><xsl:value-of select="./service" /></b></td>
       </tr>
       <tr>
-        <td width="40%"><b>Action</b></td>
-        <td width="60%"><b><xsl:value-of select="./action_id" /></b></td>
+        <td width="20%"><b>Action</b></td>
+        <td width="80%"><b><xsl:value-of select="./action_id" /></b></td>
       </tr>
       <tr>
-        <td width="40%">Transport Protocol</td>
-        <td width="60%"><xsl:value-of select="./transport_protocol" /></td>
+        <td width="20%">Transport Protocol</td>
+        <td width="80%"><xsl:value-of select="./transport_protocol" /></td>
       </tr>
         <tr>
-        <td width="40%">Transport Endpoint</td>
-        <td width="60%"><xsl:value-of select="./transport_endpoint" /></td>
+        <td width="20%">Transport Endpoint</td>
+        <td width="80%"><xsl:value-of select="./transport_endpoint" /></td>
       </tr>
       <tr>
-        <td width="40%">Sync Reply Mode</td>
-        <td width="60%"><xsl:value-of select="./sync_reply_mode" /></td>
+        <td width="20%">Sync Reply Mode</td>
+        <td width="80%"><xsl:value-of select="./sync_reply_mode" /></td>
       </tr>
       <tr>
-        <td width="40%">Acknowledgement Requested</td>
-        <td width="60%"><xsl:value-of select="./ack_requested" /></td>
+        <td width="20%">Acknowledgement Requested</td>
+        <td width="80%"><xsl:value-of select="./ack_requested" /></td>
       </tr>
       <tr>
-        <td width="40%">Acknowledgement Signed Requested</td>
-        <td width="60%"><xsl:value-of select="./ack_sign_requested" /></td>
+        <td width="20%">Acknowledgement Signed Requested</td>
+        <td width="80%"><xsl:value-of select="./ack_sign_requested" /></td>
       </tr>
       <tr>
-        <td width="40%">Duplicate Elimination</td>
-        <td width="60%"><xsl:value-of select="./dup_elimination" /></td>
+        <td width="20%">Duplicate Elimination</td>
+        <td width="80%"><xsl:value-of select="./dup_elimination" /></td>
       </tr>
       <tr>
-        <td width="40%">Actor</td>
-        <td width="60%"><xsl:value-of select="./actor" /></td>
+        <td width="20%">Actor</td>
+        <td width="80%"><xsl:value-of select="./actor" /></td>
       </tr>
       <tr>
-        <td width="40%">Maximum Retries</td>
-        <td width="60%"><xsl:value-of select="./retries" /></td>
+        <td width="20%">Maximum Retries</td>
+        <td width="80%"><xsl:value-of select="./retries" /></td>
       </tr>
       <tr>
-        <td width="40%">Retry Interval (ms)</td>
-        <td width="60%"><xsl:value-of select="./retry_interval" /></td>
+        <td width="20%">Retry Interval (ms)</td>
+        <td width="80%"><xsl:value-of select="./retry_interval" /></td>
       </tr>
       <tr>
-        <td width="40%">Persist Duration</td>
-        <td width="60%"><xsl:value-of select="./persist_duration" /></td>
+        <td width="20%">Persist Duration</td>
+        <td width="80%"><xsl:value-of select="./persist_duration" /></td>
       </tr>
       <tr>
-        <td width="40%">Message Order</td>
-        <td width="60%"><xsl:value-of select="./message_order" /></td>
+        <td width="20%">Message Order</td>
+        <td width="80%"><xsl:value-of select="./message_order" /></td>
       </tr>
       <tr>
-        <td width="40%">Sign Requested</td>
-        <td width="60%"><xsl:value-of select="./sign_requested" /></td>
+        <td width="20%">Sign Requested</td>
+        <td width="80%"><xsl:value-of select="./sign_requested" /></td>
       </tr>
       <xsl:if test="''!=./ds_algorithm">
           <tr>
-            <td width="40%">Digital Signature Algorithm</td>
-            <td width="60%"><xsl:value-of select="./ds_algorithm" /></td>
+            <td width="20%">Digital Signature Algorithm</td>
+            <td width="80%"><xsl:value-of select="./ds_algorithm" /></td>
           </tr>
-      </xsl:if> 
+      </xsl:if>
       <xsl:if test="''!=./md_algorithm">
           <tr>
-            <td width="40%">Message Digest Algorithm</td>
-            <td width="60%"><xsl:value-of select="./md_algorithm" /></td>
+            <td width="20%">Message Digest Algorithm</td>
+            <td width="80%"><xsl:value-of select="./md_algorithm" /></td>
           </tr>
       </xsl:if>
       <tr>
-        <td width="40%">Encrypt Requested</td>
-        <td width="60%"><xsl:value-of select="./encrypt_requested" /></td>
+        <td width="20%">Encrypt Requested</td>
+        <td width="80%"><xsl:value-of select="./encrypt_requested" /></td>
       </tr>
       <xsl:if test="''!=./encrypt_algorithm">
           <tr>
-            <td width="40%">Encrypt Algorithm</td>
-            <td width="60%"><xsl:value-of select="./encrypt_algorithm" /></td>
+            <td width="20%">Encrypt Algorithm</td>
+            <td width="80%"><xsl:value-of select="./encrypt_algorithm" /></td>
           </tr>
       </xsl:if>
       <tr>
-        <td width="40%">Disabled</td>
-        <td width="60%"><xsl:value-of select="./disabled" /></td>
+        <td width="20%">Disabled</td>
+        <td width="80%"><xsl:value-of select="./disabled" /></td>
       </tr>
+      </xsl:if>
   
   </xsl:for-each>
   

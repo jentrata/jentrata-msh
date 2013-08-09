@@ -17,6 +17,7 @@
     
     <modules>
     	<module>ebxml-pkg</module>
+        <module>ebxml-cpa</module>
  		<module>CommonsExt</module>
  		<module>CommonsTest</module>
     </modules>

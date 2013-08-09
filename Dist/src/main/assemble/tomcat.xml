@@ -267,6 +267,7 @@
 						<includes>
 							<include>commons-fileupload:commons-fileupload</include>
 							<include>commons-io:commons-io</include>
+							<include>org.jentrata.msh.ext:jentrata-ebxml-cpa</include>
 						</includes>
 					</dependencySet>
 				</dependencySets>

@@ -15,14 +15,14 @@
 	    
 	    <table border="0" cellpadding="2" cellspacing="2" width="100%">
 	      <tr>
-	        <td width="40%">Number of Partnerships</td>
-	        <td width="60%"><xsl:value-of select="count(partnership)" /></td>
+	        <td width="20%">Number of Partnerships</td>
+	        <td width="80%"><xsl:value-of select="count(partnership)" /></td>
 	      </tr>
 	      
 	      <tr>
-	        <td width="40%">Partnership</td>
-	        <td width="60%">
-	            <select name="selected_partnership_id">
+	        <td width="20%">Partnership</td>
+	        <td width="80%">
+	            <select name="selected_partnership_id" style="width:100%;">
 	            <xsl:for-each select="partnership">
 	                <xsl:element name="option">
 	                    <xsl:attribute name="value"><xsl:value-of select="./partnership_id" /></xsl:attribute>
@@ -36,8 +36,8 @@
 	        </td>
 	      </tr>
 	      <tr>
-	        <td width="40%"></td>
-	        <td width="60%"><input type="Submit" name="request_action" value="change"/></td>
+	        <td width="20%"></td>
+	        <td width="80%"><input type="Submit" name="request_action" value="change"/></td>
 	      </tr>    
 	    </table>
 	    

@@ -11,25 +11,24 @@ import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.module.ComponentException;
 import hk.hku.cecid.piazza.commons.security.SMimeMessage;
 import hk.hku.cecid.piazza.commons.util.PropertyTree;
-import hk.hku.cecid.piazza.commons.util.StringUtilities;
 import hk.hku.cecid.piazza.commons.util.UtilitiesException;
 import hk.hku.cecid.piazza.corvus.admin.listener.AdminPageletAdaptor;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Source;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
-
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.dom4j.DocumentException;
+import org.jentrata.ebxml.cpa.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Source;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Donahue Sze
@@ -37,7 +36,7 @@ import org.dom4j.DocumentException;
  */
 public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
-    String selectedPartyName = null;
+    private String selectedPartyName = null;
 
     /*
      * (non-Javadoc)
@@ -68,17 +67,12 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                         }
                     } else {
                         hasFileField = true;
-
                         if (item.getName().equals("")) {
-                            request.setAttribute(ATTR_MESSAGE,
-                                    "No file specified");
+                            request.setAttribute(ATTR_MESSAGE,"No file specified");
                         } else if (item.getSize() == 0) {
-                            request.setAttribute(ATTR_MESSAGE,
-                                    "The file is no content");
-                        } else if (!item.getContentType().equalsIgnoreCase(
-                                "text/xml")) {
-                            request.setAttribute(ATTR_MESSAGE,
-                                    "It is not a xml file");
+                            request.setAttribute(ATTR_MESSAGE,"The file is no content");
+                        } else if (!item.getContentType().equalsIgnoreCase("text/xml")) {
+                            request.setAttribute(ATTR_MESSAGE,"It is not a xml file");
                         } else {
                             realFileItem = item;
                         }
@@ -86,21 +80,14 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                 }
 
                 if (!hasFileField) {
-                    request.setAttribute(ATTR_MESSAGE,
-                            "There is no file field in the request paramters");
+                    request.setAttribute(ATTR_MESSAGE,"There is no file field in the request paramters");
                 }
 
                 if (selectedPartyName.equalsIgnoreCase("")) {
-                    request
-                            .setAttribute(ATTR_MESSAGE,
-                                    "There is no party name field in the request paramters");
-                } else {
-                    X_ATTR_PARTY_NAME = "[@" + X_TP_NAMESPACE + "partyName='"
-                            + selectedPartyName + "']";
+                    request.setAttribute(ATTR_MESSAGE, "There is no party name field in the request paramters");
                 }
 
-                if (realFileItem != null
-                        && !selectedPartyName.equalsIgnoreCase("")) {
+                if (realFileItem != null && !selectedPartyName.equalsIgnoreCase("")) {
                     String errorMessage = processUploadedXml(dom, realFileItem);
                     if (errorMessage != null) {
                         request.setAttribute(ATTR_MESSAGE, errorMessage);
@@ -108,13 +95,10 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
                 }
             } catch (Exception e) {
-                EbmsProcessor.core.log.error(
-                        "Exception throw when upload the file", e);
-                request.setAttribute(ATTR_MESSAGE,
-                        "Exception throw when upload the file");
+                EbmsProcessor.core.log.error("Exception throw when upload the file", e);
+                request.setAttribute(ATTR_MESSAGE,"Exception throw when upload the file");
             }
         }
-
         return dom.getSource();
     }
 
@@ -126,446 +110,145 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
      * @throws ComponentException
      * @throws DAOException
      */
-    private String processUploadedXml(PropertyTree dom, FileItem item)
-            throws IOException, DocumentException, UtilitiesException,
-            ComponentException {
-        InputStream uploadedStream = item.getInputStream();
-        PropertyTree cpa = new PropertyTree(uploadedStream);
-
+    private String processUploadedXml(PropertyTree dom, FileItem item) throws IOException, DocumentException,
+            UtilitiesException, ComponentException {
         try {
-            String[] partyNames = cpa
-                    .getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                            + X_PARTY_INFO + "/@" + X_TP_NAMESPACE
-                            + "partyName");
-
-            if (!selectedPartyName.equals(partyNames[0])
-                    && !selectedPartyName.equals(partyNames[1])) {
-                throw new RuntimeException(
-                        "There is no party name match in the cpa");
+            InputStream uploadedStream = item.getInputStream();
+            CollaborationProtocolAgreement cpa = parseCPA(uploadedStream);
+            PartyInfo partyInfo = findMatchingPartyInfo(cpa,selectedPartyName);
+            if(partyInfo == null) {
+                throw new RuntimeException("There is no party name match in the cpa");
             }
-
-            addPartnerships(cpa, dom);
+            List<PartnershipDVO> partnerships = addPartnerships(cpa, partyInfo);
+            render(partnerships,dom);
 
         } catch (Exception e) {
-            EbmsProcessor.core.log
-                    .error("Error in processing upploaded xml", e);
-            return new String(e.getMessage());
+            EbmsProcessor.core.log.error("Error in processing upploaded xml", e);
+            return e.getMessage();
         }
         return null;
     }
 
-    // XPath constants
-    String X_TP_NAMESPACE = "tp:";
+    private PartyInfo findMatchingPartyInfo(CollaborationProtocolAgreement agreement, String partyName) {
+        for(PartyInfo partyInfo : agreement.getPartyInfo()) {
+            if(partyInfo.getPartyName().equals(partyName)) {
+                return partyInfo;
+            }
+        }
+        return null;
+    }
 
-    String X_COLLABORATION_PROTOCOL_AGREEMENT = "/" + X_TP_NAMESPACE
-            + "CollaborationProtocolAgreement";
+    private CollaborationProtocolAgreement parseCPA(InputStream stream) {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(CollaborationProtocolAgreement.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            CollaborationProtocolAgreement agreement = (CollaborationProtocolAgreement) unmarshaller.unmarshal(stream);
+            return agreement;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-    String X_PARTY_INFO = "/" + X_TP_NAMESPACE + "PartyInfo";
+    private List<PartnershipDVO> addPartnerships(CollaborationProtocolAgreement cpa,  PartyInfo partyInfo) throws DAOException {
+        List<PartnershipDVO> partnerships = new ArrayList<PartnershipDVO>();
+        for(CollaborationRole collaborationRole : partyInfo.getCollaborationRole()) {
+            String serviceName = collaborationRole.getServiceBinding().getService().getValue();
+            for(CanSend canSend : collaborationRole.getServiceBinding().getCanSend()) {
+                PartnershipDAO partnershipDAO = (PartnershipDAO) EbmsProcessor.core.dao.createDAO(PartnershipDAO.class);
+                PartnershipDVO partnershipDVO = (PartnershipDVO) partnershipDAO.createDVO();
 
-    String X_ATTR_PARTY_NAME = null;
+                String action = canSend.getThisPartyActionBinding().getAction();
+                DeliveryChannel channel = canSend.getOtherPartyActionBinding().getChannel();
+                partnershipDVO.setPartnershipId(cpa.getCpaid() + "," + channel.getChannelId() + "," + action);
+                partnershipDVO.setCpaId(cpa.getCpaid());
+                partnershipDVO.setService(serviceName);
+                partnershipDVO.setAction(action);
+                partnershipDVO.setDisabled("false");
+                partnershipDVO.setIsHostnameVerified("false");
 
-    String X_COLLABORATION_ROLE = "/" + X_TP_NAMESPACE + "CollaborationRole";
+                //Agreement Messaging Characteristic
+                partnershipDVO.setActor(channel.getMessagingCharacteristics().getActor().value());
+                partnershipDVO.setAckRequested(channel.getMessagingCharacteristics().getAckRequested().value());
+                partnershipDVO.setAckSignRequested(channel.getMessagingCharacteristics().getAckSignatureRequested().value());
+                partnershipDVO.setDupElimination(channel.getMessagingCharacteristics().getDuplicateElimination().value());
+                partnershipDVO.setSyncReplyMode(channel.getMessagingCharacteristics().getSyncReplyMode().value());
 
-    String X_SERVICE_BINDING = "/" + X_TP_NAMESPACE + "ServiceBinding";
+                //Agreement Transport
+                partnershipDVO.setTransportProtocol(channel.getTransport().getTransportReceiver().getTransportProtocol().getValue());
+                partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
 
-    String X_SERVICE = "/" + X_TP_NAMESPACE + "Service";
+                //Agreement DocExchange
+                partnershipDVO.setMessageOrder(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getMessageOrderSemantics().value());
+                partnershipDVO.setPersistDuration(channel.getDocExchange().getEbXMLSenderBinding().getPersistDuration().toString());
+                partnershipDVO.setRetryInterval((int) channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetryInterval().getTimeInMillis(new Date()));
+                partnershipDVO.setRetries(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetries().intValue());
 
-    String X_CAN_SEND = "/" + X_TP_NAMESPACE + "CanSend";
+                //Digital Signature & Encryption
+                partnershipDVO.setSignRequested(String.valueOf(canSend.getOtherPartyActionBinding().getBusinessTransactionCharacteristics().isIsNonRepudiationRequired()));
+                partnershipDVO.setEncryptRequested("false");
+                if(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation() != null) {
+                    partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue());
+                    partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction());
+                }
 
-    String X_THIS_PARTY_ACTION_BINDING = "/" + X_TP_NAMESPACE
-            + "ThisPartyActionBinding";
-
-    String X_CHANNEL_ID = "/" + X_TP_NAMESPACE + "ChannelId";
-
-    String X_DELIVERY_CHANNEL = "/" + X_TP_NAMESPACE + "DeliveryChannel";
-
-    String X_MESSAGING_CHARACTERISTICS = "/" + X_TP_NAMESPACE
-            + "MessagingCharacteristics";
-
-    String X_TRANSPORT = "/" + X_TP_NAMESPACE + "Transport";
-
-    String X_TRANSPORT_RECEIVER = "/" + X_TP_NAMESPACE + "TransportReceiver";
-
-    String X_ENDPOINT = "/" + X_TP_NAMESPACE + "Endpoint";
-
-    String X_DOC_EXCHANGE = "/" + X_TP_NAMESPACE + "DocExchange";
-
-    String X_EBXML_SENDER_BINDING = "/" + X_TP_NAMESPACE + "ebXMLSenderBinding";
-
-    String X_RELIABLE_MESSAGING = "/" + X_TP_NAMESPACE + "ReliableMessaging";
-
-    String X_SENDER_NON_REPUDIATION = "/" + X_TP_NAMESPACE
-            + "SenderNonRepudiation";
-
-    String X_SENDER_DIGITAL_ENVELOPE = "/" + X_TP_NAMESPACE
-            + "SenderDigitalEnvelope";
-
-    /**
-     * @param cpa
-     * @throws DAOException
-     */
-    private void addPartnerships(PropertyTree cpa, PropertyTree dom)
-            throws DAOException {
-
-        int pi = 0;
-
-        // get the value
-        String cpaId = cpa.getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                + "/@" + X_TP_NAMESPACE + "cpaid");
-
-        String[] service = cpa.getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                + X_PARTY_INFO + X_ATTR_PARTY_NAME + X_COLLABORATION_ROLE
-                + X_SERVICE_BINDING + X_SERVICE);
-
-        for (int serviceIndex = 0; serviceIndex < service.length; serviceIndex++) {
-            String X_ATTR_SERVICE = "[" + X_TP_NAMESPACE + "Service='"
-                    + service[serviceIndex] + "']";
-
-            String[] action = cpa
-                    .getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                            + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                            + X_COLLABORATION_ROLE + X_SERVICE_BINDING
-                            + X_ATTR_SERVICE + X_CAN_SEND
-                            + X_THIS_PARTY_ACTION_BINDING + "/@"
-                            + X_TP_NAMESPACE + "action");
-
-            for (int actionIndex = 0; actionIndex < action.length; actionIndex++) {
-                String X_ATTR_ACTION = "[@" + X_TP_NAMESPACE + "action='"
-                        + action[actionIndex] + "']";
-
-                // get the value
-                /*
-                 * String defaultMshChannelId = cpa
-                 * .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT +
-                 * X_PARTY_INFO + "/@" + X_TP_NAMESPACE +
-                 * "defaultMshChannelId");
-                 */
-
-                String[] channelId = cpa
-                        .getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                + X_COLLABORATION_ROLE + X_SERVICE_BINDING
-                                + X_ATTR_SERVICE + X_CAN_SEND
-                                + X_THIS_PARTY_ACTION_BINDING + X_ATTR_ACTION
-                                + X_CHANNEL_ID);
-                String[] transportId = cpa
-                        .getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                + X_DELIVERY_CHANNEL + "/@" + X_TP_NAMESPACE
-                                + "transportId");
-                String[] docExchangeId = cpa
-                        .getProperties(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                + X_DELIVERY_CHANNEL + "/@" + X_TP_NAMESPACE
-                                + "docExchangeId");
-
-                for (int channelIdIndex = 0; channelIdIndex < channelId.length; channelIdIndex++) {
-                    String X_ATTR_CHANNEL_ID = "[@" + X_TP_NAMESPACE
-                            + "channelId='" + channelId[channelIdIndex] + "']";
-                    String X_ATTR_TRANSPORT_ID = "[@" + X_TP_NAMESPACE
-                            + "transportId='" + transportId[channelIdIndex]
-                            + "']";
-                    String X_ATTR_DOC_EXCHANGE_ID = "[@" + X_TP_NAMESPACE
-                            + "docExchangeId='" + docExchangeId[channelIdIndex]
-                            + "']";
-
-                    String syncReplyMode = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DELIVERY_CHANNEL + X_ATTR_CHANNEL_ID
-                                    + X_MESSAGING_CHARACTERISTICS + "/@"
-                                    + X_TP_NAMESPACE + "syncReplyMode");
-
-                    String ackRequested = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DELIVERY_CHANNEL + X_ATTR_CHANNEL_ID
-                                    + X_MESSAGING_CHARACTERISTICS + "/@"
-                                    + X_TP_NAMESPACE + "ackRequested");
-
-                    String ackSignRequested = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DELIVERY_CHANNEL + X_ATTR_CHANNEL_ID
-                                    + X_MESSAGING_CHARACTERISTICS + "/@"
-                                    + X_TP_NAMESPACE + "ackSignatureRequested");
-
-                    String dupElimination = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DELIVERY_CHANNEL + X_ATTR_CHANNEL_ID
-                                    + X_MESSAGING_CHARACTERISTICS + "/@"
-                                    + X_TP_NAMESPACE + "duplicateElimination");
-
-                    String actor = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DELIVERY_CHANNEL + X_ATTR_CHANNEL_ID
-                                    + X_MESSAGING_CHARACTERISTICS + "/@"
-                                    + X_TP_NAMESPACE + "actor");
-
-                    String transportProtcol = cpa.getProperty(
-                            X_COLLABORATION_PROTOCOL_AGREEMENT + X_PARTY_INFO
-                                    + X_ATTR_PARTY_NAME + X_TRANSPORT
-                                    + X_ATTR_TRANSPORT_ID
-                                    + X_TRANSPORT_RECEIVER + "/"
-                                    + X_TP_NAMESPACE + "TransportProtocol")
-                            .toLowerCase();
-
-                    String transportEndpoint = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_TRANSPORT + X_ATTR_TRANSPORT_ID
-                                    + X_TRANSPORT_RECEIVER + X_ENDPOINT + "/@"
-                                    + X_TP_NAMESPACE + "uri");
-
-                    String retries = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_RELIABLE_MESSAGING + "/"
-                                    + X_TP_NAMESPACE + "Retries");
-
-                    String retryInterval = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_RELIABLE_MESSAGING + "/"
-                                    + X_TP_NAMESPACE + "RetryInterval");
-
-                    String messageOrder = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_RELIABLE_MESSAGING + "/"
-                                    + X_TP_NAMESPACE + "MessageOrderSemantics");
-
-                    String persistDuration = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING + "/"
-                                    + X_TP_NAMESPACE + "PersistDuration");
-
-                    String mdAlgorithm = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_SENDER_NON_REPUDIATION + "/"
-                                    + X_TP_NAMESPACE + "HashFunction");
-                    if (mdAlgorithm != null) {
-                        mdAlgorithm = mdAlgorithm.substring(mdAlgorithm
-                                .indexOf("#") + 1);
-                    }
-
-                    String dsAlgorithm = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_SENDER_NON_REPUDIATION + "/"
-                                    + X_TP_NAMESPACE + "SignatureAlgorithm");
-
-                    if (dsAlgorithm != null) {
-                        dsAlgorithm = dsAlgorithm.substring(dsAlgorithm
-                                .indexOf("#") + 1);
-                    }
-
-                    String digitalEnvelopeProtocol = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_SENDER_DIGITAL_ENVELOPE + "/"
-                                    + X_TP_NAMESPACE
-                                    + "DigitalEnvelopeProtocol");
-
-                    String encryptionAlgorithm = cpa
-                            .getProperty(X_COLLABORATION_PROTOCOL_AGREEMENT
-                                    + X_PARTY_INFO + X_ATTR_PARTY_NAME
-                                    + X_DOC_EXCHANGE + X_ATTR_DOC_EXCHANGE_ID
-                                    + X_EBXML_SENDER_BINDING
-                                    + X_SENDER_DIGITAL_ENVELOPE + "/"
-                                    + X_TP_NAMESPACE + "EncryptionAlgorithm");
-
+                if(channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope() != null) {
+                    String digitalEnvelopeProtocol = channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope().getDigitalEnvelopeProtocol().getValue();
+                    String encryptionAlgorithm = channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope().getEncryptionAlgorithm().get(0).getValue();
                     if (encryptionAlgorithm != null) {
-                        if (encryptionAlgorithm.toLowerCase().indexOf("rc2") != -1) {
+                        if (encryptionAlgorithm.toLowerCase().contains("rc2")) {
                             encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_RC2_CBC;
                         } else {
                             encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_DES_EDE3_CBC;
                         }
                     }
+                    partnershipDVO.setEncryptRequested("true");
+                    partnershipDVO.setEncryptAlgorithm(encryptionAlgorithm);
+                    partnershipDVO.setEncryptCert(null);
+                }
 
-                    // add dao
-                    PartnershipDAO partnershipDAO = (PartnershipDAO) EbmsProcessor.core.dao
-                            .createDAO(PartnershipDAO.class);
-                    PartnershipDVO partnershipDVO = (PartnershipDVO) partnershipDAO
-                            .createDVO();
-                    partnershipDVO.setPartnershipId(cpaId + ","
-                            + channelId[channelIdIndex] + "," + action[actionIndex]);
-                    partnershipDVO.setCpaId(cpaId);
-                    partnershipDVO.setService(service[serviceIndex]);
-                    partnershipDVO.setAction(action[actionIndex]);
-                    partnershipDVO.setTransportProtocol(transportProtcol);
-                    partnershipDVO.setTransportEndpoint(transportEndpoint);
-                    partnershipDVO.setIsHostnameVerified("false");
-
-                    if (syncReplyMode != null) {
-                        partnershipDVO.setSyncReplyMode(syncReplyMode);
-                    } else {
-                        partnershipDVO.setSyncReplyMode("none");
-                    }
-                    if (ackRequested != null) {
-                        partnershipDVO.setAckRequested(ackRequested);
-                    } else {
-                        partnershipDVO.setAckRequested("never");
-                    }
-                    if (ackSignRequested != null) {
-                        partnershipDVO.setAckSignRequested(ackSignRequested);
-                    } else {
-                        partnershipDVO.setAckSignRequested("never");
-                    }
-                    if (dupElimination != null) {
-                        partnershipDVO.setDupElimination(dupElimination);
-                    } else {
-                        partnershipDVO.setDupElimination("never");
-                    }
-                    partnershipDVO.setActor(actor);
-                    partnershipDVO.setDisabled("false");
-                    int retriesInt = 0;
-                    if (retries != null) {
-                        retriesInt = Integer.valueOf(retries).intValue();
-                    }
-                    partnershipDVO.setRetries(retriesInt);
-                    int retryIntervalInt = 30000;
-                    if (retryInterval != null) {
-                    	try{
-	                    	DatatypeFactory df = javax.xml.datatype.DatatypeFactory.newInstance();
-	                    	Duration duration = df.newDuration(retryInterval);
-	                    	retryIntervalInt = (int) duration.getTimeInMillis(new Date());
-                    	}catch(Exception ex){
-                    		// Use default retry interval when parsing error.                     		
-                    	}
-                    }
-                    partnershipDVO.setRetryInterval(retryIntervalInt);
-                    partnershipDVO.setPersistDuration(persistDuration);
-                    if (messageOrder != null) {
-                        partnershipDVO.setMessageOrder(messageOrder);
-                    } else {
-                        partnershipDVO.setMessageOrder("NotGuaranteed");
-                    }
-                    if (mdAlgorithm != null && dsAlgorithm != null) {
-                        partnershipDVO.setSignRequested("true");
-                        partnershipDVO.setDsAlgorithm(dsAlgorithm);
-                        partnershipDVO.setMdAlgorithm(mdAlgorithm);
-                    } else {
-                        partnershipDVO.setSignRequested("false");
-                    }
-                    if (digitalEnvelopeProtocol != null) {
-                        if (digitalEnvelopeProtocol.equalsIgnoreCase("s/mime")) {
-                            partnershipDVO.setEncryptRequested("true");
-                            partnershipDVO
-                                    .setEncryptAlgorithm(encryptionAlgorithm);
-                        } else {
-                            partnershipDVO.setEncryptRequested("false");
-                        }
-                    } else {
-                        partnershipDVO.setEncryptRequested("false");
-                    }
-                    
-                    EbmsProcessor.core.log.info("Adding partnership: " + partnershipDVO.getPartnershipId());
-                    
-                    if (partnershipDAO.retrieve(partnershipDVO)) {
-                        throw new DAOException("Duplicate Partnership exists");
-                    } else {
-                        partnershipDAO.create(partnershipDVO);
-                    }
-
-                    pi++;
-
-                    dom.setProperty("partnership[" + pi + "]/partnership_id",
-                            partnershipDVO.getPartnershipId());
-                    dom.setProperty("partnership[" + pi + "]/cpa_id",
-                            partnershipDVO.getCpaId());
-                    dom.setProperty("partnership[" + pi + "]/service",
-                            partnershipDVO.getService());
-                    dom.setProperty("partnership[" + pi + "]/action_id",
-                            partnershipDVO.getAction());
-                    String transportProtcolElement = partnershipDVO
-                            .getTransportProtocol();
-                    dom
-                            .setProperty(
-                                    "partnership[" + pi
-                                            + "]/transport_protocol",
-                                    transportProtcolElement != null ? transportProtcolElement
-                                            : "");
-                    String transportEndpointElement = partnershipDVO
-                            .getTransportEndpoint();
-                    dom
-                            .setProperty(
-                                    "partnership[" + pi
-                                            + "]/transport_endpoint",
-                                    transportEndpointElement != null ? transportEndpointElement
-                                            : "");
-                    String syncReplyModeElement = partnershipDVO
-                            .getSyncReplyMode();
-                    dom.setProperty("partnership[" + pi + "]/sync_reply_mode",
-                            syncReplyModeElement != null ? syncReplyModeElement
-                                    : "");
-                    dom.setProperty("partnership[" + pi + "]/ack_requested",
-                            partnershipDVO.getAckRequested());
-                    dom.setProperty("partnership[" + pi
-                            + "]/ack_sign_requested", partnershipDVO
-                            .getAckSignRequested());
-                    dom.setProperty("partnership[" + pi + "]/dup_elimination",
-                            partnershipDVO.getDupElimination());
-                    String actorElement = partnershipDVO.getActor();
-                    dom.setProperty("partnership[" + pi + "]/actor",
-                            actorElement != null ? actorElement : "");
-                    dom.setProperty("partnership[" + pi + "]/disabled",
-                            partnershipDVO.getDisabled());
-                    dom.setProperty("partnership[" + pi + "]/retries", String
-                            .valueOf(partnershipDVO.getRetries()));
-                    dom.setProperty("partnership[" + pi + "]/retry_interval",
-                            String.valueOf(partnershipDVO.getRetryInterval()));
-                    String persistDurationElement = partnershipDVO
-                            .getPersistDuration();
-                    dom
-                            .setProperty(
-                                    "partnership[" + pi + "]/persist_duration",
-                                    persistDurationElement != null ? persistDurationElement
-                                            : "");
-                    String messageOrderElement = partnershipDVO
-                            .getMessageOrder();
-                    dom.setProperty("partnership[" + pi + "]/message_order",
-                            messageOrderElement != null ? messageOrderElement
-                                    : "");
-                    dom.setProperty("partnership[" + pi + "]/sign_requested",
-                            partnershipDVO.getSignRequested());
-                    String dsAlgorithmElement = partnershipDVO.getDsAlgorithm();
-                    dom.setProperty("partnership[" + pi + "]/ds_algorithm",
-                            dsAlgorithmElement != null ? dsAlgorithmElement
-                                    : "");
-                    String mdAlgorithmElement = partnershipDVO.getMdAlgorithm();
-                    dom.setProperty("partnership[" + pi + "]/md_algorithm",
-                            mdAlgorithmElement != null ? mdAlgorithmElement
-                                    : "");
-                    dom.setProperty(
-                            "partnership[" + pi + "]/encrypt_requested",
-                            partnershipDVO.getEncryptRequested());
-                    String encryptAlgorithmElement = partnershipDVO
-                            .getEncryptAlgorithm();
-                    dom
-                            .setProperty(
-                                    "partnership[" + pi + "]/encrypt_algorithm",
-                                    encryptAlgorithmElement != null ? encryptAlgorithmElement
-                                            : "");
+                if(!partnershipDAO.retrieve(partnershipDVO)) {
+                    EbmsProcessor.core.log.info("Adding Partnership " + partnershipDVO.getPartnershipId());
+                    partnershipDAO.create(partnershipDVO);
+                    partnerships.add(partnershipDVO);
+                } else {
+                    EbmsProcessor.core.log.info("Partnership " + partnershipDVO.getPartnershipId() + " already exists");
                 }
             }
         }
+        return partnerships;
     }
+
+    private void render(List<PartnershipDVO> partnerships, PropertyTree dom) {
+        for(int i=0;i<partnerships.size();i++) {
+            PartnershipDVO partnership = partnerships.get(i);
+            String partnershipOffset = "partnership[" + i + "]";
+            dom.setProperty(partnershipOffset + "/agreement_added","" + true);
+            dom.setProperty(partnershipOffset + "/partnership_id",partnership.getPartnershipId());
+            dom.setProperty(partnershipOffset + "/cpa_id",partnership.getCpaId());
+            dom.setProperty(partnershipOffset + "/service",partnership.getService());
+            dom.setProperty(partnershipOffset + "/action_id",partnership.getAction());
+            dom.setProperty(partnershipOffset + "/transport_protocol", emptyStringIfNull(partnership.getTransportProtocol()));
+            dom.setProperty(partnershipOffset + "/transport_endpoint", emptyStringIfNull(partnership.getTransportEndpoint()));
+            dom.setProperty(partnershipOffset + "/sync_reply_mode",emptyStringIfNull(partnership.getSyncReplyMode()));
+            dom.setProperty(partnershipOffset + "/ack_requested",partnership.getAckRequested());
+            dom.setProperty(partnershipOffset + "/ack_sign_requested", partnership.getAckSignRequested());
+            dom.setProperty(partnershipOffset + "/dup_elimination", partnership.getDupElimination());
+            dom.setProperty(partnershipOffset + "/actor", emptyStringIfNull(partnership.getActor()));
+            dom.setProperty(partnershipOffset + "/disabled", partnership.getDisabled());
+            dom.setProperty(partnershipOffset + "/retries", String.valueOf(partnership.getRetries()));
+            dom.setProperty(partnershipOffset + "/retry_interval", String.valueOf(partnership.getRetryInterval()));
+            dom.setProperty(partnershipOffset + "/persist_duration", emptyStringIfNull(partnership.getPersistDuration()));
+            dom.setProperty(partnershipOffset + "/message_order",emptyStringIfNull(partnership.getMessageOrder()));
+            dom.setProperty(partnershipOffset + "/sign_requested",partnership.getSignRequested());
+            dom.setProperty(partnershipOffset + "/ds_algorithm",partnership.getDsAlgorithm());
+            dom.setProperty(partnershipOffset + "/md_algorithm", emptyStringIfNull(partnership.getMdAlgorithm()));
+            dom.setProperty(partnershipOffset + "/encrypt_requested",partnership.getEncryptRequested());
+            dom.setProperty(partnershipOffset + "/encrypt_algorithm", emptyStringIfNull(partnership.getEncryptAlgorithm()));
+        }
+    }
+
+    private String emptyStringIfNull(String s) {
+        return s != null ? s : "";
+    }
+
 }
