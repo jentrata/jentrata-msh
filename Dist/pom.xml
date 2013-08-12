@@ -120,9 +120,6 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<filters>
-								<filter>src/main/filters/plugins.properties</filter>
-							</filters>
 							<descriptors>
 								<descriptor>src/main/assemble/${distribution}.xml</descriptor>
 							</descriptors>

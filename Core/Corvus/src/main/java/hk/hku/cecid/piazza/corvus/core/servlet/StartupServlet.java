@@ -15,6 +15,10 @@ import hk.hku.cecid.piazza.corvus.core.Kernel;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * StartupServlet is the main startup servlet of Corvus.
@@ -32,6 +36,20 @@ public class StartupServlet extends HttpServlet {
      */
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
+        String jentrataHome = System.getProperty("corvus.home",System.getProperty("catalina.home"));
+        Properties jentrataProps = new Properties();
+        try {
+            File jentrataPropsFile = new File(jentrataHome + "/conf/jentrata.conf");
+            if(jentrataPropsFile.exists()) {
+                InputStream fis = new FileInputStream(jentrataPropsFile);
+                jentrataProps.load(fis);
+                fis.close();
+            }
+        } catch (Exception ex) {
+            //ignore
+        }
+        System.getProperties().putAll(jentrataProps);
 
         Kernel.getInstance();
         

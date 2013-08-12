@@ -60,6 +60,7 @@
 			<outputDirectory>conf</outputDirectory>
 			<directoryMode>755</directoryMode>
 			<fileMode>755</fileMode>
+            <filtered>true</filtered>
 		</fileSet>
 		<!-- files for the sample client webservices -->
 		<fileSet>
