@@ -32,6 +32,24 @@
     </td>
   </tr>
   <tr>
+      <td width="20%">Certificate For Verification</td>
+      <td width="80%">
+          <input type="file">
+              <xsl:attribute name="name">verify_cert</xsl:attribute>
+              <xsl:attribute name="value"></xsl:attribute>
+          </input>
+      </td>
+  </tr>
+  <tr>
+      <td width="20%">Certificate For Encryption</td>
+      <td width="80%">
+          <input type="file">
+              <xsl:attribute name="name">encrypt_cert</xsl:attribute>
+              <xsl:attribute name="value"></xsl:attribute>
+          </input>
+      </td>
+  </tr>
+  <tr>
     <td width="20%"></td>
     <td width="80%">
     <input type="Submit" name="action" value="Import"/>

@@ -8,14 +8,16 @@ import hk.hku.cecid.ebms.spa.EbmsProcessor;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDAO;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDVO;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
+import hk.hku.cecid.piazza.commons.io.IOHandler;
 import hk.hku.cecid.piazza.commons.module.ComponentException;
 import hk.hku.cecid.piazza.commons.security.SMimeMessage;
 import hk.hku.cecid.piazza.commons.util.PropertyTree;
 import hk.hku.cecid.piazza.commons.util.UtilitiesException;
 import hk.hku.cecid.piazza.corvus.admin.listener.AdminPageletAdaptor;
-import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.dom4j.DocumentException;
 import org.jentrata.ebxml.cpa.*;
 
@@ -23,11 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,24 +53,22 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
         PropertyTree dom = new PropertyTree();
         dom.setProperty("/partnership", "");
 
-        boolean isMultipart = FileUpload.isMultipartContent(request);
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
         if (isMultipart) {
-            DiskFileUpload upload = new DiskFileUpload();
+            FileItemFactory factory = new DiskFileItemFactory();
             try {
                 FileItem realFileItem = null;
                 boolean hasFileField = false;
-                List fileItems = upload.parseRequest(request);
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                List<FileItem> fileItems = upload.parseRequest(request);
+                FileItem verificationCert = null;
+                FileItem encryptionCert = null;
 
-                Iterator iter = fileItems.iterator();
-                while (iter.hasNext()) {
-                    FileItem item = (FileItem) iter.next();
-
-                    if (item.isFormField()) {
-                        if (item.getFieldName().equals("party_name")) {
-                            selectedPartyName = item.getString();
-                        }
-                    } else {
+                for(FileItem item : fileItems) {
+                    if(item.isFormField() && item.getFieldName().equals("party_name")) {
+                        selectedPartyName = item.getString();
+                    } else if(item.getFieldName().equals("cpa")) {
                         hasFileField = true;
                         if (item.getName().equals("")) {
                             request.setAttribute(ATTR_MESSAGE,"No file specified");
@@ -76,19 +79,23 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                         } else {
                             realFileItem = item;
                         }
+                    } else if (item.getFieldName().equals("verify_cert") && !item.getName().equals("")) {
+                        verificationCert = item;
+                    } else if (item.getFieldName().equals("encrypt_cert") && !item.getName().equals("")) {
+                        encryptionCert = item;
                     }
                 }
 
                 if (!hasFileField) {
-                    request.setAttribute(ATTR_MESSAGE,"There is no file field in the request paramters");
+                    request.setAttribute(ATTR_MESSAGE,"There is no file field in the request parameters");
                 }
 
-                if (selectedPartyName.equalsIgnoreCase("")) {
-                    request.setAttribute(ATTR_MESSAGE, "There is no party name field in the request paramters");
+                if (selectedPartyName == null || selectedPartyName.isEmpty()) {
+                    request.setAttribute(ATTR_MESSAGE, "There is no party name field in the request parameters");
                 }
 
                 if (realFileItem != null && !selectedPartyName.equalsIgnoreCase("")) {
-                    String errorMessage = processUploadedXml(dom, realFileItem);
+                    String errorMessage = processUploadedXml(dom, realFileItem, verificationCert, encryptionCert);
                     if (errorMessage != null) {
                         request.setAttribute(ATTR_MESSAGE, errorMessage);
                     }
@@ -103,23 +110,25 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
     }
 
     /**
-     * @param item
-     * @throws IOException
+     *
+     * @param cpaFile
+     * @param verificationCert
+     *@param encryptionCert @throws IOException
      * @throws DocumentException
      * @throws UtilitiesException
      * @throws ComponentException
      * @throws DAOException
      */
-    private String processUploadedXml(PropertyTree dom, FileItem item) throws IOException, DocumentException,
+    private String processUploadedXml(PropertyTree dom, FileItem cpaFile, FileItem verificationCert, FileItem encryptionCert) throws IOException, DocumentException,
             UtilitiesException, ComponentException {
         try {
-            InputStream uploadedStream = item.getInputStream();
+            InputStream uploadedStream = cpaFile.getInputStream();
             CollaborationProtocolAgreement cpa = parseCPA(uploadedStream);
             PartyInfo partyInfo = findMatchingPartyInfo(cpa,selectedPartyName);
             if(partyInfo == null) {
                 throw new RuntimeException("There is no party name match in the cpa");
             }
-            List<PartnershipDVO> partnerships = addPartnerships(cpa, partyInfo);
+            List<PartnershipDVO> partnerships = addPartnerships(cpa, partyInfo, verificationCert,encryptionCert);
             render(partnerships,dom);
 
         } catch (Exception e) {
@@ -149,7 +158,7 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
         }
     }
 
-    private List<PartnershipDVO> addPartnerships(CollaborationProtocolAgreement cpa,  PartyInfo partyInfo) throws DAOException {
+    private List<PartnershipDVO> addPartnerships(CollaborationProtocolAgreement cpa, PartyInfo partyInfo, FileItem verificationCert, FileItem encryptionCert) throws Exception {
         List<PartnershipDVO> partnerships = new ArrayList<PartnershipDVO>();
         for(CollaborationRole collaborationRole : partyInfo.getCollaborationRole()) {
             String serviceName = collaborationRole.getServiceBinding().getService().getValue();
@@ -189,6 +198,11 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                 if(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation() != null) {
                     partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue());
                     partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction());
+                    if(verificationCert != null) {
+                        partnershipDVO.setSignCert(loadCert(verificationCert));
+                    } else {
+                        partnershipDVO.setSignCert(null);
+                    }
                 }
 
                 if(channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope() != null) {
@@ -203,7 +217,11 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                     }
                     partnershipDVO.setEncryptRequested("true");
                     partnershipDVO.setEncryptAlgorithm(encryptionAlgorithm);
-                    partnershipDVO.setEncryptCert(null);
+                    if(encryptionCert != null) {
+                        partnershipDVO.setSignCert(loadCert(encryptionCert));
+                    } else {
+                        partnershipDVO.setEncryptCert(null);
+                    }
                 }
 
                 if(!partnershipDAO.retrieve(partnershipDVO)) {
@@ -245,6 +263,17 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
             dom.setProperty(partnershipOffset + "/encrypt_requested",partnership.getEncryptRequested());
             dom.setProperty(partnershipOffset + "/encrypt_algorithm", emptyStringIfNull(partnership.getEncryptAlgorithm()));
         }
+    }
+
+
+    private byte [] loadCert(FileItem cert) throws CertificateException, IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        IOHandler.pipe(cert.getInputStream(), baos);
+        //validate cert
+        CertificateFactory
+                .getInstance("X.509")
+                .generateCertificate(new ByteArrayInputStream(baos.toByteArray()));
+        return baos.toByteArray();
     }
 
     private String emptyStringIfNull(String s) {
