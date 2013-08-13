@@ -27,7 +27,12 @@ import org.junit.Test;
  *
  */
 public class JMSComponentTest extends PluginTest {
-    
+
+    @Override
+    protected void configure() {
+        System.setProperty("jentrata.activemq.broker.uri","broker:(vm://localhost?broker.persistent=false&useJmx=false)?persistent=false&useJmx=false");
+    }
+
     @Test
     public void testJMSComponentMessageHandler() throws Exception {
         Module m = new Module("modules/jms-test-module.xml");

@@ -13,6 +13,7 @@ public class PluginTest {
     public void initKernel() {
         System.setProperty("sys.module.group", "corvus/corvus.test.module-group.xml");
         System.setProperty("corvus.home", "target/classes");
+        configure();
         Kernel.getInstance();
     }
     
@@ -26,4 +27,6 @@ public class PluginTest {
         assertFalse(Kernel.getInstance().hasErrors());
         assertFalse(Kernel.getInstance().getPluginRegistry().hasErrors());
     }
+
+    protected void configure() {}
 }
