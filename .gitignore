@@ -7,3 +7,4 @@ target-eclipse/
 .DS_Store
 .idea/
 *.iml
+git.properties

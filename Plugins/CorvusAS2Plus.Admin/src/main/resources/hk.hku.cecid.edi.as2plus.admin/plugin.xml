@@ -2,6 +2,7 @@
 <plugin id="hk.hku.cecid.edi.as2plus.admin"
    name="Corvus AS2Plus Admin Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid">
 
 	<runtime>

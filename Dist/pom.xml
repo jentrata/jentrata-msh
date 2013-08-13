@@ -108,7 +108,7 @@
     </dependencies>
     
     <build>
-    	<finalName>jentrata-msh</finalName>
+    	<finalName>jentrata-msh-${version}</finalName>
     	<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>

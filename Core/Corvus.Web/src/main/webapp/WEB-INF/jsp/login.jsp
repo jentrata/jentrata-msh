@@ -44,7 +44,7 @@
 		</script>
 		<div id="footer" class="footer">
 			<br/>
-			<p>(<%=hk.hku.cecid.piazza.commons.Sys.main.getVersion()%>)</p> 
+			<p>(<%=hk.hku.cecid.piazza.commons.Sys.main.getVersion()%> - <%=hk.hku.cecid.piazza.commons.Sys.main.getBuildID().substring(0,7)%>)</p>
 		</div>
 	</div> 
 </body>

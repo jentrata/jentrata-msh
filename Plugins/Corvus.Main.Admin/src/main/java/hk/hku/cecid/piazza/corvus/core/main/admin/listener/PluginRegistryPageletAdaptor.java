@@ -56,6 +56,7 @@ public class PluginRegistryPageletAdaptor extends AdminPageletAdaptor {
             dom.setProperty("plugins/plugin["+i+"]/id", plugin.getId());
             dom.setProperty("plugins/plugin["+i+"]/name", plugin.getName());
             dom.setProperty("plugins/plugin["+i+"]/version", plugin.getVersion());
+            dom.setProperty("plugins/plugin["+i+"]/buildID", plugin.getBuildID());
             dom.setProperty("plugins/plugin["+i+"]/points", String.valueOf(plugin.getExtensionPoints().size()));
             dom.setProperty("plugins/plugin["+i+"]/extensions", String.valueOf(plugin.getExtensions().size()));
         }

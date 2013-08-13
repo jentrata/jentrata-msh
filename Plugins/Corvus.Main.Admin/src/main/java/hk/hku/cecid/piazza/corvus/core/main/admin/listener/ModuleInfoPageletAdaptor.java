@@ -52,6 +52,11 @@ public class ModuleInfoPageletAdaptor extends AdminPageletAdaptor {
             Module module = (Module)modules.next();
             dom.setProperty(prefix+"name", module.getName());
             dom.setProperty(prefix+"version", module.getVersion());
+            if(module.getBuildID() != null) {
+                dom.setProperty(prefix+"buildID", module.getBuildID());
+            } else {
+                dom.setProperty(prefix+"buildID", Sys.main.getBuildID());
+            }
             dom.setProperty(prefix+"components", String.valueOf(module.getComponentCount()));
             dom.setProperty(prefix+"descriptor", module.getDescriptor().toString());
         }

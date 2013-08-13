@@ -37,7 +37,7 @@
   </tr>
     <tr>
     <td>Version</td>
-    <td><xsl:value-of select="./version" /></td>
+    <td><xsl:value-of select="./version" /><xsl:if test="string-length(./buildID) &gt; 0"> - (<xsl:value-of select="substring(./buildID,0,8)" />)</xsl:if></td>
   </tr>
   <tr>
     <td>Extension Points</td>

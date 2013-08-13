@@ -3,6 +3,7 @@
    id="hk.hku.cecid.piazza.corvus.admin"
    name="Corvus Admin System Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid"
    class="hk.hku.cecid.piazza.corvus.admin.handler.AdminPluginHandler"
 >

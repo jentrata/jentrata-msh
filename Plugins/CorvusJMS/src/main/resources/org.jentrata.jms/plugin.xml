@@ -2,7 +2,8 @@
 <plugin 
    id="org.jentrata.jms"
    name="Piazza Corvus JMS Plugin"
-   version="${project.version}"
+   version="${version}"
+   buildID="${buildNumber}"
    provider-name="org.jentrata"
    class="org.jentrata.spa.jms.JMSProcessor">
 

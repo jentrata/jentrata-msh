@@ -1,4 +1,4 @@
-<module id="piazza.corvus" name="Jentrata MSH" version="@version@">
+<module id="piazza.corvus" name="Jentrata MSH" version="@version@" buildID="${buildNumber}">
 
 	<component id="logger" name="System Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>

@@ -291,6 +291,15 @@ public class Plugin extends PluginComponent {
     }
 
     /**
+     * Gets the buildID of this plugin.
+     *
+     * @return the buildID of this plugin.
+     */
+    public String getBuildID() {
+        return pluginDescriptor.getBuildID();
+    }
+
+    /**
      * Gets the parameters of this plugin.
      * 
      * @return the parameters of this plugin.

@@ -9,3 +9,4 @@ Implementation-Title: ${pom.name}
 Implementation-Version: ${pom.version}
 Implementation-Vendor-Id: ${pom.groupId}
 Implementation-Vendor: ${pom.organization.name}
+Implementation-Build: ${buildNumber}

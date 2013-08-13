@@ -390,6 +390,10 @@ public class Module extends Component {
         return getString("/module/@version");
     }
 
+    public String getBuildID() {
+        return getString("/module/@buildID");
+    }
+
     /**
      * Gets the module group to which this module belongs.
      * 

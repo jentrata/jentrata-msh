@@ -111,6 +111,28 @@
     			<filtering>true</filtering>
     		</resource>
     	</resources>
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>src/main/webapp/home/git.properties</generateGitPropertiesFilename>
+                    <gitDescribe>
+                        <always>true</always>
+                        <dirty>-dev</dirty>
+                    </gitDescribe>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     
 </project>

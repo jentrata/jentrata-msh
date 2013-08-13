@@ -3,6 +3,7 @@
    id="hk.hku.cecid.ebms"
    name="Piazza Corvus EbMS Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid"
    class="hk.hku.cecid.ebms.spa.EbmsProcessor"
 >

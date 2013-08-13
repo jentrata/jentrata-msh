@@ -2,7 +2,8 @@
 <plugin 
    id="org.jentrata.validation"
    name="Jentrata Validation Plugin"
-   version="${project.version}"
+   version="${version}"
+   buildID="${buildNumber}"
    provider-name="org.jentrata"
    class="org.jentrata.validation.ValidationProcessor">
 

@@ -261,6 +261,7 @@ public class AdminPageletAdaptor extends BorderLayoutPageletAdaptor {
         
         dom.setProperty("system/name", Sys.main.getName());
         dom.setProperty("system/version", Sys.main.getVersion());
+        dom.setProperty("system/buildID", Sys.main.getBuildID());
         dom.setProperty("system/startup-time", startupTime.toString());
         dom.setProperty("system/current-time", currentTime.toString());
         dom.setProperty("system/up-time", upTime);

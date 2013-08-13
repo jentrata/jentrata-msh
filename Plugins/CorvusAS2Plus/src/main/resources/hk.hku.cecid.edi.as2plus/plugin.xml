@@ -3,6 +3,7 @@
    id="hk.hku.cecid.edi.as2plus"
    name="Corvus AS2 Plus Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid"
    class="hk.hku.cecid.edi.as2.AS2PlusProcessor"
 >

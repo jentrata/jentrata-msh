@@ -65,6 +65,7 @@ public class PluginDescriptor {
     private String id;
     private String name;
     private String version;
+    private String buildID;
     private String providerName;
     private String handlerClass;
     private Properties parameters;
@@ -96,6 +97,7 @@ public class PluginDescriptor {
         id = descriptor.getProperty("/plugin/@id", "");
         name = descriptor.getProperty("/plugin/@name", "");
         version = descriptor.getProperty("/plugin/@version", "");
+        buildID = descriptor.getProperty("/plugin/@buildID", "");
         providerName = descriptor.getProperty("/plugin/@provider-name", "");
         handlerClass = descriptor.getProperty("/plugin/@class", "");
         parameters = descriptor.createProperties("/plugin/parameters/parameter");
@@ -207,7 +209,16 @@ public class PluginDescriptor {
     public String getVersion() {
         return version;
     }
-    
+
+    /**
+     * Gets the plugin buildID
+     *
+     * @return the buildID of the plugin
+     */
+    public String getBuildID() {
+        return buildID;
+    }
+
     /**
      * Gets the handler class of the plugin.
      * 

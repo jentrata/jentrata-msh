@@ -42,7 +42,7 @@
 	  </tr>
 	  <tr>
 	    <td>Version</td>
-	    <td><xsl:value-of select="./version" /></td>
+	    <td><xsl:value-of select="./version" /> - (<xsl:value-of select="substring(./buildID,0,8)" />)</td>
 	  </tr>
 	  <tr>
 	    <td>No of Components</td>

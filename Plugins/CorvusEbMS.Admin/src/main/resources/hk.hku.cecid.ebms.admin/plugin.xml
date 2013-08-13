@@ -2,6 +2,7 @@
 <plugin id="hk.hku.cecid.ebms.admin"
    name="Piazza Corvus EbMS Admin Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid">
 
 	<runtime>

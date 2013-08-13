@@ -3,6 +3,7 @@
    id="hk.hku.cecid.piazza.corvus.core.main.admin"
    name="Corvus Main System Admin Plugin"
    version="@version@"
+   buildID="${buildNumber}"
    provider-name="hk.hku.cecid"
    class="hk.hku.cecid.piazza.corvus.core.main.admin.AdminMainProcessor"
 >

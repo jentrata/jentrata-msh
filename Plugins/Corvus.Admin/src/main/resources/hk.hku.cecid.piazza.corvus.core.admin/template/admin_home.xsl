@@ -11,7 +11,7 @@
   </tr>
   <tr>
     <td>System Version</td>
-    <td><xsl:value-of select="./system/version" /></td>
+    <td><xsl:value-of select="./system/version" /> - (<xsl:value-of select="substring(./system/buildID,0,8)" />)</td>
   </tr>
   <tr>
     <td>Startup Time</td>
