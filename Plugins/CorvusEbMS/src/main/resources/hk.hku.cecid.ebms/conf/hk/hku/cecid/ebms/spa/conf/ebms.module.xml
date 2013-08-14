@@ -1,4 +1,4 @@
-<module id="ebms.main" name="Ebms Plugin" version="${project.version}">
+<module id="ebms.main" name="Ebms Plugin" version="${version}">
 
 	<component id="logger" name="System Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>

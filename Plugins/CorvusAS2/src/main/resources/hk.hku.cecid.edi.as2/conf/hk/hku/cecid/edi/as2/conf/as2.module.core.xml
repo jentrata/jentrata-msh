@@ -1,4 +1,4 @@
-<module id="as2.core" name="Corvus AS2" version="${project.version}">
+<module id="as2.core" name="Corvus AS2" version="${version}">
 
 	<component id="logger" name="AS2 Core Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
