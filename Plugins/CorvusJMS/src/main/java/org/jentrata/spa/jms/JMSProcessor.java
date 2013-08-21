@@ -4,6 +4,7 @@
 package org.jentrata.spa.jms;
 
 
+import org.jentrata.spa.jms.module.JMSBrokerComponent;
 import org.jentrata.spa.jms.module.JMSComponent;
 
 import hk.hku.cecid.piazza.commons.Sys;
@@ -55,11 +56,18 @@ public class JMSProcessor implements PluginHandler {
     
     public void processDeactivation(Plugin plugin) throws PluginException {
         moduleGroup.stopActiveModules();
+        JMSBrokerComponent jmsBroker = getJMSBrokerComponent();
+        if(jmsBroker != null) {
+            jmsBroker.shutdownBroker();
+        }
     }
     
     public JMSComponent getJmsComponent(String queue) {
-        
         return (JMSComponent) core.getComponent(getJMSComponentName(queue));
+    }
+
+    public JMSBrokerComponent getJMSBrokerComponent() {
+        return (JMSBrokerComponent) core.getComponent("jmsBroker");
     }
 
     private String getJMSComponentName(String queue) {
