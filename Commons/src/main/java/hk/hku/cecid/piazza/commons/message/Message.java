@@ -8,6 +8,7 @@ public interface Message {
     public static final String [] VALID_HEADER_KEYS = {"cpaId","service","serviceType",
                                             "action","conversationId","fromPartyId",
                                             "fromPartyType","toPartyId","toPartyType",
+                                            "fromPartyRole","toPartyRole",
                                             "timeToLiveOffset","payload-contentId","payload-contentType"};
 
     Map<String,Object> getHeader();
