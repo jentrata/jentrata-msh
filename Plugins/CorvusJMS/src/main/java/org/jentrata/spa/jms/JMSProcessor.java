@@ -60,6 +60,10 @@ public class JMSProcessor implements PluginHandler {
         if(jmsBroker != null) {
             jmsBroker.shutdownBroker();
         }
+        JMSComponent jmsComponent = (JMSComponent) core.getComponent("jms");
+        if(jmsComponent != null) {
+            jmsComponent.shutdown();
+        }
     }
     
     public JMSComponent getJmsComponent(String queue) {

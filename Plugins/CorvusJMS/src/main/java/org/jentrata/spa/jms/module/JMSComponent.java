@@ -5,6 +5,7 @@ package org.jentrata.spa.jms.module;
 
 import java.util.Properties;
 
+import hk.hku.cecid.piazza.commons.Sys;
 import hk.hku.cecid.piazza.commons.message.MessageHandler;
 import hk.hku.cecid.piazza.commons.module.Component;
 
@@ -28,8 +29,6 @@ import org.jentrata.spa.jms.message.CamelMessage;
 public class JMSComponent extends Component {
 
     private ConnectionFactory connectionFactory;
-    private String username = null;
-    private String password = null;
     private CamelContext camel;
 
     @Override
@@ -82,7 +81,18 @@ public class JMSComponent extends Component {
     protected String getPassword() {
         return getParameters().getProperty("password");
     }
-    
+
+    public void shutdown() {
+        try {
+            if(camel != null) {
+                camel.stop();
+            }
+        } catch (Exception e) {
+            Sys.main.log.warn("unable to shutdown jms component:" + e);
+            Sys.main.log.debug("",e);
+        }
+    }
+
     private static class MessageHandlerRouteBuilder extends RouteBuilder {
         
         private String queueUri;
