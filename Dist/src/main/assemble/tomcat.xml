@@ -62,6 +62,15 @@
 			<fileMode>755</fileMode>
             <filtered>true</filtered>
 		</fileSet>
+        <fileSet>
+            <directory>src/main/scripts/bin</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>bin</outputDirectory>
+            <directoryMode>755</directoryMode>
+            <fileMode>755</fileMode>
+        </fileSet>
 		<!-- files for the sample client webservices -->
 		<fileSet>
 			<directory>../Clients/Corvus.WSClient/src/main/script/</directory>

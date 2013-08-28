@@ -1,0 +1,13 @@
+#Jentrata Environment
+
+#Set Tomcat home
+#TOMCAT_HOME="/opt/tomcat"
+
+#override Tomcat JVM settings
+#JAVA_OPTS="-Xms1024m -Xmx1024m"
+
+#enable Remote JMX
+#JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8001 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+
+
+

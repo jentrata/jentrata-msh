@@ -1,0 +1,69 @@
+#!/bin/sh
+
+#Jentrata startup *nix startup script
+
+# OS specific support.  $var _must_ be set to either true or false.
+cygwin=false
+darwin=false
+os400=false
+case "`uname`" in
+CYGWIN*) cygwin=true;;
+Darwin*) darwin=true;;
+OS400*) os400=true;;
+esac
+
+# resolve links - $0 may be a softlink
+PRG="$0"
+
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`/"$link"
+  fi
+done
+
+# Get standard environment variables
+PRGDIR=`dirname "$PRG"`
+
+
+# Only set JENTRATA_HOME if not already set
+[ -z "$JENTRATA_HOME" ] && JENTRATA_HOME=`cd "$PRGDIR/.." >/dev/null; pwd`
+
+# Copy JENTRATA_BASE from JENTRATA_HOME if not already set
+[ -z "$JENTRATA_BASE" ] && JENTRATA_BASE="$JENTRATA_HOME"
+
+if [ -r "$JENTRATA_BASE/bin/setenv" ]; then
+  . "$JENTRATA_BASE/bin/setenv"
+elif [ -r "$JENTRATA_HOME/bin/setenv" ]; then
+  . "$JENTRATA_HOME/bin/setenv"
+fi
+
+if [ -z "$TOMCAT_HOME" ]; then
+  echo "Please set configure TOMCAT_HOME in $JENTRATA_HOME/bin/setenv"
+  exit 1
+fi
+
+#Check if Jentrata has been deploy to tomcat if not add a symlink
+if [ ! -d "$TOMCAT_HOME/webapps/jentrata" ]; then
+  echo "Deploying Jentrata Webapp to $TOMCAT_HOME/webapps"
+  cd "$TOMCAT_HOME/webapps"
+  ln -s "$JENTRATA_HOME/webapps/corvus" jentrata
+fi
+
+
+TOMCAT_EXEC="/catalina.sh"
+
+if [ -z "$JAVA_OPTS" ]; then
+  JAVA_OPTS="-Dcorvus.home=$JENTRATA_HOME"
+else
+  JAVA_OPTS="$JAVA_OPTS -Dcorvus.home=$JENTRATA_HOME"
+fi
+
+cd "$JENTRATA_HOME/bin"
+
+export JAVA_OPTS="$JAVA_OPTS"
+echo "Using JENTRATA_HOME:   $JENTRATA_HOME"
+exec "$TOMCAT_HOME"/bin/"$TOMCAT_EXEC" $@
