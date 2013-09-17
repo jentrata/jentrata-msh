@@ -72,8 +72,8 @@
 		
 		<!-- for inbox and outbox collector -->
 		<parameter type="finder" name="find_inbox_pending_messages_by_timestamp" value="select * from message where message_box='inbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 50" />
-		<parameter type="finder" name="find_outbox_pending_messages_by_timestamp" value="select * from message where message_box='outbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 50" />
-		<parameter type="finder" name="find_outbox_processing_messages_by_timestamp" value="select * from message where message_box='outbox' and status='PR' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 50" />
+		<parameter type="finder" name="find_outbox_pending_messages_by_timestamp" value="select * from message,outbox where outbox.message_id=message.message_id and message_box='outbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 50" />
+		<parameter type="finder" name="find_outbox_processing_messages_by_timestamp" value="select * from message,outbox where outbox.message_id=message.message_id and message_box='outbox' and status='PR' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 50" />
 
 		<!-- only for Ebms Message Collector Service -->
 		<parameter type="finder" name="find_message_by_cpa" value="select m.* from message m, inbox i where m.message_id = i.message_id and m.cpa_id = ? and m.service = ? and m.action = ? and m.message_box='inbox' and m.message_type='Order' and m.status='PS' " />            
