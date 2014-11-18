@@ -446,4 +446,19 @@ public class MessageDataSourceDVO extends DataSourceDVO implements MessageDVO {
     public String getPartnershipId() {
     	return super.getString("partnershipId");
     }
+
+    /**
+     * @return Returns the hostname
+     */
+    public String getHostname() {
+        return super.getString("hostname");
+    }
+
+    /**
+     * @param hostname The hostname to set.
+     */
+    public void setHostname(String hostname) {
+        super.setString("hostname", hostname);
+    }
+
 }

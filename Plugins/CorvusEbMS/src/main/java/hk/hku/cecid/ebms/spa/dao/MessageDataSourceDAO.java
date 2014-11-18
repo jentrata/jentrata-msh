@@ -101,7 +101,7 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
      */
     public List findInboxPendingMessagesByTimestamp(MessageDVO data) throws DAOException {
     	return super.find("find_inbox_pending_messages_by_timestamp",
-    			new Object[] {});
+			  new Object[] {data.getHostname()});
     }
 	
     /**
@@ -115,7 +115,7 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
      */
     public List findOutboxPendingMessagesByTimestamp(MessageDVO data) throws DAOException {
     	return super.find("find_outbox_pending_messages_by_timestamp",
-    			new Object[] {});
+			  new Object[] {data.getHostname()});
     }
 
     /**
@@ -129,7 +129,7 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
      */
     public List findOutboxProcessingMessagesByTimestamp(MessageDVO data) throws DAOException {
     	return super.find("find_outbox_processing_messages_by_timestamp",
-    			new Object[] {});
+			  new Object[] {data.getHostname()});
     }
 
     /**

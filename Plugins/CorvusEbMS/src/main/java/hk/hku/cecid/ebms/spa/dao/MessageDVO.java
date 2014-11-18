@@ -281,4 +281,9 @@ public interface MessageDVO extends DVO {
     public void setPartnershipId(String partnershipId);
     
     public String getPartnershipId();
+
+    public String getHostname();
+
+    public void setHostname(String hostname);
+
 }

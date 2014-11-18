@@ -26,6 +26,7 @@ CREATE TABLE message (
 	timeout_time_stamp timestamp,
 	status varchar,
 	status_description varchar,
+	hostname varchar,
 	PRIMARY KEY (message_id, message_box)
 );
 
@@ -41,12 +42,14 @@ CREATE TABLE repository (
 CREATE TABLE outbox (
 	message_id varchar,
 	retried integer,
+	hostname varchar,
 	PRIMARY KEY (message_id)
 );
 
 CREATE TABLE inbox (
 	message_id varchar,
 	order_no bigint,
+	hostname varchar,
 	PRIMARY KEY (message_id)
 );
 

@@ -30,6 +30,7 @@ import hk.hku.cecid.ebms.spa.listener.EbmsResponse;
 import hk.hku.cecid.ebms.spa.task.AgreementHandler;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.soap.SOAPRequest;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateFactory;
@@ -1807,6 +1808,7 @@ public class InboundMessageProcessor {
 
 		try {
 			MessageDVO messageDVO = message.getMessageDVO();
+			messageDVO.setHostname(HostInfo.GetLocalhostAddress());
 			messageDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PENDING);
 			MessageServerDAO messageServerDAO = (MessageServerDAO) EbmsProcessor.core.dao
 					.createDAO(MessageServerDAO.class);
@@ -1835,6 +1837,7 @@ public class InboundMessageProcessor {
 
 		try {
 			MessageDVO messageDVO = message.getMessageDVO();
+			messageDVO.setHostname(HostInfo.GetLocalhostAddress());
 			messageDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PROCESSED);
 			messageDVO.setStatusDescription("Message was sent synchronously");
 			MessageServerDAO messageServerDAO = (MessageServerDAO) EbmsProcessor.core.dao
