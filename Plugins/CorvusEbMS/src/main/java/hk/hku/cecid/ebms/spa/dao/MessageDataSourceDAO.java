@@ -336,11 +336,6 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
     		parameters.add(data.getConvId());
     	}
     	
-    	if (data.getPrimalMessageId() != null && !data.getPrimalMessageId().trim().equals("")) {
-    		sql += " AND " + getFilter("find_message_by_history_filter_primal_message_id");
-    		parameters.add(data.getPrimalMessageId());
-    	}
-    	
 		sql += " " + getOrder("find_message_by_history_order");
     	parameters.add(new Integer(numberOfMessage));
     	parameters.add(new Integer(offset));
@@ -394,11 +389,6 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
         		sql += " AND " + getFilter("find_number_of_message_by_history_filter_conv_id");
         		parameters.add(data.getConvId());
         	}
-        	
-        	if (data.getPrimalMessageId() != null && !data.getPrimalMessageId().trim().equals("")) {
-        		sql += " AND " + getFilter("find_number_of_message_by_history_filter_primal_message_id");
-        		parameters.add(data.getPrimalMessageId());
-        	}        	
 
     		List queryResult = executeRawQuery(sql, parameters.toArray());
             List resultEntry = (List) queryResult.get(0);
@@ -430,4 +420,41 @@ public class MessageDataSourceDAO extends DataSourceDAO implements MessageDAO {
 		// Execute the update
 		return this.executeUpdate(this.getSQL("updated_timed_out_message_status"), new Object[]{status, ts});
 	}    
+
+    /**
+     *
+     */
+    public int updateOldIncomingMessagesPendingbyTimestamp(String newhostname, String oldhostname) throws DAOException {
+	if (newhostname == null || oldhostname == null) {
+	    throw new DAOException("The required params is missing.");
+	}
+
+	// Execute the update
+	return this.executeUpdate(this.getSQL("update_old_incoming_messages_pending_by_timestamp"), new Object[]{newhostname, oldhostname});
+    }
+
+    /**
+     *
+     */
+    public int updateOldOutboxPendingMessagesbyTimestamp(String newhostname, String oldhostname) throws DAOException {
+	if (newhostname == null || oldhostname == null) {
+	    throw new DAOException("The required params is missing.");
+	}
+
+	// Execute the update
+	return this.executeUpdate(this.getSQL("update_old_outbox_pending_messages_by_timestamp"), new Object[]{newhostname, oldhostname});
+    }
+
+    /**
+     *
+     */
+    public int updateOldOutboxProcessingMessagesbyTimestamp(String newhostname, String oldhostname) throws DAOException {
+	if (newhostname == null || oldhostname == null) {
+	    throw new DAOException("The required params is missing.");
+	}
+
+	// Execute the update
+	return this.executeUpdate(this.getSQL("update_old_outbox_processing_messages_by_timestamp"), new Object[]{newhostname, oldhostname});
+    }
+
 }

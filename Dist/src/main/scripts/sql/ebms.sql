@@ -81,4 +81,11 @@ CREATE TABLE partnership (
 	PRIMARY KEY (partnership_id)
 );
 
+CREATE TABLE cluster (
+	hostname varchar,
+	status varchar,
+	timestamp bigint,
+	PRIMARY KEY (hostname)
+);
+
 CREATE SEQUENCE inbox_order_no_seq;

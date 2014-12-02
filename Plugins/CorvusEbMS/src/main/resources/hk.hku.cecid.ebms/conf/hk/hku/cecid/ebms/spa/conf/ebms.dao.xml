@@ -47,12 +47,7 @@
 		<parameter type="column" name="service" value="service" />
 		<parameter type="column" name="action" value="action" />
 		<parameter type="column" name="conv_id" value="convId" />
-		<!-- The Reference Message ID that the response replies to  -->
 		<parameter type="column" name="ref_to_message_id" value="refToMessageId" />
-		<!-- The Message ID of the message triggered "Resend as new" -->
-		<parameter type="column" name="primal_message_id" value="primalMessageId" />
-		<parameter type="column" name="has_resend_as_new" value="hasResendAsNew" />
-		<parameter type="column" name="partnership_id" value="partnershipId" />
 		<parameter type="column" name="sync_reply" value="syncReply" />
 		<parameter type="column" name="dup_elimination" value="dupElimination" />	
 		<parameter type="column" name="ack_requested" value="ackRequested" />
@@ -74,7 +69,12 @@
 		<!-- for inbox and outbox collector -->
 		<parameter type="finder" name="find_inbox_pending_messages_by_timestamp" value="select * from message where hostname = ? and message_box='inbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 50" />
 		<parameter type="finder" name="find_outbox_pending_messages_by_timestamp" value="select * from message,outbox where outbox.hostname = ? and outbox.message_id=message.message_id and message_box='outbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 50" />
-		<parameter type="finder" name="find_outbox_processing_messages_by_timestamp" value="select * from message,outbox where outbox.hostname = ? outbox.message_id=message.message_id and message_box='outbox' and status='PR' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 50" />
+		<parameter type="finder" name="find_outbox_processing_messages_by_timestamp" value="select * from message,outbox where outbox.hostname = ? and outbox.message_id=message.message_id and message_box='outbox' and status='PR' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 50" />
+
+		<!-- for Cluster Audit -->
+		<parameter type="sql" name="update_old_incoming_messages_pending_by_timestamp" value="update message set hostname = ? where message_id in (select message_id from message where hostname = ? and message_box='inbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 25);" />
+		<parameter type="sql" name="update_old_outbox_pending_messages_by_timestamp" value="update outbox set hostname = ? where message_id in (select message.message_id from message,outbox where outbox.hostname = ? and outbox.message_id=message.message_id and message_box='outbox' and status='PD' and message_type&lt;&gt;'ProcessedError' order by time_stamp LIMIT 25)" />
+		<parameter type="sql" name="update_old_outbox_processing_messages_by_timestamp" value="update outbox set hostname = ? where message_id in (select message.message_id from message,outbox where outbox.hostname = ? and outbox.message_id=message.message_id and message_box='outbox' and status='PR' and message_type&lt;&gt;'ProcessedError' order by retried,time_stamp LIMIT 25)" />
 
 		<!-- only for Ebms Message Collector Service -->
 		<parameter type="finder" name="find_message_by_cpa" value="select m.* from message m, inbox i where m.message_id = i.message_id and m.cpa_id = ? and m.service = ? and m.action = ? and m.message_box='inbox' and m.message_type='Order' and m.status='PS' " />            
@@ -94,7 +94,7 @@
 		<!-- only for check the allowance of reset message -->    
 		<parameter type="finder" name="find_ordered_messages_by_message_box_and_cpa_and_status" value="select * from message where message_box=? and cpa_id=? and service=? and action=? and conv_id=? and status=? and sequence_no&lt;&gt;-1 LIMIT 1" />
 		
-		<parameter type="finder" name="find_message_by_history" value="select * from message where (message_type = 'Order' or message_type = 'Ping' or message_type = 'ProcessedError')" />
+		<parameter type="finder" name="find_message_by_history" value="select * from message where message_type = 'Order'" />
 		<parameter type="filter" name="find_message_by_history_filter_message_box" value="message_box = ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_message_id" value="message_id LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_cpa_id" value="cpa_id LIKE ?"/>
@@ -102,10 +102,9 @@
 		<parameter type="filter" name="find_message_by_history_filter_action" value="action LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_conv_id" value="conv_id LIKE ?"/>				
 		<parameter type="filter" name="find_message_by_history_filter_status" value="status = ?"/>
-		<parameter type="filter" name="find_message_by_history_filter_primal_message_id" value="primal_message_id LIKE ?"/>
 		<parameter type="order" name="find_message_by_history_order" value="order by time_stamp desc, message_box asc LIMIT ? offset ?"/>
 		
-		<parameter type="finder" name="find_number_of_message_by_history" value="select count(message_id) from message where (message_type = 'Order' or message_type = 'Ping' or message_type = 'ProcessedError')" />
+		<parameter type="finder" name="find_number_of_message_by_history" value="select count(message_id) from message where message_type = 'Order'" />
 		<parameter type="filter" name="find_number_of_message_by_history_filter_message_box" value="message_box = ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_status" value="status = ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_message_id" value="message_id LIKE ?"/>
@@ -113,7 +112,6 @@
 		<parameter type="filter" name="find_number_of_message_by_history_filter_service" value="service LIKE ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_action" value="action LIKE ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_conv_id" value="conv_id LIKE ?"/>
-		<parameter type="filter" name="find_number_of_message_by_history_filter_primal_message_id" value="primal_message_id LIKE ?"/>
 		<!-- <parameter type="filter" name="find_number_of_message_by_history_filter_status" value="status = ?"/> -->
 		
 		<!-- 
@@ -144,6 +142,20 @@
 		<parameter type="column" name="retried" value="retried" />
 		<parameter type="column" name="hostname" value="hostname" />
 		<parameter type="finder" name="select_outbox" value="select * from outbox" />
+	</dao>
+	
+	<dao name="hk.hku.cecid.ebms.spa.dao.ClusterDAO">
+		<class>hk.hku.cecid.ebms.spa.dao.ClusterDataSourceDAO</class>
+		<parameter name="table" value="cluster" />
+		<parameter name="key" value="hostname" />
+		<parameter type="column" name="hostname" value="hostname" />
+		<parameter type="column" name="status" value="status" />
+		<parameter type="column" name="timestamp" value="timestamp" />
+		<parameter type="finder" name="select_cluster" value="select * from cluster" />
+		<parameter type="finder" name="find_cluster_entry" value="select * from cluster where hostname = ?" />
+		<parameter type="finder" name="find_cluster_all_entries" value="select * from cluster" />
+		<parameter type="finder" name="find_cluster_latest_timestamp" value="select * from cluster where status = 'active' order by timestamp desc limit 1" />
+		<parameter type="finder" name="find_cluster_status_entries" value="select * from cluster where status = ?" />
 	</dao>
 	
 	<dao name="hk.hku.cecid.ebms.spa.dao.RepositoryDAO">
