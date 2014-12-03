@@ -47,7 +47,12 @@
 		<parameter type="column" name="service" value="service" />
 		<parameter type="column" name="action" value="action" />
 		<parameter type="column" name="conv_id" value="convId" />
-		<parameter type="column" name="ref_to_message_id" value="refToMessageId" />
+               <!-- The Reference Message ID that the response replies to  -->
+                <parameter type="column" name="ref_to_message_id" value="refToMessageId" />
+                <!-- The Message ID of the message triggered "Resend as new" -->
+                <parameter type="column" name="primal_message_id" value="primalMessageId" />
+                <parameter type="column" name="has_resend_as_new" value="hasResendAsNew" />
+                <parameter type="column" name="partnership_id" value="partnershipId" />
 		<parameter type="column" name="sync_reply" value="syncReply" />
 		<parameter type="column" name="dup_elimination" value="dupElimination" />	
 		<parameter type="column" name="ack_requested" value="ackRequested" />
@@ -94,17 +99,18 @@
 		<!-- only for check the allowance of reset message -->    
 		<parameter type="finder" name="find_ordered_messages_by_message_box_and_cpa_and_status" value="select * from message where message_box=? and cpa_id=? and service=? and action=? and conv_id=? and status=? and sequence_no&lt;&gt;-1 LIMIT 1" />
 		
-		<parameter type="finder" name="find_message_by_history" value="select * from message where message_type = 'Order'" />
+		<parameter type="finder" name="find_message_by_history" value="select * from message where (message_type = 'Order' or message_type = 'Ping' or message_type = 'ProcessedError')" />
 		<parameter type="filter" name="find_message_by_history_filter_message_box" value="message_box = ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_message_id" value="message_id LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_cpa_id" value="cpa_id LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_service" value="service LIKE ?"/>
 		<parameter type="filter" name="find_message_by_history_filter_action" value="action LIKE ?"/>
-		<parameter type="filter" name="find_message_by_history_filter_conv_id" value="conv_id LIKE ?"/>				
+		<parameter type="filter" name="find_message_by_history_filter_conv_id" value="conv_id LIKE ?"/>	
 		<parameter type="filter" name="find_message_by_history_filter_status" value="status = ?"/>
+		<parameter type="filter" name="find_message_by_history_filter_primal_message_id" value="primal_message_id LIKE ?"/>
 		<parameter type="order" name="find_message_by_history_order" value="order by time_stamp desc, message_box asc LIMIT ? offset ?"/>
 		
-		<parameter type="finder" name="find_number_of_message_by_history" value="select count(message_id) from message where message_type = 'Order'" />
+		<parameter type="finder" name="find_number_of_message_by_history" value="select count(message_id) from message where (message_type = 'Order' or message_type = 'Ping' or message_type = 'ProcessedError')" />
 		<parameter type="filter" name="find_number_of_message_by_history_filter_message_box" value="message_box = ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_status" value="status = ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_message_id" value="message_id LIKE ?"/>
@@ -112,6 +118,7 @@
 		<parameter type="filter" name="find_number_of_message_by_history_filter_service" value="service LIKE ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_action" value="action LIKE ?"/>
 		<parameter type="filter" name="find_number_of_message_by_history_filter_conv_id" value="conv_id LIKE ?"/>
+		<parameter type="filter" name="find_number_of_message_by_history_filter_primal_message_id" value="primal_message_id LIKE ?"/>
 		<!-- <parameter type="filter" name="find_number_of_message_by_history_filter_status" value="status = ?"/> -->
 		
 		<!-- 

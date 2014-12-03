@@ -4,21 +4,21 @@
     <mail>
         <smtp>
             <enable>false</enable>
-            <host>smtpout.cs.hku.hk</host>
+            <host>${jentrata.smtp.host:localhost}</host>
             <protocol>smtp</protocol>
-            <port></port>
-            <from_mail_address></from_mail_address>
-            <username></username>
-            <password></password>
+            <port>${jentrata.smtp.port:25}</port>
+            <from_mail_address>${jentrata.smtp.from:}</from_mail_address>
+            <username>${jentrata.smtp.user:}</username>
+            <password>${jentrata.smtp.pass:}</password>
         </smtp>
         <pop>
-            <enable>false</enable>            
-            <host>mail.cecid.hku.hk</host>
+            <enable>false</enable>
+            <host>${jentrata.pop3.host:localhost}</host>
             <protocol>pop3</protocol>
             <port></port>
             <folder>INBOX</folder>
-            <username></username>
-            <password></password>
+            <username>${jentrata.pop3.user:}</username>
+            <password>${jentrata.pop3.pass:}</password>
         </pop>
     </mail>
     <!-- Outbound agreement checking is used for client self-generated Ebxml Message -->
@@ -27,6 +27,10 @@
     <inbound_agreement_check>true</inbound_agreement_check>
     <!-- Sign header only is optional for interop test -->
     <sign_header_only>false</sign_header_only>    
+    <http_basic_auth>
+      <username>${jentrata.outbound.auth.username:}</username>
+      <password>${jentrata.outbound.auth.password:}</password>
+    </http_basic_auth>
     <cluster>
       <port>8080</port>
       <servlet>/corvus/httpd/ebms/inbound/</servlet>

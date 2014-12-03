@@ -23,4 +23,8 @@
    	  <class>hk.hku.cecid.ebms.spa.task.MessageMonitor</class>
    	  <descriptor>hk/hku/cecid/ebms/spa/conf/message-monitor.module.xml</descriptor>
     </module>	
+        <module>
+                <class>hk.hku.cecid.ebms.spa.task.EbmsEventModule</class>
+                <descriptor>hk/hku/cecid/ebms/spa/conf/ebms.module.event.xml</descriptor>
+        </module>
 </module-group>
