@@ -137,6 +137,6 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 
 ## Run Jentrata
 
-1. Start tomcat and browse to [http://localhost:8080/corvus/admin/home](http://localhost:8080/jentrata/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
+1. Start tomcat and browse to [http://localhost:8080/jentrata/admin/home](http://localhost:8080/jentrata/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
 
 2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRATA_HOME/logs for errors
