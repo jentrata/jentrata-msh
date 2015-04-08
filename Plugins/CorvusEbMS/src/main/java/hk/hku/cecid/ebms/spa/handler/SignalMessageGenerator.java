@@ -122,7 +122,9 @@ public class SignalMessageGenerator {
 
         final MessageHeader messageHeader = ackMessage.getMessageHeader();
         messageHeader.setRefToMessageId(refToMessageId);
-
+        if (ackRequestedMessage.getDuplicateElimination()) {
+            messageHeader.setDuplicateElimination();
+        }
         Iterator toParties = ackRequestedMessage.getToPartyIds();
         if (toParties.hasNext()) {
             MessageHeader.PartyId party = (MessageHeader.PartyId) toParties
