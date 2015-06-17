@@ -1,5 +1,7 @@
 # Jentrata - Message Handler Service
 
+[![Join the chat at https://gitter.im/jentrata/jentrata-msh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jentrata/jentrata-msh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Jentrata MSH is based on Hermes Messaging Gateway developed by CECID, The University of Hong Kong. The goal of Jentrata is build on the orignial work developed by CECID as well as build a community to continue it's development.
 
 See [jentrata.org](http://jentrata.org) for complete details on the project
