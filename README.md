@@ -109,12 +109,12 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 2. Create your databases
 
 		mysql -e "CREATE DATABASE ebms;"
-		mysql -e "CREATE DAYABASE as2;"
+		mysql -e "CREATE DATABASE as2;"
 
 3. Create users/permissions to new databases
 
-		mysql -e "GRANT ALL TO 'ebms'@'localhost' IDENTIFIED BY 'ebms';"
-		mysql -e "GRANT ALL TO 'as2'@'localhost' IDENTIFIED BY 'as2';"
+		mysql -e "GRANT ALL ON ebms.* TO 'ebms'@'localhost' IDENTIFIED BY 'ebms';"
+		mysql -e "GRANT ALL ON as2.* TO 'as2'@'localhost' IDENTIFIED BY 'as2';"
 
 4. Import DB Schema
 
