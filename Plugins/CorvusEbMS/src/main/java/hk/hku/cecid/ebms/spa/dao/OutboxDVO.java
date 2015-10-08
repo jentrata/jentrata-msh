@@ -37,4 +37,14 @@ public interface OutboxDVO extends DVO {
      */
     public void setRetried(int retried);
 
+    /**
+     * @param Returns the hostname.
+     */
+    public String getHostname();
+
+    /**
+     * @param hostname The hostname to set.
+     */
+    public void setHostname(String hostname);
+
 }

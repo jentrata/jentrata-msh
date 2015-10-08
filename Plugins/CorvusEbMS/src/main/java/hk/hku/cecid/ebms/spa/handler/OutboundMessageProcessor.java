@@ -30,6 +30,7 @@ import hk.hku.cecid.piazza.commons.message.Message;
 import hk.hku.cecid.piazza.commons.soap.SOAPRequest;
 import hk.hku.cecid.piazza.commons.soap.WebServicesRequest;
 import hk.hku.cecid.piazza.commons.util.Generator;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 import java.util.Iterator;
 import java.util.List;
@@ -249,6 +250,7 @@ public class OutboundMessageProcessor {
 			repositoryDVO.setContentType(contentType);
 		}
 		OutboxDVO outboxDVO = message.getOutboxDVO();
+		outboxDVO.setHostname(HostInfo.GetLocalhostAddress());
 
 		MessageServerDAO messageServerDAO = (MessageServerDAO) EbmsProcessor.core.dao
 				.createDAO(MessageServerDAO.class);
@@ -325,8 +327,10 @@ public class OutboundMessageProcessor {
 		if (contentType != null) {
 			repositoryDVO.setContentType(contentType);
 		}
+		OutboxDVO outboxDVO = message.getOutboxDVO();
+		outboxDVO.setHostname(HostInfo.GetLocalhostAddress());
 
-		dao.storeOutboxMessage(messageDVO, repositoryDVO, message.getOutboxDVO(), primalMsgDVO);
+		dao.storeOutboxMessage(messageDVO, repositoryDVO, outboxDVO, primalMsgDVO);
 
 		EbmsProcessor.core.log.info("Store outgoing message: "
 				+ ebxmlRequestMessage.getMessageId());

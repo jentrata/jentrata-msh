@@ -31,4 +31,8 @@ public interface InboxDVO extends DVO {
     
     public void setOrderNo(long orderNo);
 
+    public String getHostname();
+
+    public void setHostname(String hostname);
+
 }

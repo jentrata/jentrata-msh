@@ -34,6 +34,7 @@ import hk.hku.cecid.piazza.commons.security.TrustedHostnameVerifier;
 import hk.hku.cecid.piazza.commons.soap.SOAPHttpConnector;
 import hk.hku.cecid.piazza.commons.soap.SOAPMailSender;
 import hk.hku.cecid.piazza.commons.util.StringUtilities;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -498,6 +499,7 @@ public class OutboxTask implements ActiveTask {
                 OutboxDVO outboxDVO = (OutboxDVO) outboxDao.createDVO();
                 outboxDVO.setMessageId(mID);            
                 outboxDVO.setRetried(this.attempted + 1);
+		outboxDVO.setHostname(HostInfo.GetLocalhostAddress());
                 outboxDao.updateOutbox(outboxDVO);
             } catch (DAOException daoe){
             	String detail = "Cannont update the retires count (Message id: " + mID + ")";

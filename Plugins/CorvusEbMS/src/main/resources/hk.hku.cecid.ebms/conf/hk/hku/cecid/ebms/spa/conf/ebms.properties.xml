@@ -12,7 +12,7 @@
             <password>${jentrata.smtp.pass:}</password>
         </smtp>
         <pop>
-            <enable>false</enable>            
+            <enable>false</enable>
             <host>${jentrata.pop3.host:localhost}</host>
             <protocol>pop3</protocol>
             <port></port>
@@ -26,9 +26,15 @@
     <!-- Inbound agreement checking is optional for interop test -->
     <inbound_agreement_check>true</inbound_agreement_check>
     <!-- Sign header only is optional for interop test -->
-    <sign_header_only>false</sign_header_only>
+    <sign_header_only>false</sign_header_only>    
     <http_basic_auth>
-        <username>${jentrata.outbound.auth.username:}</username>
-        <password>${jentrata.outbound.auth.password:}</password>
+      <username>${jentrata.outbound.auth.username:}</username>
+      <password>${jentrata.outbound.auth.password:}</password>
     </http_basic_auth>
+    <cluster>
+      <port>8080</port>
+      <servlet>/corvus/httpd/ebms/inbound/</servlet>
+      <interval>120000</interval>
+      <connectiontimeout>10000</connectiontimeout>
+    </cluster>
 </ebms>

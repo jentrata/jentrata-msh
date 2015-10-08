@@ -26,6 +26,7 @@ CREATE TABLE message (
 	timeout_time_stamp timestamp null default null,
 	status varchar(2),
 	status_description varchar(4000),
+	hostname varchar(255),
 	PRIMARY KEY (message_id, message_box)
 )ENGINE= INNODB;
 
@@ -41,12 +42,14 @@ CREATE TABLE repository (
 CREATE TABLE outbox (
 	message_id varchar(255),
 	retried integer,
+	hostname varchar(255),
 	PRIMARY KEY (message_id)
 )ENGINE= INNODB;
 
 CREATE TABLE inbox (
 	message_id varchar(255),
 	order_no bigint,
+	hostname varchar(255),
 	PRIMARY KEY (message_id)
 )ENGINE= INNODB;
 
@@ -76,4 +79,11 @@ CREATE TABLE partnership (
 	encrypt_cert LONGBLOB,
 	encrypt_algorithm varchar(5),
 	PRIMARY KEY (partnership_id)
+)ENGINE= INNODB;
+
+CREATE TABLE cluster (
+	hostname varchar(255),
+	status varchar(12),
+	timestamp bigint,
+	PRIMARY KEY (hostname)
 )ENGINE= INNODB;

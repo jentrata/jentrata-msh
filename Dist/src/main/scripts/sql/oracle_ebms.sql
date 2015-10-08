@@ -26,6 +26,7 @@ CREATE TABLE message (
 	timeout_time_stamp timestamp,
 	status varchar2(2),
 	status_description varchar2(4000),
+	hostname varchar2(255),
 	PRIMARY KEY (message_id, message_box)
 );
 
@@ -41,12 +42,14 @@ CREATE TABLE repository (
 CREATE TABLE outbox (
 	message_id varchar2(255),
 	retried integer,
+	hostname varchar2(255),
 	PRIMARY KEY (message_id)
 );
 
 CREATE TABLE inbox (
 	message_id varchar2(255),
 	order_no number,
+	hostname varchar2(255),
 	PRIMARY KEY (message_id)
 );
 
@@ -76,6 +79,13 @@ CREATE TABLE partnership (
 	encrypt_cert blob,
 	encrypt_algorithm varchar2(5),
 	PRIMARY KEY (partnership_id)
+);
+
+CREATE TABLE cluster (
+	hostname varchar2(255),
+	status varchar2(12),
+	timestamp number,
+	PRIMARY KEY (hostname)
 );
 
 CREATE SEQUENCE inbox_order_no_seq;
