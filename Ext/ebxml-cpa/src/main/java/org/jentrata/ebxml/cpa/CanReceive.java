@@ -90,8 +90,8 @@ public class CanReceive {
      *     {@link Object }
      *     
      */
-    public Object getOtherPartyActionBinding() {
-        return otherPartyActionBinding;
+    public ActionBindingType getOtherPartyActionBinding() {
+        return (ActionBindingType) otherPartyActionBinding;
     }
 
     /**
