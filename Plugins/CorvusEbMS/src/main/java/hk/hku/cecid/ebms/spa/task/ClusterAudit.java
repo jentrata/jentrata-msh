@@ -30,7 +30,7 @@ import hk.hku.cecid.ebms.spa.handler.MessageClassifier;
  * Creation Date: 25/11/2014
  * 
  * @author 	Hans Sinnige
- * @version	1.0.0
+ * @version	1.0.1
  * 
  */
 public class ClusterAudit extends ActiveModule {
@@ -47,7 +47,6 @@ public class ClusterAudit extends ActiveModule {
 
     // Static properties, values are set inside ebms.properties.xml under <cluster>
     private static int Interval = 180000;
-    private static String Servlet = "/corvus/httpd/ebms/inbound/";
     private static String Port = "8080";
     private static int Timeout = 10000;
 
@@ -80,7 +79,6 @@ public class ClusterAudit extends ActiveModule {
 	    msgDAO = (MessageDAO) EbmsProcessor.core.dao.createDAO(MessageDAO.class);
 	    clusterDAO = (ClusterDAO) EbmsProcessor.core.dao.createDAO(ClusterDAO.class);
 	    
-	    this.Servlet = EbmsProcessor.core.properties.getProperty("/ebms/cluster/servlet");
 	    this.Port = EbmsProcessor.core.properties.getProperty("/ebms/cluster/port");
 	    this.Interval = Integer.parseInt(EbmsProcessor.core.properties.getProperty("/ebms/cluster/interval"));
 	    this.Timeout = Integer.parseInt(EbmsProcessor.core.properties.getProperty("/ebms/cluster/connectiontimeout"));
@@ -290,36 +288,25 @@ public class ClusterAudit extends ActiveModule {
     
     /**
      * hostIsAvailable() - Checks if a given host is still available for receiving
-     * messages. This is done by connecting to that host via its inbound servlet.
+     * messages. This is done by scanning the listening port of the given host.
      *
-     * @param hostname the host which is tried 
+     * @param hostname the host which is tried
      *
      * @return true in case host is available
      */
     private boolean hostIsAvailable(String hostname) {
 	boolean available = true;
-	int response;
-	String URLName = "http://" + hostname + ":" + Port + Servlet;
 
 	try {
-	    HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();
-	    con.setRequestMethod("HEAD");
-	    con.setRequestProperty("Connection","close");
-	    con.setConnectTimeout( Timeout );
-	    con.setReadTimeout( Timeout );
-	    response = con.getResponseCode();
-	    if (response == HttpURLConnection.HTTP_OK) {
-		available = true;
-	    } else {
-		available = false;
-	    }
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, Integer.parseInt(Port)), 1000);
+            socket.close();
+	} catch (Exception ex) {
+            available = false;
 	}
-	catch (Exception e) {
-	    available = false;
-	}
-	return available;
+        return available;
     }
-	
+    
     /**
      * uniqueAuditor() - Is this host the only auditor
      *
