@@ -33,7 +33,6 @@
     </http_basic_auth>
     <cluster>
       <port>8080</port>
-      <servlet>/corvus/httpd/ebms/inbound/</servlet>
       <interval>120000</interval>
       <connectiontimeout>10000</connectiontimeout>
     </cluster>
