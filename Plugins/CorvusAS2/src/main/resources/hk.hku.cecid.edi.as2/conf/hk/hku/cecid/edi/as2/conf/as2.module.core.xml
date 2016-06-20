@@ -14,7 +14,7 @@
 	<component id="daofactory" name="AS2 DAO Factory">
         <class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>
 		<parameter name="driver" value="${jentrata.as2.db.driver.class:org.postgresql.Driver}" />
-		<parameter name="url" value="${jentrata.ebms.db.url:jdbc:postgresql://localhost:5432/as2}" />
+		<parameter name="url" value="${jentrata.as2.db.url:jdbc:postgresql://localhost:5432/as2}" />
 		<parameter name="username" value="${jentrata.as2.db.user:corvus}" />
 		<parameter name="password" value="${jentrata.as2.db.pass:corvus}" />
         <parameter name="pooling" value="${jentrata.as2.db.pool:true}" />

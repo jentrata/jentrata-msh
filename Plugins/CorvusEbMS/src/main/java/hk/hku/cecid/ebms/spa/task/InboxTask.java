@@ -20,6 +20,7 @@ import hk.hku.cecid.ebms.spa.handler.MessageClassifier;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.module.ActiveTask;
 import hk.hku.cecid.piazza.commons.util.StringUtilities;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 /**
  * @author Donahue Sze
@@ -54,6 +55,7 @@ public class InboxTask implements ActiveTask {
             InboxDVO inboxDVO = (InboxDVO) inboxDAO.createDVO();
             inboxDVO.setMessageId(message.getMessageId());
             inboxDVO.setOrderNo(nextOrderNo);
+	    inboxDVO.setHostname(HostInfo.GetLocalhostAddress());
             inboxDAO.create(inboxDVO);
 			
 			fireEvent();

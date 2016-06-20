@@ -1,0 +1,5 @@
+<module id="ebms.cluster-audit" name="Cluster Audit" version="1.0">
+  <parameters>
+    <parameter name="execution-interval" value="30000" />
+  </parameters>
+</module>

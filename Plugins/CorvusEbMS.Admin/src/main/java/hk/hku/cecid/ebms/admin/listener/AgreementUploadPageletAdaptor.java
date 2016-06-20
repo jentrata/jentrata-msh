@@ -239,7 +239,8 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
     private void render(List<PartnershipDVO> partnerships, PropertyTree dom) {
         for(int i=0;i<partnerships.size();i++) {
             PartnershipDVO partnership = partnerships.get(i);
-            String partnershipOffset = "partnership[" + i + "]";
+            // in XPATH the first child of a node is index 1
+            String partnershipOffset = "partnership[" + (i+1) + "]";
             dom.setProperty(partnershipOffset + "/agreement_added","" + true);
             dom.setProperty(partnershipOffset + "/partnership_id",partnership.getPartnershipId());
             dom.setProperty(partnershipOffset + "/cpa_id",partnership.getCpaId());

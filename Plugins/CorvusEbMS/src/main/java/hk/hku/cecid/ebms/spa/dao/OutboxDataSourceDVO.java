@@ -59,4 +59,22 @@ public class OutboxDataSourceDVO extends DataSourceDVO implements
         super.setInt("retried", retried);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see hk.hku.cecid.ebms.spa.dao.RepositoryDVO#getHostname()
+     */
+    public String getHostname() {
+        return super.getString("hostname");
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see hk.hku.cecid.ebms.spa.dao.RepositoryDVO#setHostname(java.lang.String)
+     */
+    public void setHostname(String hostname) {
+        super.setString("hostname", hostname);
+    }
+
 }

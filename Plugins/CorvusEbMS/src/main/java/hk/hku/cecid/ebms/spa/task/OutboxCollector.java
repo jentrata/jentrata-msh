@@ -15,6 +15,7 @@ import hk.hku.cecid.ebms.spa.dao.MessageDVO;
 import hk.hku.cecid.ebms.spa.handler.MessageClassifier;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.module.ActiveTaskList;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,13 +35,13 @@ public class OutboxCollector extends ActiveTaskList {
      * @see hk.hku.cecid.piazza.commons.module.ActiveTaskList#getTaskList()
      */
     public List getTaskList() {
-
         List messageList = new Vector();
 
         try {
             MessageDAO dao = (MessageDAO) EbmsProcessor.core.dao
                     .createDAO(MessageDAO.class);
             MessageDVO finderDVO = (MessageDVO) dao.createDVO();
+	    finderDVO.setHostname(HostInfo.GetLocalhostAddress());
 
             // get all the processing message in first time
             if (isFirstTime) {

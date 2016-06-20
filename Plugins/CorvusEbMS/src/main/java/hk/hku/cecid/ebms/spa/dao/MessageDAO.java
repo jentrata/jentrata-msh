@@ -11,6 +11,7 @@ package hk.hku.cecid.ebms.spa.dao;
 
 import java.util.List;
 import java.util.Date;
+import java.sql.Timestamp;
 
 import hk.hku.cecid.piazza.commons.dao.DAO;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
@@ -85,4 +86,8 @@ public interface MessageDAO extends DAO {
      * @see hk.hku.cecid.ebms.spa.dao.MessageDVO#setTimeoutTimestamp(java.sql.Timestamp)
      */
     public int updateTimedOutMessageStatus(String status, Date currentTime) throws DAOException;
+
+    public int updateOldIncomingMessagesPendingbyTimestamp(String newhostname, String oldhostname) throws DAOException;
+    public int updateOldOutboxPendingMessagesbyTimestamp(String newhostname, String oldhostname) throws DAOException;
+    public int updateOldOutboxProcessingMessagesbyTimestamp(String newhostname, String oldhostname) throws DAOException;
 }

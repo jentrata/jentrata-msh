@@ -1,5 +1,7 @@
 # Jentrata - Message Handler Service
 
+[![Join the chat at https://gitter.im/jentrata/jentrata-msh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jentrata/jentrata-msh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Jentrata MSH is based on Hermes Messaging Gateway developed by CECID, The University of Hong Kong. The goal of Jentrata is build on the orignial work developed by CECID as well as build a community to continue it's development.
 
 See [jentrata.org](http://jentrata.org) for complete details on the project
@@ -107,12 +109,12 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 2. Create your databases
 
 		mysql -e "CREATE DATABASE ebms;"
-		mysql -e "CREATE DAYABASE as2;"
+		mysql -e "CREATE DATABASE as2;"
 
 3. Create users/permissions to new databases
 
-		mysql -e "GRANT ALL TO 'ebms'@'localhost' IDENTIFIED BY 'ebms';"
-		mysql -e "GRANT ALL TO 'as2'@'localhost' IDENTIFIED BY 'as2';"
+		mysql -e "GRANT ALL ON ebms.* TO 'ebms'@'localhost' IDENTIFIED BY 'ebms';"
+		mysql -e "GRANT ALL ON as2.* TO 'as2'@'localhost' IDENTIFIED BY 'as2';"
 
 4. Import DB Schema
 

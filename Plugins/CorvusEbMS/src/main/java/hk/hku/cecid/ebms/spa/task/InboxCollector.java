@@ -15,6 +15,7 @@ import hk.hku.cecid.ebms.spa.dao.MessageDAO;
 import hk.hku.cecid.ebms.spa.dao.MessageDVO;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
 import hk.hku.cecid.piazza.commons.module.ActiveTaskList;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,7 @@ public class InboxCollector extends ActiveTaskList {
 
             // get all the pending message and sort by sequence number
             MessageDVO finderDVO = (MessageDVO) dao.createDVO();
+	    finderDVO.setHostname(HostInfo.GetLocalhostAddress());
 
             List messageDVOList = dao.findInboxPendingMessagesByTimestamp(finderDVO);
             
