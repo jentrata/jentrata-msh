@@ -1,0 +1,14 @@
+./Core/*
+./Ext/*
+./Clients/*
+./Commons/*
+./Plugins/*
+*.txt
+./docker-compose.yml
+./Dist/src/*
+./README.md
+*.iml
+./Dist/target/archive-tmp/*
+./.idea/*
+./.gitignore
+pom.xml
