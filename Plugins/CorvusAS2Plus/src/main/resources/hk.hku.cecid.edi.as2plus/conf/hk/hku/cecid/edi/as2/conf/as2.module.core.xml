@@ -2,40 +2,40 @@
 
 	<component id="logger" name="AS2 Core Logger">
 		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
-		<parameter name="config" value="hk/hku/cecid/edi/as2/conf/as2.log.properties.xml" />		
-		<parameter name="category" value="hk.hku.cecid.edi.as2" />
+		<parameter name="config" value="${jentrata.as2.core.config:hk/hku/cecid/edi/as2/conf/as2.log.properties.xml}" />		
+		<parameter name="category" value="${jentrata.as2.core.category:hk.hku.cecid.edi.as2}" />
 	</component>
 
 	<component id="properties" name="AS2 Properties">
 		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
-		<parameter name="config" value="hk/hku/cecid/edi/as2/conf/as2.properties.xml" />
+		<parameter name="config" value="${jentrata.as2.config:hk/hku/cecid/edi/as2/conf/as2.properties.xml}" />
 	</component>
 
 	<component id="daofactory" name="AS2 DAO Factory">
         <class>hk.hku.cecid.piazza.commons.dao.ds.SimpleDSDAOFactory</class>
-		<parameter name="driver" value="org.postgresql.Driver" />
-		<parameter name="url" value="jdbc:postgresql://localhost:5432/as2" />
-		<parameter name="username" value="corvus" />
-		<parameter name="password" value="corvus" />
-        <parameter name="pooling" value="true" />
-        <parameter name="maxActive" value="30" />
-        <parameter name="maxIdle" value="10" />
-        <parameter name="maxWait" value="-1" />
-        <parameter name="testOnBorrow" value="true" />
-        <parameter name="testOnReturn" value="false" />
-        <parameter name="testWhileIdle" value="false" />
-		<parameter name="validationQuery" value="SELECT now()" />
-		<parameter name="config" value="hk/hku/cecid/edi/as2/conf/as2.dao.xml" />
+		<parameter name="driver" value="${jentrata.as2.db.driver:org.postgresql.Driver}" />
+		<parameter name="url" value="${jentrata.as2.db.url:jdbc:postgresql://localhost:5432/as2}" />
+		<parameter name="username" value="${jentrata.as2.db.user:corvus}" />
+		<parameter name="password" value="${jentrata.as2.db.pass:corvus}" />
+        <parameter name="pooling" value="${jentrata.as2.db.pooling:true}" />
+        <parameter name="maxActive" value="${jentrata.as2.db.maxActive:30}" />
+        <parameter name="maxIdle" value="${jentrata.as2.db.maxIdle:10}" />
+        <parameter name="maxWait" value="${jentrata.as2.db.maxWait:-1}" />
+        <parameter name="testOnBorrow" value="${jentrata.as2.db.testOnBorrow:true}" />
+        <parameter name="testOnReturn" value="${jentrata.as2.db.testOnReturn:false}" />
+        <parameter name="testWhileIdle" value="${jentrata.as2.db.testWhileIdle:false}" />
+		<parameter name="validationQuery" value="${jentrata.as2.db.validationQuery:SELECT now()}" />
+		<parameter name="config" value="${jentrata.as2.db.config:hk/hku/cecid/edi/as2/conf/as2.dao.xml}" />
 	</component>
 	
 	<component id="keystore-manager" name="AS2 Key Store Manager">
 		<class>hk.hku.cecid.piazza.commons.security.KeyStoreManager</class>
-		<parameter name="keystore-location" value="corvus.p12" />
-		<parameter name="keystore-password" value="password" />
-		<parameter name="key-alias" value="corvus" />
-		<parameter name="key-password" value="password" />
-		<parameter name="keystore-type" value="PKCS12" />
-		<parameter name="keystore-provider" value="org.bouncycastle.jce.provider.BouncyCastleProvider" />
+		<parameter name="keystore-location" value="${jentrata.as2.ks.keystore-location:corvus.p12}" />
+		<parameter name="keystore-password" value="${jentrata.as2.ks.keystore-password:password}" />
+		<parameter name="key-alias" value="${jentrata.as2.ks.key-alias:corvus}" />
+		<parameter name="key-password" value="${jentrata.as2.ks.key-password:password}" />
+		<parameter name="keystore-type" value="${jentrata.as2.ks.keystore-type:PKCS12}" />
+		<parameter name="keystore-provider" value="${jentrata.as2.ks.keystore-provider:org.bouncycastle.jce.provider.BouncyCastleProvider}" />
 	</component>
 
 	<component id="incoming-message-processor" name="AS2 Incoming Message Processor">
