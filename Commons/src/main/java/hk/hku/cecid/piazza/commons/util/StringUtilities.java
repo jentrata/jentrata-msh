@@ -811,7 +811,8 @@ public final class StringUtilities {
         String result = property;
         String [] variable = splitFirst(property,DEFAULT_VALUE_SEPARTOR);
 
-        String envValue = System.getenv(variable[0]);
+        String envVar = variable[0].toUpperCase().replaceAll("[.]", "_");
+        String envValue = System.getenv(envVar);
 
         //Is the variable in the System Properties
         //If so replace the variable with it
