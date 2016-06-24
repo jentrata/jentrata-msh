@@ -17,16 +17,15 @@ sed -i "/name=\"url\"/s/localhost/${DB_HOST_NAME}/" "${JENTRATA_HOME}/plugins/hk
 sed -i "/name=\"username\"/s/corvus/${DB_USER_NAME}/" "${JENTRATA_HOME}/plugins/hk.hku.cecid.edi.as2/conf/hk/hku/cecid/edi/as2/conf/as2.module.core.xml"
 sed -i "/name=\"password\"/s/corvus/${DB_USER_PASS}/" "${JENTRATA_HOME}/plugins/hk.hku.cecid.edi.as2/conf/hk/hku/cecid/edi/as2/conf/as2.module.core.xml"
 
-export jentrata.ebms.db.url="jdbc:postgresql://$DB_HOST_NAME:5432/ebms"
-export jentrata.ebms.db.user="$DB_USER_NAME"
-export jentrata.ebms.db.pass="$DB_USER_PASS"
-
-export jentrata.as2.db.url="jdbc:postgresql://$DB_HOST_NAME:5432/as2"
-export jentrata.as2.db.user="$DB_USER_NAME"
-export jentrata.as2.db.pass="$DB_USER_PASS"
+export JENTRATA_EBMS_DB_URL="jdbc:postgresql://$DB_HOST_NAME:5432/ebms"
+export JENTRATA_EBMS_DB_USER="$DB_USER_NAME"
+export JENTRATA_EBMS_DB_PASS="$DB_USER_PASS"
+export JENTRATA_AS2_DB_URL="jdbc:postgresql://$DB_HOST_NAME:5432/as2"
+export JENTRATA_AS2_DB_USER="$DB_USER_NAME"
+export JENTRATA_AS2_DB_PASS="$DB_USER_PASS"
 
 export JAVA_OPTS="$JAVA_OPTS -Dcorvus.home=$JENTRATA_HOME"
 
-/opt/wait-for-it.sh db:5432
+/opt/wait-for-it.sh "$DB_HOST_NAME:5432"
 
 exec catalina.sh run
