@@ -38,3 +38,5 @@ services:
 #      ACTIVEMQ_PASS: admin
   activemq:
     image: "webcenter/activemq"
+    ports:
+      - "8161:8161"
