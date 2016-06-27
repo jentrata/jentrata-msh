@@ -1,0 +1,28 @@
+<module id="jms" name="JMS Plugin" version="@version@">
+
+	<component id="logger" name="System Logger">
+		<class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
+		<parameter name="config" value="org/jentrata/spa/jms/conf/log4j.properties.xml" />		
+		<parameter name="category" value="org.jentrata.spa.jms" />
+	</component>
+
+	<component id="properties" name="System Properties">
+		<class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
+		<parameter name="config" value="org/jentrata/spa/jms/conf/jms.properties.xml" />
+	</component>
+
+	<component id="jms" name="esb-jms">
+		<class>org.jentrata.spa.jms.module.JMSComponent</class>
+		<!-- Currently only ActiveMQ is supported -->
+		<!-- connectionFactoryUrl is the ActiveMQ connection factory URL -->
+		<!-- example tcp://somehost:61616 -->
+		<!-- see http://activemq.apache.org/uri-protocols.html for more details -->
+		<parameter name="connectionFactoryUrl" value="${jentrata.activemq.connectionFactoryUrl:tcp://localhost:61616}" />
+		<parameter name="username" value="${jentrata.activemq.username:}" />
+		<parameter name="password" value="${jentrata.activemq.password:}" />
+		<!-- The endpoint where to route messages that fail to get processed -->
+		<!-- This needs to be a valid camel endpoint uri mostly likely a JMS Queue Endpoint -->
+		<parameter name="errorUri" value="${jentrata.activemq.errorQueue:jms:queue:ActiveMQ.DLQ}"/>
+	</component>
+
+</module>

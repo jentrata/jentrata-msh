@@ -18,23 +18,11 @@ services:
       - "8080:8080"
     depends_on:
       - posters
-      - activemq
     links:
       - posters:db
-      - activemq:activemq
     environment:
       TOMCAT_USER_NAME: corvus
       TOMCAT_USER_PASS: corvus
       DB_USER_NAME: corvus
       DB_USER_PASS: corvus
       DB_HOST_NAME: db
-      ACTIVEMQ_MODE: external
-      ACTIVEMQ_URL: tcp://activemq:61616
-      ACTIVEMQ_USER: admin
-      ACTIVEMQ_PASS: activemq
-#      ACTIVEMQ_USER: user
-#      ACTIVEMQ_PASS: user
-#      ACTIVEMQ_USER: admin
-#      ACTIVEMQ_PASS: admin
-  activemq:
-    image: "webcenter/activemq"
