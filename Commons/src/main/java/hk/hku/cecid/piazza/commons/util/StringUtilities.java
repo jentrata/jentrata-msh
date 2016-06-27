@@ -10,12 +10,7 @@
 package hk.hku.cecid.piazza.commons.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +25,8 @@ public final class StringUtilities {
 
     private static final String DEFAULT_VALUE_SEPARTOR = ":";
     public final static String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
-    
+    protected static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(StringUtilities.class);
+
     /**
      * Creates new StringUtilities
      */
@@ -815,15 +811,23 @@ public final class StringUtilities {
         String result = property;
         String [] variable = splitFirst(property,DEFAULT_VALUE_SEPARTOR);
 
+        String envVar = variable[0].toUpperCase().replaceAll("[.]", "_");
+        String envValue = System.getenv(envVar);
+
         //Is the variable in the System Properties
         //If so replace the variable with it
-        if(props.containsKey(variable[0])) {
+        if(!StringUtilities.isEmptyString(envValue)) {
+            result = envValue;
+        }
+        else if(props.containsKey(variable[0])) {
             result = props.getProperty(variable[0]);
         }
         else if(variable[1] != null) {
             //Otherwise use the default value
             result =variable[1];
         }
+
+
         return result;
     }
 
