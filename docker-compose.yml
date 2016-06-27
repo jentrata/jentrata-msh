@@ -31,11 +31,7 @@ services:
       ACTIVEMQ_MODE: external
       ACTIVEMQ_URL: tcp://activemq:61616
       ACTIVEMQ_USER: admin
-      ACTIVEMQ_PASS: activemq
-#      ACTIVEMQ_USER: user
-#      ACTIVEMQ_PASS: user
-#      ACTIVEMQ_USER: admin
-#      ACTIVEMQ_PASS: admin
+      ACTIVEMQ_PASS: admin
   activemq:
     image: "webcenter/activemq"
     ports:
