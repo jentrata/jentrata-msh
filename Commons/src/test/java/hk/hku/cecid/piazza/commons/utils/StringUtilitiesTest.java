@@ -1,11 +1,11 @@
 package hk.hku.cecid.piazza.commons.utils;
 
 
-import static org.junit.Assert.*;
 import hk.hku.cecid.piazza.commons.util.StringUtilities;
-
 import org.junit.After;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class StringUtilitiesTest {
 
@@ -127,4 +127,39 @@ public class StringUtilitiesTest {
         String result  = StringUtilities.propertyValue("${jentrata.ebms.keystore.location:${corvus.home}/security/${jentrata.ebms.keystore.file:corvus.p12}}");
         assertEquals(result,"jentrata/security/corvus.p12");
     }
+
+    @Test
+    public void testJavaParamToEnvironmentParamWithNull() {
+        String input = null;
+        String expectedOutput = null;
+        String output = StringUtilities.javaParamToEnvironmentParam(new StringUtilities.RealEnvironment(), input);
+        assertEquals(expectedOutput, output);
+    }
+    
+    @Test
+    public void testJavaParamToEnvironmentParamUseCase1() {
+        String input = "jentrata.activemq.connectionFactoryUrl";
+        String expectedOutput = "tcp://burgers";
+        String output = StringUtilities.javaParamToEnvironmentParam(new MockEnvironment(), input);
+        assertEquals(expectedOutput, output);
+    }
+
+    @Test
+    public void testPropertyWithExistingEnvironmentVariable() {
+        System.setProperty("test.prop","jentrata");
+        String result  = StringUtilities.propertyValue("${jentrata.home:${test.prop}/bin}");
+        assertTrue(result.contains("jentrata/bin"));
+    }
+
+    private class MockEnvironment extends StringUtilities.EnvironmentHandler {
+        public String getenv(String envVar) {
+            if (envVar.equals("JENTRATA_ACTIVEMQ_CONNECTIONFACTORYURL")) {
+                return "tcp://burgers";
+            } else {
+                return System.getenv(envVar);
+            }
+        }
+
+    }
+
 }
