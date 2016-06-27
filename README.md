@@ -55,7 +55,7 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		
 3. create a symlink to the $JENTRATA_HOME/webapps/corvus in the $TOMCAT_HOME/webapps directory to
 
-		ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/corvus
+		ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/jentrata
 
 4. set JAVA_OPTS environment variable as follows
 
@@ -142,3 +142,69 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 1. Start tomcat and browse to [http://localhost:8080/jentrata/admin/home](http://localhost:8080/jentrata/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
 
 2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRATA_HOME/logs for errors
+
+## Running Jentrata with Docker
+
+Jentrata provides a Dockerfile and also a docker-compose.yml file. The Dockerfile is used to buid a general docker
+image for Jentrata. The docker-compose file is to speed up development. It contains preset variables.
+
+### Notes
+
+If Jentrata's docker container doesn't detected a postgresql server on the configured hostname and port, it will pause
+and retry to connect until one is made available.
+
+### Requirements
+
+Jentrata in docker assumes that you're using Postgresql. The docker-compose sets up a docker image with this preconfigured.
+
+### Start Jentrata using Docker Compose
+
+Docker compose makes it easy to bring up a series of docker images in conjunction with each other.
+
+        docker-compose up
+
+This has everything pre-configured and ready to go. You can acccess Jentrata on: [http://localhost:8080/jentrata/admin/home](http://localhost:8080/jentrata/admin/home)
+
+### Extra: Build the docker container
+
+If you want to build the checked out version of Jentrata, or you want to avoid using the docker hub you can build the
+docker image like follows:
+
+        docker build -t jentrata/jentrata-msh .
+
+### Start Jentrata with a postgresql docker container manually
+
+This is essentially doing what docker-compose is configured to do.
+
+You might want to do this in two terminal windows.
+
+First start Postgresql: (If you don't want to run this in it's own term add a '-d' flag.) This command will also setup the
+database as required.
+
+        docker run --name 'jentrata-db' -v "./Dist/src/main/scripts/sql/as2.sql:/work/sql/as2.sql" -v "./Dist/src/main/scripts/sql/ebms.sql:/work/sql/ebms.sql" -v "./ContainerFiles/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh" -e "POSTGRES_USER=jentrata" -e "POSTGRES_PASSWORD=jentrata" -e "POSTGRES_DB=jentrata" -e "DB_USER_NAME=corvus" -e "DB_USER_PASS=corvus" postgres:9.5
+
+Then start jentrata:
+
+        docker run --name 'jentrata' --link 'jentrata-db:db' -p 8080 jentrata/jentrata-msh
+
+### Environment Variables
+
+#### TOMCAT_USER_NAME
+
+Set this to the username that you want to login to Tomcat's admin/management features AND jentrata with.
+
+#### TOMCAT_USER_PASS
+
+Set this to the password that you want to login to Tomcat's admin/management features AND jentrata with.
+
+#### DB_USER_NAME
+
+This is the database username specific to Jentrata, this is what jentrata will connect with.
+
+#### DB_USER_PASS
+
+This is the database password specific to Jentrata, this is what jentrata will connect with.
+
+#### DB_HOST_NAME
+
+This is the database host name to connect to, by default it attempts to connect to: "db"

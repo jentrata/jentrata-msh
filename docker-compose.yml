@@ -1,0 +1,28 @@
+version: '2'
+services:
+  posters:
+    image: "postgres:9.5"
+    environment:
+      POSTGRES_USER: jentrata
+      POSTGRES_PASSWORD: jentrata
+      POSTGRES_DB: jentrata
+      DB_USER_NAME: corvus
+      DB_USER_PASS: corvus
+    volumes:
+    - ./Dist/src/main/scripts/sql/as2.sql:/work/sql/as2.sql
+    - ./Dist/src/main/scripts/sql/ebms.sql:/work/sql/ebms.sql
+    - ./ContainerFiles/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+  jentrata-msh:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - posters
+    links:
+      - posters:db
+    environment:
+      TOMCAT_USER_NAME: corvus
+      TOMCAT_USER_PASS: corvus
+      DB_USER_NAME: corvus
+      DB_USER_PASS: corvus
+      DB_HOST_NAME: db
