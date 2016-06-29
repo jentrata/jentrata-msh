@@ -11,7 +11,8 @@ ENV DB_USER_PASS corvus
 ENV DB_HOST_NAME db
 
 COPY ./Dist/target/jentrata-msh-2.x-SNAPSHOT-tomcat.tar.gz /opt
-COPY ./ContainerFiles/run.sh /opt/run.sh
+
+COPY ./ContainerFiles/run.sh /opt/run.sh 
 
 RUN mkdir -p /opt/jentrata && \
     tar -xzvf /opt/jentrata-msh-2.x-SNAPSHOT-tomcat.tar.gz -C /opt/jentrata && \
