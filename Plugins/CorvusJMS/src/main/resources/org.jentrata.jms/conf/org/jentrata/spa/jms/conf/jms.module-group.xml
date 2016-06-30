@@ -1,6 +1,6 @@
 <module-group name="JMS">
 	<module>
 		<class>hk.hku.cecid.piazza.commons.module.SystemModule</class>
-		<descriptor>org/jentrata/spa/jms/conf/jms.module.xml</descriptor>
+		<descriptor>org/jentrata/spa/jms/conf/jms.module.${jentrata.activemq.module:internal}.xml</descriptor>
 	</module>
 </module-group>

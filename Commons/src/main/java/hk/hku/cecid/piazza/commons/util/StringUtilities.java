@@ -10,12 +10,7 @@
 package hk.hku.cecid.piazza.commons.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +25,7 @@ public final class StringUtilities {
 
     private static final String DEFAULT_VALUE_SEPARTOR = ":";
     public final static String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
-    
+
     /**
      * Creates new StringUtilities
      */
@@ -810,21 +805,39 @@ public final class StringUtilities {
     }
 
     public static String propertyGet(String property, Properties props) {
+        return propertyGet(new RealEnvironment(), property, props);
+    }
+
+    public static String propertyGet(EnvironmentHandler environmentHandler, String property, Properties props) {
         //split the varible into the key and default value (if present)
         //in the form ${property:defaultValue}
         String result = property;
         String [] variable = splitFirst(property,DEFAULT_VALUE_SEPARTOR);
 
+        String envValue = javaParamToEnvironmentParam(environmentHandler, variable[0]);
+
         //Is the variable in the System Properties
         //If so replace the variable with it
-        if(props.containsKey(variable[0])) {
+        if(!StringUtilities.isEmptyString(envValue)) {
+            result = envValue;
+        }
+        else if(props.containsKey(variable[0])) {
             result = props.getProperty(variable[0]);
         }
         else if(variable[1] != null) {
             //Otherwise use the default value
             result =variable[1];
         }
+
+
         return result;
+    }
+
+    public static String javaParamToEnvironmentParam(EnvironmentHandler environmentHandler, String s) {
+        if (isEmptyString(s))
+            return s;
+        String envVar = s.toUpperCase().replaceAll("[.]", "_");
+        return environmentHandler.getenv(envVar);
     }
 
     public static String[] splitFirst(String value, String separator)
@@ -845,5 +858,17 @@ public final class StringUtilities {
             result[1] = null;
         }
         return result;
+    }
+
+    public abstract static class EnvironmentHandler {
+
+        public abstract String getenv(String envVar);
+    }
+
+    public static class RealEnvironment extends EnvironmentHandler {
+        public String getenv(String envVar) {
+            return System.getenv(envVar);
+        }
+
     }
 }

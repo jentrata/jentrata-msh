@@ -55,7 +55,7 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 		
 3. create a symlink to the $JENTRATA_HOME/webapps/corvus in the $TOMCAT_HOME/webapps directory to
 
-		ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/corvus
+		ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/jentrata
 
 4. set JAVA_OPTS environment variable as follows
 
@@ -142,3 +142,36 @@ This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well
 1. Start tomcat and browse to [http://localhost:8080/jentrata/admin/home](http://localhost:8080/jentrata/admin/home). You will need to login using the username and password you set in the tomcat-users.xml corvus/corus by default
 
 2. If Jentrata doesn't start correctly you can check the various log files under $TOMCAT_HOME/logs/ or $JENTRATA_HOME/logs for errors
+
+## Running Jentrata with Docker
+
+Jentrata provides a Dockerfile and also a docker-compose.yml file. The Dockerfile is used to buid a general docker
+image for Jentrata. The docker-compose file is to speed up development. It contains preset variables.
+
+### Notes
+
+If Jentrata's docker container doesn't detected a postgresql server on the configured hostname and port, it will pause
+and retry to connect until one is made available.
+
+### Requirements
+
+Jentrata in docker assumes that you're using Postgresql. The docker-compose sets up a docker image with this preconfigured.
+
+### Start Jentrata using Docker Compose
+
+Docker compose makes it easy to bring up a series of docker images in conjunction with each other.
+
+        docker-compose up
+
+This has everything pre-configured and ready to go. You can acccess Jentrata on: [http://localhost:8080/jentrata/admin/home](http://localhost:8080/jentrata/admin/home)
+
+### Extra: Build the docker container
+
+If you want to build the checked out version of Jentrata, or you want to avoid using the docker hub you can build the
+docker image like follows:
+
+        docker build -t jentrata/jentrata-msh .
+
+#### More docker information
+
+See: https://github.com/jentrata/jentrata-msh-docker
