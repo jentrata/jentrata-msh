@@ -174,4 +174,4 @@ docker image like follows:
 
 #### More docker information
 
-See: https://github.com/jentrata/jentrata-msh-docker]
+See: https://github.com/jentrata/jentrata-msh-docker
