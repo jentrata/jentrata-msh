@@ -12,6 +12,7 @@ COPY ./Dist/target/jentrata-msh-2.x-SNAPSHOT-tomcat.tar.gz /opt
 RUN rm -rfv /opt/jentrata && \
     mkdir -p /opt/jentrata && \
     tar -xzvf /opt/jentrata-msh-2.x-SNAPSHOT-tomcat.tar.gz -C /opt/jentrata && \
+    echo "jentrata.ebms.truststore.location=/etc/ssl/certs/java/cacerts" >> /opt/jentrata/conf/jentrata.conf && \
     rm /opt/jentrata-msh-2.x-SNAPSHOT-tomcat.tar.gz && \
     ln -s $JENTRATA_HOME/webapps/corvus $TOMCAT_HOME/webapps/jentrata
 
