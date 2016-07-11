@@ -1,5 +1,10 @@
 version: '2'
 services:
+  mvn:
+    image: base2/maven
+    volumes:
+      - $HOME/.m2/repository:/var/maven/.m2/repository
+      - .:/app
   posters:
     image: "postgres:9.5"
     environment:
@@ -16,13 +21,16 @@ services:
     build: .
     ports:
       - "8080:8080"
+      - "8000:8000"
     depends_on:
       - posters
       - activemq
+      - mvn
     links:
       - posters:db
       - activemq:activemq
     environment:
+      JENTRATA_DEBUG: "true"
       TOMCAT_USER_NAME: corvus
       TOMCAT_USER_PASS: corvus
       DB_USER_NAME: corvus
