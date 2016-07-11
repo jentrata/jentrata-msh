@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camelContext id="jentrata-sample" xmlns="http://camel.apache.org/schema/spring">
+        <route id="fileToEbms">
+            <from uri="file:///opt/jentrata/outbound"/>
+            <setHeader headerName="cpaId">
+                <constant>loopback</constant>
+            </setHeader>
+            <setHeader headerName="service">
+                <constant>testService</constant>
+            </setHeader>
+            <setHeader headerName="serviceType">
+                <constant>testAction</constant>
+            </setHeader>
+            <setHeader headerName="action">
+                <constant>testAction</constant>
+            </setHeader>
+            <setHeader headerName="conversationId">
+                <simple>${date:now:yyyy-MM-dd-HH-mm-ss}</simple>
+            </setHeader>
+            <setHeader headerName="fromPartyId">
+                <constant>test_a</constant>
+            </setHeader>
+            <setHeader headerName="fromPartyType">
+                <constant>ParticipantIDA</constant>
+            </setHeader>
+            <setHeader headerName="toPartyId">
+                <constant>test_b</constant>
+            </setHeader>
+            <setHeader headerName="toPartyType">
+                <constant>ParticipantIDB</constant>
+            </setHeader>
+            <setHeader headerName="payload-contentId">
+                <constant>Payload-0</constant>
+            </setHeader>
+            <setHeader headerName="payload-contentType">
+                <constant>text/xml; charset=UTF-8</constant>
+            </setHeader>
+            <to uri="ebms"/>
+        </route>
+    </camelContext>
+
+
+</beans>

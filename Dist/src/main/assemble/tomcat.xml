@@ -71,6 +71,15 @@
             <directoryMode>755</directoryMode>
             <fileMode>755</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>src/main/deploy</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>deploy</outputDirectory>
+            <directoryMode>755</directoryMode>
+            <fileMode>755</fileMode>
+        </fileSet>
 		<!-- files for the sample client webservices -->
 		<fileSet>
 			<directory>../Clients/Corvus.WSClient/src/main/script/</directory>
@@ -198,25 +207,25 @@
 			<binaries>
 				<outputDirectory>plugins/org.jentrata.jms</outputDirectory>
 				<unpack>false</unpack>
-				<includeDependencies>true</includeDependencies>
-				<dependencySets>
-					<dependencySet>
-						<outputDirectory>plugins/org.jentrata.jms/lib</outputDirectory>
-						<includes>
-							<include>org.apache.activemq:activemq-all</include>
-							<include>org.apache.camel:camel-core</include>
-							<include>org.apache.camel:camel-jms</include>
-							<include>org.fusesource.*:*</include>
-							<include>org.springframework:*</include>
-						</includes>
-						<scope>runtime</scope>
-					</dependencySet>
-				</dependencySets>
 				<outputFileNameMapping>${module.artifactId}.jar</outputFileNameMapping>
 				<directoryMode>755</directoryMode>
 				<fileMode>755</fileMode>
 			</binaries>
 		</moduleSet>
+
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includes>
+                <include>org.jentrata.msh.plugins:jentrata-integration</include>
+            </includes>
+            <binaries>
+                <outputDirectory>plugins/org.jentrata.integration</outputDirectory>
+                <unpack>false</unpack>
+                <outputFileNameMapping>${module.artifactId}.jar</outputFileNameMapping>
+                <directoryMode>755</directoryMode>
+                <fileMode>755</fileMode>
+            </binaries>
+        </moduleSet>
 		
 		<!--  
 		<moduleSet>
@@ -375,6 +384,7 @@
 				<include>org.jentrata.msh.plugins:jentrata-corvus-main-admin</include>
 				<include>org.jentrata.msh.plugins:jentrata-corvus-admin</include>
 				<include>org.jentrata.msh.plugins:jentrata-corvus-jms</include>
+				<include>org.jentrata.msh.plugins:jentrata-integration</include>
 				<!--include>org.jentrata.msh.plugins:jentrata-validation</include-->
 				<include>org.jentrata.msh.plugins:jentrata-corvus-ebms</include>
 				<include>org.jentrata.msh.plugins:jentrata-corvus-ebms-admin</include>

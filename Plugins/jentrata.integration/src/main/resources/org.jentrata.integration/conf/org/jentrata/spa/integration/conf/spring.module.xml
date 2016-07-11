@@ -1,0 +1,19 @@
+<module id="spring" name="Spring Bootstrap Plugin" version="@version@">
+
+    <component id="logger" name="System Logger">
+        <class>hk.hku.cecid.piazza.commons.util.LoggerLog4j</class>
+        <parameter name="config" value="org/jentrata/spa/integration/conf/log4j.properties.xml" />
+        <parameter name="category" value="org.jentrata.spa.integration" />
+    </component>
+
+    <component id="properties" name="System Properties">
+        <class>hk.hku.cecid.piazza.commons.util.PropertyTree</class>
+        <parameter name="config" value="org/jentrata/spa/integration/conf/integration.properties.xml" />
+    </component>
+
+    <component id="bootstrap" name="spring-bootstrap">
+        <class>org.jentrata.spa.integration.module.SpringBootstrapComponent</class>
+        <parameter name="deployDir" value="${jentrata.deploy.dir:${corvus.home}/deploy}"/>
+    </component>
+
+</module>

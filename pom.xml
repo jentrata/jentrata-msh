@@ -29,6 +29,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version>${project.version}</version>
         <version.check>false</version.check>
+        <camel.version>2.17.1</camel.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <activemq.version>5.13.3</activemq.version>
 	</properties>
 
 	<modules>
@@ -210,30 +213,40 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-core</artifactId>
-				<version>5.4.2</version>
-				<optional>false</optional>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-all</artifactId>
-				<version>5.4.2</version>
-				<optional>false</optional>
-			</dependency>
-			
-			<dependency>
 				<groupId>javax.jms</groupId>
 				<artifactId>jms</artifactId>
 				<version>1.1</version>
 			</dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-all</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>4.2.5.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-jms</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-aws</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
 
 		</dependencies>
 	</dependencyManagement>

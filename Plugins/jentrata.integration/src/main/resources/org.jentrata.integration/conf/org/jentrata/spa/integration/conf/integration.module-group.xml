@@ -1,0 +1,6 @@
+<module-group name="integrations">
+    <module>
+        <class>hk.hku.cecid.piazza.commons.module.SystemModule</class>
+        <descriptor>org/jentrata/spa/integration/conf/spring.module.xml</descriptor>
+    </module>
+</module-group>
