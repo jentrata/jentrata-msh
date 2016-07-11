@@ -5,7 +5,7 @@
 
 	<groupId>org.jentrata.msh</groupId>
 	<artifactId>jentrata-parent</artifactId>
-	<version>2.x-SNAPSHOT</version>
+	<version>3.x-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Jentrata MSH: Parent</name>
