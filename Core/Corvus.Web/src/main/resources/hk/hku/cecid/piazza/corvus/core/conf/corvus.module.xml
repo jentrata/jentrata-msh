@@ -21,7 +21,7 @@
     <!-- Set up a SSL Trust Manager for SSL connection -->
     <component id="ssl-trust-manager" name="SSL Trust Manager">
         <class>hk.hku.cecid.piazza.commons.security.KeyStoreTrustManager</class>
-        <parameter name="keystore-location" value="${jentrata.ebms.truststore.location:${java.home}/lib/security/cacerts}" />
+        <parameter name="keystore-location" value="${jentrata.ebms.truststore.location:/etc/ssl/certs/java/cacerts}" />
         <parameter name="keystore-password" value="${jentrata.ebms.truststore.password:changeit}" />
     </component>
 
