@@ -21,6 +21,7 @@
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
     	<module>CorvusJMS</module>
+    	<module>jentrata.integration</module>
     </modules>
     
     <profiles>

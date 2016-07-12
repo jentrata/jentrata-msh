@@ -8,11 +8,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jentrata-corvus-jms</artifactId>
+    <artifactId>jentrata-integration</artifactId>
 
-    <name>Plugins: Corvus JMS</name>
-    <description>Jentrata Plugin Corvus JMS</description>
-    
+    <name>Plugins: Jentrata Integration</name>
+    <description>Jentrata Plugin Integration</description>
+
     <dependencies>
     
 		<dependency>
@@ -48,26 +48,31 @@
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-all</artifactId>
-            <scope>provided</scope>
 		</dependency>
-		
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jms</artifactId>
-            <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-aws</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms</artifactId>
-			<version>1.1</version>
-            <scope>provided</scope>
 		</dependency>
 		
 		<dependency>
@@ -80,8 +85,8 @@
     		<groupId>jaxen</groupId>
     		<artifactId>jaxen</artifactId>
     		<scope>provided</scope>
-    	</dependency>	
-    
+    	</dependency>
+
     </dependencies>
     
 </project>

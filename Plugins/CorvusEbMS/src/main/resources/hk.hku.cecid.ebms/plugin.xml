@@ -60,6 +60,15 @@
 	  <parameter name="class" value="hk.hku.cecid.ebms.spa.service.EbmsPermitRedownloadService" />
 	  <parameter name="context" value="/ebms/permitdl" />
 	</extension>
+
+    <extension point="org.jentrata.integration.sender" name="Ebms Message Handler">
+        <parameter name="class" value="hk.hku.cecid.ebms.spa.handler.jms.EbmsMessageHandler" />
+        <parameter name="id" value="ebms" />
+    </extension>
+
+    <extension point="org.jentrata.integration.camel" name="Camel Ebms Integration">
+      <parameter name="deployLocation" value="file:${corvus.home}/deploy/*-ebms.xml" />
+	</extension>
 	
 	<!-- default EbXML Header parameters they can be overriden by setting them as JMS message properties
 	You can override the default ebxml MessageId by setting a JMS message property ebxmlMessageId
