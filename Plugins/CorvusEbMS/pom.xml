@@ -49,11 +49,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.jentrata.msh.plugins</groupId>
-			<artifactId>jentrata-corvus-jms</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<scope>provided</scope>

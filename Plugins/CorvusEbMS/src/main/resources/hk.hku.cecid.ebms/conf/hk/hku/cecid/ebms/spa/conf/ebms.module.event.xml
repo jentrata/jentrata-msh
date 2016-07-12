@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module id="eventModule" name="Corvus ebMS Event Module" version="1.0">
 
+    <!-- disable jms inbound listener
     <component id="messageListenerJMSClient" name="Message listener JMS Client">
         <class>hk.hku.cecid.ebms.spa.client.jms.MessageListenerJMSClient</class>
         <parameter name="connectionUrl"	value="${jentrata.activemq.connectionFactoryUrl:tcp://localhost:61616}" />
@@ -8,5 +9,6 @@
         <parameter name="password" value="${jentrata.activemq.password:}" />
         <parameter name="queueName" value="${jentrata.activemq.inbound.queue:Ebms.Inbound}" />
     </component>
+    -->
 
 </module>
