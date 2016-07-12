@@ -20,7 +20,6 @@
  		<module>Corvus.Admin</module>
     	<module>Corvus.Main</module>
     	<module>Corvus.Main.Admin</module>
-    	<module>CorvusJMS</module>
     	<module>jentrata.integration</module>
     </modules>
     
@@ -78,6 +77,19 @@
     			<module>CorvusAS2Plus.Admin</module>    		
     		</modules>
     	</profile>
+
+		<profile>
+			<id>jms-plugins</id>
+			<activation>
+				<property>
+					<name>plugins.jms</name>
+					<value>jms</value>
+				</property>
+			</activation>
+			<modules>
+				<module>CorvusJMS</module>
+			</modules>
+		</profile>
 
     </profiles>
     
