@@ -11,4 +11,9 @@
     </component>
     -->
 
+    <component id="messageListenerCamel" name="Camel Message listener">
+        <class>hk.hku.cecid.ebms.spa.event.EbmsCamelListener</class>
+    </component>
+
+
 </module>

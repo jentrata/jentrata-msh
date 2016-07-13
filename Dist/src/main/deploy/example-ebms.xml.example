@@ -45,6 +45,11 @@
             </setHeader>
             <to uri="ebms"/>
         </route>
+
+        <route id="jentrata-ebms-inbound">
+            <from uri="vm:ebmsReceived"/>
+            <to uri="file:///opt/jentrata/inbound"/>
+        </route>
     </camelContext>
 
 
