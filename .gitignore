@@ -8,3 +8,4 @@ target-eclipse/
 .idea/
 *.iml
 git.properties
+Dist/src/main/deploy/*-ebms.xml

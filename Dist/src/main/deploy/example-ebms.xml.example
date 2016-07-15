@@ -7,6 +7,10 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+    <bean id="forced" class="java.lang.IllegalArgumentException">
+        <constructor-arg index="0" value="This is forced"/>
+    </bean>
+
     <camelContext id="jentrata-sample" xmlns="http://camel.apache.org/schema/spring">
         <route id="fileToEbms">
             <from uri="file:///opt/jentrata/outbound"/>
@@ -47,9 +51,20 @@
         </route>
 
         <route id="jentrata-ebms-inbound">
-            <from uri="vm:ebmsReceived"/>
+            <from uri="direct-vm:ebmsReceived"/>
             <to uri="file:///opt/jentrata/inbound"/>
         </route>
+
+        <route id="jentrata-ebms-ack-event">
+            <from uri="vm:ebmsAckReceived?multipleConsumers=true"/>
+            <to uri="file:///opt/jentrata/ack"/>
+        </route>
+
+        <route id="jentrata-ebms-sent-event">
+            <from uri="vm:ebmsSent?multipleConsumers=true"/>
+            <to uri="file:///opt/jentrata/sent"/>
+        </route>
+
     </camelContext>
 
 
