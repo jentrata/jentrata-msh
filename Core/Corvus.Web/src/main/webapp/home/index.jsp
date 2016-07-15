@@ -11,6 +11,7 @@
         //ignore any exceptions
     }
 %>
+<% String ctxPath = request.getContextPath();%>
 <html>
 <head>
 	<title>Jentrata MSH</title>
@@ -21,7 +22,7 @@
 <p>&gt; Jentrata has started up <%=Kernel.getInstance().hasErrors()? "with errors":"successfully"%>.</p>
 <p>&gt; System name: <%=Sys.main.getName()%></p>
 <p>&gt; System version: <%=Sys.main.getVersion()%> - (#<%=Sys.main.getBuildID().substring(0,7)%>)</p>
-<p><a href="/corvus/admin/home">Jentrata MSH Admin</a></p>
+<p><a href="<%=ctxPath%>/admin/home">Jentrata MSH Admin</a></p>
 <hr/>
 <h3>Git Details:</h3>
 <pre>
