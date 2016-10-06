@@ -23,6 +23,7 @@
 		<!-- connectionFactoryUrl is the ActiveMQ connection factory URL -->
 		<!-- example tcp://somehost:61616 -->
 		<!-- see http://activemq.apache.org/uri-protocols.html for more details -->
+		<parameter name="connectionFactory" value="${jentrata.activemq.connectionFactory:org.apache.activemq.ActiveMQConnectionFactory}" />
 		<parameter name="connectionFactoryUrl" value="${jentrata.activemq.connectionFactoryUrl:tcp://localhost:61616}" />
 		<parameter name="username" value="${jentrata.activemq.username:}" />
 		<parameter name="password" value="${jentrata.activemq.password:}" />
