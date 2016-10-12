@@ -3,10 +3,11 @@
 
     <component id="messageListenerJMSClient" name="Message listener JMS Client">
         <class>hk.hku.cecid.ebms.spa.client.jms.MessageListenerJMSClient</class>
-        <parameter name="connectionUrl"	value="${jentrata.activemq.connectionFactoryUrl:tcp://localhost:61616}" />
-        <parameter name="username" value="${jentrata.activemq.username:}" />
-        <parameter name="password" value="${jentrata.activemq.password:}" />
-        <parameter name="queueName" value="${jentrata.activemq.inbound.queue:Ebms.Inbound}" />
+        <parameter name="connectionFactory"	value="${jentrata.ebms.jms.connectionFactory:org.apache.activemq.ActiveMQConnectionFactory}" />
+        <parameter name="connectionUrl"	value="${jentrata.ebms.jms.connectionUrl:tcp://localhost:61616}" />
+        <parameter name="username" value="${jentrata.ebms.jms.user:}" />
+        <parameter name="password" value="${jentrata.ebms.jms.pass:}" />
+        <parameter name="queueName" value="${jentrata.ebms.jms.inbound.queue:Ebms.Inbound}" />
     </component>
 
 </module>
