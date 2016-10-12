@@ -177,9 +177,9 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
             // create partnerships where the selected party is a receiver
             for(CanReceive canReceive: collaborationRole.getServiceBinding().getCanReceive()) {
-                ActionBindingType receiverActionBinding= canReceive.getThisPartyActionBinding();
+                ActionBindingType receiverActionBinding = canReceive.getThisPartyActionBinding();
                 ActionBindingType senderActionBinding = canReceive.getOtherPartyActionBinding();
-                DeliveryChannel channel = receiverActionBinding.getChannel();
+                DeliveryChannel channel = senderActionBinding.getChannel();
                 partnerships.add( createPartnership(cpa, channel, senderActionBinding, receiverActionBinding, verificationCert, encryptionCert, partnerships, serviceName));
             }
         }
