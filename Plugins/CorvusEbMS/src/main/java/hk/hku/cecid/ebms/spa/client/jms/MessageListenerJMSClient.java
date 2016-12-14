@@ -21,11 +21,11 @@ import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class MessageListenerJMSClient extends EbmsEventListener {
 
@@ -44,15 +44,15 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 	protected static final String MSG_PROPERTY_SERVICE_TYPE = "ebxml_service_type";
 	protected static final String MSG_PROPERTY_ACTION = "ebxml_action";
 	protected static final String MSG_PROPERTY_CONV_ID = "ebxml_conv_id";
+	protected static final String MSG_PROPERTY_MESSAGE_ID = "ebxml_message_id";
+	protected static final String MSG_PROPERTY_TIMESTAMP = "ebxml_timestamp";
+	protected static final String MSG_PROPERTY_REF_TO_MESSAGE_ID = "ebxml_ref_to_message_id";
 	protected static final String MSG_PROPERTY_PARTY_ID = "ebxml_party_id";
 	protected static final String MSG_PROPERTY_PARTY_TYPE = "ebxml_party_type";
 
 	@Override
 	public void init() {
-		connectionFactory = new ActiveMQConnectionFactory(getConnectionUrl());
-        ((ActiveMQConnectionFactory)connectionFactory).setUserName(getUsername());
-        ((ActiveMQConnectionFactory)connectionFactory).setPassword(getPassword());
-
+		connectionFactory = buildConnectionFactory();
 	}
 
 	@Override
@@ -99,6 +99,13 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 				requestMessage.getAction());
 		textMessage.setStringProperty(MSG_PROPERTY_CONV_ID,
 				requestMessage.getConversationId());
+		textMessage.setStringProperty(MSG_PROPERTY_MESSAGE_ID, requestMessage.getMessageId());
+		String timestamp = requestMessage.getTimestamp();
+		if (timestamp != null)
+           	textMessage.setLongProperty(MSG_PROPERTY_TIMESTAMP, DatatypeConverter.parseDateTime(timestamp).getTimeInMillis());
+		String refTo = requestMessage.getRefToMessageId();
+		if (refTo != null)
+			textMessage.setStringProperty(MSG_PROPERTY_REF_TO_MESSAGE_ID, refTo);
 		if (requestMessage.getFromPartyIds().hasNext()) {
 			PartyId partyId = (PartyId) requestMessage.getFromPartyIds().next();
 			textMessage.setStringProperty(MSG_PROPERTY_PARTY_ID,
@@ -167,6 +174,26 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	public String getQueueName() {
 		return getParameters().getProperty("queueName");
+	}
+
+	protected ConnectionFactory buildConnectionFactory() {
+		try {
+			String connectionFactoryUrl = getConnectionUrl();
+			Class connectionFactoryClass = getConnectionFactoryClass();
+			ConnectionFactory cf = (ConnectionFactory)connectionFactoryClass.getConstructor(String.class).newInstance(new Object[]{connectionFactoryUrl});
+			return cf;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	protected Class getConnectionFactoryClass() throws ClassNotFoundException {
+		return Class.forName(getConnectionFactoryClassName());
+	}
+
+	protected String getConnectionFactoryClassName() {
+		return getParameters().getProperty("connectionFactory");
 	}
 
 	protected String getConnectionUrl() {

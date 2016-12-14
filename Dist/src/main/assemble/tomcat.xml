@@ -252,6 +252,12 @@
 							<include>org.jentrata.msh.ext:jentrata-ebxml-pkg</include>
 							<include>javax.jms:jms</include>
 							<include>org.apache.activemq:activemq-all</include>
+							<include>org.apache.activemq:artemis-jms-client</include>
+							<include>org.apache.activemq:artemis-core-client</include>
+							<include>org.apache.activemq:artemis-commons</include>
+							<include>org.apache.activemq:artemis-selector</include>
+							<include>io.netty:netty-all</include>
+							<include>commons-beanutils:commons-beanutils</include>
 						</includes>
 					</dependencySet>
 				</dependencySets>

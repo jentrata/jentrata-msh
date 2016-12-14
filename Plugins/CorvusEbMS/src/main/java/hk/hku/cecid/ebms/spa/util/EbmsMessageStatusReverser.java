@@ -19,6 +19,7 @@ import hk.hku.cecid.piazza.commons.dao.DAOFactory;
 import hk.hku.cecid.piazza.commons.dao.ds.DataSourceDAO;
 import hk.hku.cecid.piazza.commons.dao.ds.DataSourceProcess;
 import hk.hku.cecid.piazza.commons.dao.ds.DataSourceTransaction;
+import hk.hku.cecid.piazza.commons.net.HostInfo;
 
 /**
  * Reverse message status for message redownload and resend
@@ -97,6 +98,7 @@ public class EbmsMessageStatusReverser {
 				OutboxDVO outboxDVO = (OutboxDVO) outboxDAO.createDVO();
 				outboxDVO.setMessageId(messageId);
 				outboxDVO.setRetried(0);
+				outboxDVO.setHostname(HostInfo.GetLocalhostAddress());
 				outboxDAO.addOutbox(outboxDVO);
 			}
 		};

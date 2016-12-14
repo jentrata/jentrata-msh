@@ -8,6 +8,7 @@ import hk.hku.cecid.ebms.spa.EbmsProcessor;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDAO;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDVO;
 import hk.hku.cecid.piazza.commons.dao.DAOException;
+import hk.hku.cecid.piazza.commons.dao.DVO;
 import hk.hku.cecid.piazza.commons.io.IOHandler;
 import hk.hku.cecid.piazza.commons.module.ComponentException;
 import hk.hku.cecid.piazza.commons.security.SMimeMessage;
@@ -37,7 +38,7 @@ import java.util.List;
 
 /**
  * @author Donahue Sze
- * 
+ *
  */
 public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
@@ -160,80 +161,104 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
     private List<PartnershipDVO> addPartnerships(CollaborationProtocolAgreement cpa, PartyInfo partyInfo, FileItem verificationCert, FileItem encryptionCert) throws Exception {
         List<PartnershipDVO> partnerships = new ArrayList<PartnershipDVO>();
+        List<PartnershipDVO> rv = new ArrayList<PartnershipDVO>();
+        PartnershipDAO partnershipDAO = (PartnershipDAO) EbmsProcessor.core.dao.createDAO(PartnershipDAO.class);
+
         for(CollaborationRole collaborationRole : partyInfo.getCollaborationRole()) {
             String serviceName = collaborationRole.getServiceBinding().getService().getValue();
+
+            // create partnerships where the selected party is a sender
             for(CanSend canSend : collaborationRole.getServiceBinding().getCanSend()) {
-                PartnershipDAO partnershipDAO = (PartnershipDAO) EbmsProcessor.core.dao.createDAO(PartnershipDAO.class);
-                PartnershipDVO partnershipDVO = (PartnershipDVO) partnershipDAO.createDVO();
+                ActionBindingType senderActionBinding = canSend.getThisPartyActionBinding();
+                ActionBindingType receiverActionBinding = canSend.getOtherPartyActionBinding();
+                DeliveryChannel channel = receiverActionBinding.getChannel();
+                partnerships.add( createPartnership(cpa, channel, senderActionBinding, receiverActionBinding, verificationCert, encryptionCert, partnerships, serviceName));
+            }
 
-                String action = canSend.getThisPartyActionBinding().getAction();
-                DeliveryChannel channel = canSend.getOtherPartyActionBinding().getChannel();
-                partnershipDVO.setPartnershipId(cpa.getCpaid() + "," + channel.getChannelId() + "," + action);
-                partnershipDVO.setCpaId(cpa.getCpaid());
-                partnershipDVO.setService(serviceName);
-                partnershipDVO.setAction(action);
-                partnershipDVO.setDisabled("false");
-                partnershipDVO.setIsHostnameVerified("false");
-
-                //Agreement Messaging Characteristic
-                partnershipDVO.setActor(channel.getMessagingCharacteristics().getActor().value());
-                partnershipDVO.setAckRequested(channel.getMessagingCharacteristics().getAckRequested().value());
-                partnershipDVO.setAckSignRequested(channel.getMessagingCharacteristics().getAckSignatureRequested().value());
-                partnershipDVO.setDupElimination(channel.getMessagingCharacteristics().getDuplicateElimination().value());
-                partnershipDVO.setSyncReplyMode(channel.getMessagingCharacteristics().getSyncReplyMode().value());
-
-                //Agreement Transport
-                partnershipDVO.setTransportProtocol(channel.getTransport().getTransportReceiver().getTransportProtocol().getValue());
-                partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
-
-                //Agreement DocExchange
-                partnershipDVO.setMessageOrder(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getMessageOrderSemantics().value());
-                partnershipDVO.setPersistDuration(channel.getDocExchange().getEbXMLSenderBinding().getPersistDuration().toString());
-                partnershipDVO.setRetryInterval((int) channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetryInterval().getTimeInMillis(new Date()));
-                partnershipDVO.setRetries(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetries().intValue());
-
-                //Digital Signature & Encryption
-                partnershipDVO.setSignRequested(String.valueOf(canSend.getOtherPartyActionBinding().getBusinessTransactionCharacteristics().isIsNonRepudiationRequired()));
-                partnershipDVO.setEncryptRequested("false");
-                if(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation() != null) {
-                    partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue());
-                    partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction());
-                    if(verificationCert != null) {
-                        partnershipDVO.setSignCert(loadCert(verificationCert));
-                    } else {
-                        partnershipDVO.setSignCert(null);
-                    }
-                }
-
-                if(channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope() != null) {
-                    String digitalEnvelopeProtocol = channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope().getDigitalEnvelopeProtocol().getValue();
-                    String encryptionAlgorithm = channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope().getEncryptionAlgorithm().get(0).getValue();
-                    if (encryptionAlgorithm != null) {
-                        if (encryptionAlgorithm.toLowerCase().contains("rc2")) {
-                            encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_RC2_CBC;
-                        } else {
-                            encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_DES_EDE3_CBC;
-                        }
-                    }
-                    partnershipDVO.setEncryptRequested("true");
-                    partnershipDVO.setEncryptAlgorithm(encryptionAlgorithm);
-                    if(encryptionCert != null) {
-                        partnershipDVO.setSignCert(loadCert(encryptionCert));
-                    } else {
-                        partnershipDVO.setEncryptCert(null);
-                    }
-                }
-
-                if(!partnershipDAO.retrieve(partnershipDVO)) {
-                    EbmsProcessor.core.log.info("Adding Partnership " + partnershipDVO.getPartnershipId());
-                    partnershipDAO.create(partnershipDVO);
-                    partnerships.add(partnershipDVO);
-                } else {
-                    EbmsProcessor.core.log.info("Partnership " + partnershipDVO.getPartnershipId() + " already exists");
-                }
+            // create partnerships where the selected party is a receiver
+            for(CanReceive canReceive: collaborationRole.getServiceBinding().getCanReceive()) {
+                ActionBindingType receiverActionBinding = canReceive.getThisPartyActionBinding();
+                ActionBindingType senderActionBinding = canReceive.getOtherPartyActionBinding();
+                DeliveryChannel channel = senderActionBinding.getChannel();
+                partnerships.add( createPartnership(cpa, channel, senderActionBinding, receiverActionBinding, verificationCert, encryptionCert, partnerships, serviceName));
             }
         }
-        return partnerships;
+
+        // insert partnerships not found in DB.
+        for (PartnershipDVO dvo: partnerships) {
+            if (!partnershipDAO.retrieve(dvo)) {
+                EbmsProcessor.core.log.info("Adding Partnership " + dvo.getPartnershipId());
+                partnershipDAO.create(dvo);
+                rv.add(dvo);
+            } else {
+                EbmsProcessor.core.log.info("Partnership " + dvo.getPartnershipId() + " already exists");
+            }
+        }
+        // only return partnerships that were newly created. These will be displayed to the end-user.
+        return rv;
+    }
+
+    private PartnershipDVO createPartnership(CollaborationProtocolAgreement cpa, DeliveryChannel channel,ActionBindingType senderActionBinding, ActionBindingType receiverActionBinding, FileItem verificationCert, FileItem encryptionCert, List<PartnershipDVO> partnerships, String serviceName) throws DAOException, CertificateException, IOException {
+        PartnershipDAO partnershipDAO = (PartnershipDAO) EbmsProcessor.core.dao.createDAO(PartnershipDAO.class);
+        PartnershipDVO partnershipDVO = (PartnershipDVO) partnershipDAO.createDVO();
+
+        String action = senderActionBinding.getAction();
+
+        partnershipDVO.setPartnershipId(cpa.getCpaid() + "," + channel.getChannelId() + "," + action);
+        partnershipDVO.setCpaId(cpa.getCpaid());
+        partnershipDVO.setService(serviceName);
+        partnershipDVO.setAction(action);
+        partnershipDVO.setDisabled("false");
+        partnershipDVO.setIsHostnameVerified("false");
+
+        //Agreement Messaging Characteristic
+        partnershipDVO.setActor(channel.getMessagingCharacteristics().getActor().value());
+        partnershipDVO.setAckRequested(channel.getMessagingCharacteristics().getAckRequested().value());
+        partnershipDVO.setAckSignRequested(channel.getMessagingCharacteristics().getAckSignatureRequested().value());
+        partnershipDVO.setDupElimination(channel.getMessagingCharacteristics().getDuplicateElimination().value());
+        partnershipDVO.setSyncReplyMode(channel.getMessagingCharacteristics().getSyncReplyMode().value());
+
+        //Agreement Transport
+        partnershipDVO.setTransportProtocol(channel.getTransport().getTransportReceiver().getTransportProtocol().getValue());
+        partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
+
+        //Agreement DocExchange
+        partnershipDVO.setMessageOrder(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getMessageOrderSemantics().value());
+        partnershipDVO.setPersistDuration(channel.getDocExchange().getEbXMLSenderBinding().getPersistDuration().toString());
+        partnershipDVO.setRetryInterval((int) channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetryInterval().getTimeInMillis(new Date()));
+        partnershipDVO.setRetries(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getRetries().intValue());
+
+        //Digital Signature & Encryption
+        partnershipDVO.setSignRequested(String.valueOf(receiverActionBinding.getBusinessTransactionCharacteristics().isIsNonRepudiationRequired()));
+        partnershipDVO.setEncryptRequested("false");
+        if(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation() != null) {
+            partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue());
+            partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction());
+            if(verificationCert != null) {
+                partnershipDVO.setSignCert(loadCert(verificationCert));
+            } else {
+                partnershipDVO.setSignCert(null);
+            }
+        }
+
+        if(channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope() != null) {
+            String encryptionAlgorithm = channel.getDocExchange().getEbXMLSenderBinding().getSenderDigitalEnvelope().getEncryptionAlgorithm().get(0).getValue();
+            if (encryptionAlgorithm != null) {
+                if (encryptionAlgorithm.toLowerCase().contains("rc2")) {
+                    encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_RC2_CBC;
+                } else {
+                    encryptionAlgorithm = SMimeMessage.ENCRYPT_ALG_DES_EDE3_CBC;
+                }
+            }
+            partnershipDVO.setEncryptRequested("true");
+            partnershipDVO.setEncryptAlgorithm(encryptionAlgorithm);
+            if(encryptionCert != null) {
+                partnershipDVO.setSignCert(loadCert(encryptionCert));
+            } else {
+                partnershipDVO.setEncryptCert(null);
+            }
+        }
+        return partnershipDVO;
     }
 
     private void render(List<PartnershipDVO> partnerships, PropertyTree dom) {
