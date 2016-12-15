@@ -622,6 +622,17 @@ public class EbxmlMessage {
     }
 
     /**
+     * @return RefToMessageId.
+     */
+    public String getRefToMessageId() {
+        final MessageHeader messageHeader = headerContainer.getMessageHeader();
+        if (messageHeader == null) {
+            return null;
+        }
+        return messageHeader.getRefToMessageId();
+    }
+
+    /**
      * Gets service name
      * 
      * @return Service name.
