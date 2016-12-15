@@ -482,7 +482,9 @@ public class OutboxTask implements ActiveTask {
         	try{
         		this.messageDVO.setStatus(toStatus);
                 this.messageDVO.setStatusDescription(toStatusDesc);
-                messageServerDAO.clearMessage(this.messageDVO);
+                if (!MessageClassifier.INTERNAL_STATUS_DELIVERY_FAILURE.equals(toStatus)) {
+					messageServerDAO.clearMessage(this.messageDVO);
+				}
         	} catch (DAOException daoe){
             	String detail = "Error in clear the non-reliable message: " + mID;  
                 EbmsProcessor.core.log.error(detail, daoe);
