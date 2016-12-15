@@ -7,6 +7,16 @@
 <link rel="icon" href="<%=ctxPath%>/favicon.png" type="image/png">
 <link rel="shortcut icon" href="<%=ctxPath%>/favicon.png" type="image/png">
 <title>Jentrata MSH::Administration System - Login</title>
+<style>
+h1 a {
+	background:url(<%=ctxPath%>/img/logo-login.png) no-repeat top center;
+	width:326px;height:232px;
+	text-indent:-9999px;
+	overflow:hidden;
+	padding-bottom:15px;
+	display:block;
+}
+</style>
 </head>
 <body>
 	<div id="login">
