@@ -69,6 +69,14 @@
 	  <parameter name="tab" value="message_history" />
 	  <parameter name="center" value="ebms.message_history" />
 	</extension>
+
+	<extension point="hk.hku.cecid.piazza.corvus.admin.httpd.listener" name="Resend as New Pagelet Adaptor">
+		<parameter name="class" value="hk.hku.cecid.ebms.admin.listener.ResendPayloadAdapter" />
+		<parameter name="context" value="/ebms/resend_payload" />
+		<parameter name="module" value="ebms" />
+		<parameter name="tab" value="message_history" />
+		<parameter name="center" value="ebms.message_history" />
+	</extension>
 	
 	<extension point="hk.hku.cecid.piazza.corvus.admin.pagelet" name="Message History Page Icon">
 	  <parameter name="id" value="ebms.left_arrow, ebms.right_arrow, ebms.download_arrow" />
