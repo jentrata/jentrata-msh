@@ -2,7 +2,6 @@ package hk.hku.cecid.piazza.commons.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by aaronwalker on 20/12/2016.
@@ -17,13 +16,12 @@ public class HeaderMapper {
         this.defaults = defaults;
     }
 
-    public Map<String, Object> map(Map<String, Object> src) {
+    public Object map(Object body, Map<String, Object> src) {
         src = merge(src,getDefaults());
         for(String srcKey : getMappings().keySet()) {
-
             src.put(mappings.get(srcKey),src.get(srcKey));
         }
-        return src;
+        return body;
     }
 
     public Map<String, String> getMappings() {

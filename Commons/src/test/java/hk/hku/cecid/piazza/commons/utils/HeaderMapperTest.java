@@ -27,12 +27,13 @@ public class HeaderMapperTest {
         headers.put("ebxml.operation", "submitTest");
         headers.put("ebxml.notmapped", "notmapped");
 
-        Map<String, Object> result = mapper.map(headers);
-        assertEquals("to", result.get("fromPartyId"));
-        assertEquals("submitTest", result.get("action"));
-        assertEquals("Manage WorkOrder", result.get("service"));
-        assertEquals("notmapped", result.get("ebxml.notmapped"));
-        assertEquals(6, result.size());
+        Object result = mapper.map("test",headers);
+        assertEquals("test",result);
+        assertEquals("to", headers.get("fromPartyId"));
+        assertEquals("submitTest", headers.get("action"));
+        assertEquals("Manage WorkOrder", headers.get("service"));
+        assertEquals("notmapped", headers.get("ebxml.notmapped"));
+        assertEquals(6, headers.size());
     }
 
     @Test
@@ -50,11 +51,12 @@ public class HeaderMapperTest {
         headers.put("ebxml.operation", "submitTest");
         headers.put("ebxml.notmapped", "notmapped");
 
-        Map<String, Object> result = mapper.map(headers);
-        assertEquals("to", result.get("fromPartyId"));
-        assertEquals("submitTest", result.get("action"));
-        assertEquals("Manage WorkOrder", result.get("service"));
-        assertEquals("notmapped", result.get("ebxml.notmapped"));
-        assertEquals(6, result.size());
+        Object result = mapper.map("test",headers);
+        assertEquals("test",result);
+        assertEquals("to", headers.get("fromPartyId"));
+        assertEquals("submitTest", headers.get("action"));
+        assertEquals("Manage WorkOrder", headers.get("service"));
+        assertEquals("notmapped", headers.get("ebxml.notmapped"));
+        assertEquals(6, headers.size());
     }
 }
