@@ -162,7 +162,7 @@ public class EbmsCamelListener extends EbmsEventListener implements Closeable {
             header.put(MSG_PROPERTY_FROM_PARTY_TYPE, partyId.getType());
         }
         if (ebxml.getToPartyIds().hasNext()) {
-            MessageHeader.PartyId partyId = (MessageHeader.PartyId) ebxml.getFromPartyIds().next();
+            MessageHeader.PartyId partyId = (MessageHeader.PartyId) ebxml.getToPartyIds().next();
             header.put(MSG_PROPERTY_TO_PARTY_ID,partyId.getId());
             header.put(MSG_PROPERTY_TO_PARTY_TYPE, partyId.getType());
         }
