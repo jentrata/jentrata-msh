@@ -471,11 +471,19 @@ public class OutboundMessageProcessor {
 				PartyId partyId = (PartyId) iter.next();
 				msgHeader.addFromPartyId(partyId.getId(), partyId.getType());
 			}
+			String fromRole = originalMessage.getMessageHeader().getFromRole();
+			if (fromRole != null && fromRole.length() != 0) {
+				msgHeader.setFromRole(fromRole);
+			}
 
 			iter = originalMessage.getToPartyIds();
 			while (iter.hasNext()) {
 				PartyId partyId = (PartyId) iter.next();
 				msgHeader.addToPartyId(partyId.getId(), partyId.getType());
+			}
+			String toRole = originalMessage.getMessageHeader().getToRole();
+			if (toRole != null && toRole.length() != 0) {
+				msgHeader.setToRole(toRole);
 			}
 
 			iter = originalMessage.getPayloadContainers();
