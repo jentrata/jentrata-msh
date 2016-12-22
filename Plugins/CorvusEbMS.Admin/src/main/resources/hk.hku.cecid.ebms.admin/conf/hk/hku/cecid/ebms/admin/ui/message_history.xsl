@@ -573,6 +573,16 @@ function showResendAsNewMessage(pmid) {
 	                <input type="submit" name="submit" value="Resend as new" />
 	            </form>
             </xsl:if>
+            <xsl:if test="(./message_box = 'inbox') and (./message_type = 'Order')">
+                <form style="display: inline" name="resendPayloadForm" method="post" action="./resend_payload">
+                    <input type="hidden" name="primal_message_id">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="./message_id" />
+                        </xsl:attribute>
+                    </input>
+                    <input type="submit" name="submit" value="Resend payload" />
+                </form>
+            </xsl:if>
         </xsl:if>
         <xsl:if test="./status = 'PE'">
         	Processed Error
@@ -599,6 +609,16 @@ function showResendAsNewMessage(pmid) {
 	                <input type="submit" name="submit" value="Resend as new" />
 	            </form>
             </xsl:if>
+            <xsl:if test="(./message_box = 'inbox') and (./message_type = 'Order')">
+                <form style="display: inline" name="resendPayloadForm" method="post" action="./resend_payload">
+                    <input type="hidden" name="primal_message_id">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="./message_id" />
+                        </xsl:attribute>
+                    </input>
+                    <input type="submit" name="submit" value="Resend payload" />
+                </form>
+            </xsl:if>
         </xsl:if>
         <xsl:if test="./status = 'DF'">
         	Delivery Failure
@@ -619,6 +639,16 @@ function showResendAsNewMessage(pmid) {
 	                 </input>
 	                <input type="submit" name="submit" value="Resend as new" />
 	            </form>
+            </xsl:if>
+            <xsl:if test="(./message_box = 'inbox') and (./message_type = 'Order')">
+                <form style="display: inline" name="resendPayloadForm" method="post" action="./resend_payload">
+                    <input type="hidden" name="primal_message_id">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="./message_id" />
+                        </xsl:attribute>
+                    </input>
+                    <input type="submit" name="submit" value="Resend payload" />
+                </form>
             </xsl:if>
         </xsl:if>
     </td>
