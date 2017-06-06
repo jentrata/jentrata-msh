@@ -22,6 +22,15 @@
     </input>
     </td>
   </tr>
+      <tr>
+          <td width="20%">Transport Endpoint Override</td>
+          <td width="80%">
+              <input type="text">
+                  <xsl:attribute name="name">transport_endpoint</xsl:attribute>
+                  <xsl:attribute name="value"></xsl:attribute>
+              </input>
+          </td>
+      </tr>
   <tr>
     <td width="20%">File Upload</td>
     <td width="80%">
