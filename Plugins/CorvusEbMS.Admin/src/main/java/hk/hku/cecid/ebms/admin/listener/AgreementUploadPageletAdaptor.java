@@ -224,7 +224,7 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
         partnershipDVO.setTransportProtocol(channel.getTransport().getTransportReceiver().getTransportProtocol().getValue());
         if(transportEndpoint == null || "".equals(transportEndpoint)) {
             partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
-        else
+        } else {
             partnershipDVO.setTransportEndpoint(transportEndpoint);
         }
 
