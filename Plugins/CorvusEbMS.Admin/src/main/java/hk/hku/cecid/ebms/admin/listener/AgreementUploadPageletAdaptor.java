@@ -42,6 +42,7 @@ import java.util.List;
 public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
     private String selectedPartyName = null;
+    private String transportEndpoint = null;
 
     /*
      * (non-Javadoc)
@@ -83,6 +84,8 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
                         verificationCert = item;
                     } else if (item.getFieldName().equals("encrypt_cert") && !item.getName().equals("")) {
                         encryptionCert = item;
+                    } else if(item.isFormField() && item.getFieldName().equals("transport_endpoint")) {
+                        transportEndpoint = item.getString();
                     }
                 }
 
@@ -219,7 +222,11 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
         //Agreement Transport
         partnershipDVO.setTransportProtocol(channel.getTransport().getTransportReceiver().getTransportProtocol().getValue());
-        partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
+        if(transportEndpoint == null || "".equals(transportEndpoint)) {
+            partnershipDVO.setTransportEndpoint(channel.getTransport().getTransportReceiver().getEndpoint().get(0).getUri());
+        } else {
+            partnershipDVO.setTransportEndpoint(transportEndpoint);
+        }
 
         //Agreement DocExchange
         partnershipDVO.setMessageOrder(channel.getDocExchange().getEbXMLSenderBinding().getReliableMessaging().getMessageOrderSemantics().value());
@@ -231,8 +238,8 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
         partnershipDVO.setSignRequested(String.valueOf(receiverActionBinding.getBusinessTransactionCharacteristics().isIsNonRepudiationRequired()));
         partnershipDVO.setEncryptRequested("false");
         if(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation() != null) {
-            partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue());
-            partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction());
+            partnershipDVO.setDsAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getSignatureAlgorithm().get(0).getValue().toLowerCase());
+            partnershipDVO.setMdAlgorithm(channel.getDocExchange().getEbXMLSenderBinding().getSenderNonRepudiation().getHashFunction().toLowerCase());
             if(verificationCert != null) {
                 partnershipDVO.setSignCert(loadCert(verificationCert));
             } else {
