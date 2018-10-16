@@ -229,6 +229,7 @@ public class OutboundMessageProcessor {
 
 		MessageDVO messageDVO = message.getMessageDVO();
 		messageDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PENDING);
+		messageDVO.setHostname(HostInfo.GetLocalhostAddress());
 		// update the sequence group
 		int currentMaxSequenceGroup = messageDAO
 				.findMaxSequenceGroupByMessageBoxAndCpa(messageDVO);
@@ -318,6 +319,7 @@ public class OutboundMessageProcessor {
 
 		MessageDVO messageDVO = message.getMessageDVO();
 		messageDVO.setStatus(MessageClassifier.INTERNAL_STATUS_PENDING);
+		messageDVO.setHostname(HostInfo.GetLocalhostAddress());
 		
 		if (null != primalMsgDVO) {
 			messageDVO.setPrimalMessageId(primalMsgDVO.getMessageId());
