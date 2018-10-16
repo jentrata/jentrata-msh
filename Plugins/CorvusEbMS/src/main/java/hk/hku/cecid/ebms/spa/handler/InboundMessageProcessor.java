@@ -25,6 +25,8 @@ import hk.hku.cecid.ebms.spa.dao.MessageServerDAO;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDAO;
 import hk.hku.cecid.ebms.spa.dao.PartnershipDVO;
 import hk.hku.cecid.ebms.spa.dao.RepositoryDVO;
+import hk.hku.cecid.ebms.spa.dao.OutboxDAO;
+import hk.hku.cecid.ebms.spa.dao.OutboxDVO;
 import hk.hku.cecid.ebms.spa.listener.EbmsRequest;
 import hk.hku.cecid.ebms.spa.listener.EbmsResponse;
 import hk.hku.cecid.ebms.spa.task.AgreementHandler;
@@ -464,7 +466,16 @@ public class InboundMessageProcessor {
 									+ ebxmlRequestMessage.getMessageId());
 					messageDVO
 							.setStatus(MessageClassifier.INTERNAL_STATUS_PENDING);
+					messageDVO.setHostname(HostInfo.GetLocalhostAddress());
 					messageDAO.updateMessage(messageDVO);
+
+					// Add outbox record to trigger the re-send by the OutboxCollector
+					OutboxDAO outboxDAO = (OutboxDAO) EbmsProcessor.core.dao.createDAO(OutboxDAO.class);
+					OutboxDVO outboxDVO = (OutboxDVO) outboxDAO.createDVO();
+					outboxDVO.setMessageId(messageDVO.getMessageId());
+					outboxDVO.setHostname(HostInfo.GetLocalhostAddress());
+					outboxDVO.setRetried(0);
+					outboxDAO.addOutbox(outboxDVO);
 				}
 			} else {
 				// acknowledgement missing (internal error) or
