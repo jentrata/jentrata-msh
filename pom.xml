@@ -29,9 +29,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version>${project.version}</version>
         <version.check>false</version.check>
-        <camel.version>2.17.1</camel.version>
-        <spring.version>4.2.5.RELEASE</spring.version>
-        <activemq.version>5.13.3</activemq.version>
+        <camel.version>2.21.3</camel.version>
+        <spring.version>4.3.20.RELEASE</spring.version>
+        <activemq.version>5.15.7</activemq.version>
+		<slfj4.version>1.7.25</slfj4.version>
 	</properties>
 
 	<modules>
@@ -48,13 +49,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.4.3</version>
+			<version>${slfj4.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.3</version>
+			<version>${slfj4.version}</version>
 		</dependency>
 
 		<dependency>
@@ -104,6 +105,7 @@
                 <artifactId>mail</artifactId>
                 <version>1.4.1</version>
             </dependency>
+			
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-j2ee</artifactId>
@@ -184,14 +186,14 @@
 
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcprov-jdk15</artifactId>
-				<version>1.43</version>
+				<artifactId>bcprov-jdk15on</artifactId>
+				<version>1.49</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcmail-jdk15</artifactId>
-				<version>1.43</version>
+				<artifactId>bcmail-jdk15on</artifactId>
+				<version>1.49</version>
 			</dependency>
 
 			<dependency>
@@ -201,15 +203,15 @@
 			</dependency>
 
 			<dependency>
-				<groupId>postgresql</groupId>
+				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>9.0-801.jdbc4</version>
+				<version>42.2.5</version>
 			</dependency>
 
             <dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.6</version>
+				<version>8.0.13</version>
 			</dependency>
 
 			<dependency>
@@ -227,7 +229,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>4.2.5.RELEASE</version>
+                <version>${spring.version}</version>
             </dependency>
 
             <dependency>
@@ -291,8 +293,8 @@
 							<version>3.0</version>
 						</requireMavenVersion>
 						<requireJavaVersion>
-							<!-- require JDK 1.5 to run the build -->
-							<version>[1.5,)</version>
+							<!-- require JDK 1.7 to run the build -->
+							<version>[1.7,)</version>
 						</requireJavaVersion>
 					</rules>
 				</configuration>

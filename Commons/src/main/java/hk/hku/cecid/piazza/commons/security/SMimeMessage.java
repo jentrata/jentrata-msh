@@ -33,19 +33,19 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
 import org.bouncycastle.asn1.ASN1EncodableVector;
+import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.cms.AttributeTable;
 import org.bouncycastle.asn1.cms.IssuerAndSerialNumber;
 import org.bouncycastle.asn1.smime.SMIMECapabilitiesAttribute;
 import org.bouncycastle.asn1.smime.SMIMECapability;
 import org.bouncycastle.asn1.smime.SMIMECapabilityVector;
 import org.bouncycastle.asn1.smime.SMIMEEncryptionKeyPreferenceAttribute;
+import org.bouncycastle.asn1.x509.TBSCertificate;
 import org.bouncycastle.asn1.x509.X509Name;
-import org.bouncycastle.cms.CMSException;
-import org.bouncycastle.cms.RecipientId;
-import org.bouncycastle.cms.RecipientInformation;
-import org.bouncycastle.cms.RecipientInformationStore;
-import org.bouncycastle.cms.SignerInformation;
-import org.bouncycastle.cms.SignerInformationStore;
+import org.bouncycastle.cms.*;
+import org.bouncycastle.cms.jcajce.JceKeyAgreeEnvelopedRecipient;
+import org.bouncycastle.cms.jcajce.JceKeyAgreeRecipient;
+import org.bouncycastle.cms.jcajce.JceKeyAgreeRecipientId;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.mail.smime.SMIMECompressed;
 import org.bouncycastle.mail.smime.SMIMECompressedGenerator;
@@ -230,7 +230,7 @@ public class SMimeMessage {
                 signer.setContentTransferEncoding(getContentTransferEncoding());
                 signer.addSigner(privateKey, cert, getDigestAlgorithm(),
                     new AttributeTable(attributes), null);
-    
+
                 /* Add the list of certs to the generator */
                 ArrayList certList = new ArrayList();
                 certList.add(cert);
@@ -407,18 +407,16 @@ public class SMimeMessage {
             setDefaults();
             
             SMIMEEnveloped       m = new SMIMEEnveloped(bodyPart);
-            RecipientId          recId = new RecipientId();
-    
-            recId.setSerialNumber(cert.getSerialNumber());
-            recId.setIssuer(cert.getIssuerX500Principal().getEncoded());
-    
+            RecipientId          recId = new JceKeyAgreeRecipientId(cert);
+
             RecipientInformationStore  recipients = m.getRecipientInfos();
-            RecipientInformation       recipient = recipients.get(recId);
+            RecipientInformation       recipientInfo = recipients.get(recId);
+            JceKeyAgreeRecipient       recipient = new JceKeyAgreeEnvelopedRecipient(privateKey);
     
             if (recipient == null) {
                 throw new SMimeException("Invalid encrypted content");
             }
-            ByteArrayInputStream ins = new ByteArrayInputStream(recipient.getContent(privateKey, "BC"));
+            ByteArrayInputStream ins = new ByteArrayInputStream(recipientInfo.getContent(recipient));
             MimeBodyPart decryptedPart = new MimeBodyPart(ins); 
             return new SMimeMessage(decryptedPart, this);
         }
@@ -426,7 +424,7 @@ public class SMimeMessage {
             throw new SMimeException("Unable to decrypt body part", e);
         }
     }
-    
+
     /**
      * Compresses the encapsulated MIME body part.
      * 
