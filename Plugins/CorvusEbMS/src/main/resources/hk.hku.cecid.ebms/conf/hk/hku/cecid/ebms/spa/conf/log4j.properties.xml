@@ -18,18 +18,11 @@
        <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-12.12t] &lt;%-5p&gt; &lt;%c{3}&gt; &lt;%m&gt;%n"/>
      </layout>
   </appender>
-  
-  <appender name="chainsaw" class="org.apache.log4j.net.SocketAppender">
-     <param name="remoteHost" value="localhost"/>
-     <param name="port" value="4445"/>
-     <!--param name="LocationInfo" value="true"/-->
-  </appender>
 
   <category name="hk.hku.cecid.ebms">
     <priority value ="debug" />
-	<!--<appender-ref ref="stdout"/-->
-    <!--appender-ref ref="chainsaw"/-->
-	<appender-ref ref="ebms"/>
+    <appender-ref ref="stdout"/>
+	  <appender-ref ref="ebms"/>
   </category>
   
   <!--root>

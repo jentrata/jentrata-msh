@@ -259,8 +259,6 @@
 						<outputDirectory>plugins/hk.hku.cecid.ebms/lib</outputDirectory>
 						<includes>
 							<include>org.jentrata.msh.ext:jentrata-ebxml-pkg</include>
-							<include>javax.jms:jms</include>
-							<include>org.apache.activemq:activemq-all</include>
 						</includes>
 					</dependencySet>
 				</dependencySets>
