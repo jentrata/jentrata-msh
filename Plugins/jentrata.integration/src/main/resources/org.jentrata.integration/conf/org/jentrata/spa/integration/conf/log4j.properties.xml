@@ -8,20 +8,10 @@
        <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-12.12t] &lt;%-5p&gt; &lt;%m&gt;%n"/>
      </layout>
   </appender>
-  
-  <appender name="integration" class="org.apache.log4j.RollingFileAppender">
-     <param name="File" value="${corvus.home}/logs/integration.log"/>
-     <param name="Encoding" value="UTF-8"/>
-     <param name="MaxFileSize" value="5MB"/>
-     <param name="MaxBackupIndex" value="1"/>
-     <layout class="org.apache.log4j.PatternLayout">
-       <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%-12.12t] &lt;%-5p&gt; &lt;%m&gt;%n"/>
-     </layout>
-  </appender>
 
-  <category name="org.jentrata.spa.integration">
-    <priority value ="debug" />
-	<appender-ref ref="integration"/>
-  </category>
+    <category name="org.jentrata.spa.integration">
+      <priority value ="debug" />
+      <appender-ref ref="stdout"/>
+    </category>
 
 </log4j:configuration>
