@@ -3,11 +3,8 @@ services:
   posters:
     image: "postgres:9.5"
     environment:
-      POSTGRES_USER: jentrata
-      POSTGRES_PASSWORD: jentrata
-      POSTGRES_DB: jentrata
-      DB_USER_NAME: corvus
-      DB_USER_PASS: corvus
+      DB_USER_NAME: jentrata
+      DB_USER_PASS: jentrata
     volumes:
     - ./Dist/src/main/scripts/sql/as2.sql:/work/sql/as2.sql
     - ./Dist/src/main/scripts/sql/ebms.sql:/work/sql/ebms.sql
@@ -23,6 +20,6 @@ services:
     environment:
       TOMCAT_USER_NAME: corvus
       TOMCAT_USER_PASS: corvus
-      DB_USER_NAME: corvus
-      DB_USER_PASS: corvus
+      DB_USER_NAME: jentrata
+      DB_USER_PASS: jentrata
       DB_HOST_NAME: db
