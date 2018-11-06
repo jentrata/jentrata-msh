@@ -121,11 +121,6 @@
 			<artifactId>jms</artifactId>
 			<version>1.1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-all</artifactId>
-		</dependency>
     
     </dependencies>
     
