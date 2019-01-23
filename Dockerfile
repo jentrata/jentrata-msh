@@ -1,9 +1,9 @@
-FROM jentrata/jenrata-msh:tomcat9
+FROM jentrata/jentrata-msh
 MAINTAINER Arran Ubels a.ubels@base2services.com
 
 #install jdk to allow remote debugging
 RUN apt-get update --fix-missing && \
-    apt-get install -y openjdk-${JDK_VERSION}-jdk && \
+#    apt-get install -y openjdk-${JDK_VERSION}-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 ENV JENTRATA_VERSION 3.x-SNAPSHOT
