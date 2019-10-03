@@ -29,9 +29,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version>${project.version}</version>
         <version.check>false</version.check>
-        <camel.version>2.21.3</camel.version>
+        <camel.version>2.24.2</camel.version>
         <spring.version>4.3.20.RELEASE</spring.version>
-        <activemq.version>5.15.7</activemq.version>
+        <activemq.version>5.15.10</activemq.version>
 		<slfj4.version>1.7.25</slfj4.version>
 	</properties>
 
@@ -75,7 +75,7 @@
 	</dependencies>
 
 	<dependencyManagement>
-        <dependencies>
+		<dependencies>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -93,18 +93,18 @@
 				<artifactId>mockito-all</artifactId>
 				<version>1.8.5</version>
 			</dependency>
-        
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.5</version>
-            </dependency>
 
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>1.4.1</version>
-            </dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.1</version>
+			</dependency>
 			
 			<dependency>
 				<groupId>jboss</groupId>
@@ -122,6 +122,12 @@
 				<groupId>commons-pool</groupId>
 				<artifactId>commons-pool</artifactId>
 				<version>1.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>2.6.2</version>
 			</dependency>
 
 			<dependency>
@@ -208,7 +214,7 @@
 				<version>42.2.5</version>
 			</dependency>
 
-            <dependency>
+			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>8.0.13</version>
@@ -220,35 +226,35 @@
 				<version>1.1</version>
 			</dependency>
 
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-all</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-all</artifactId>
+				<version>${activemq.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-core</artifactId>
-                <version>${camel.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-core</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-jms</artifactId>
-                <version>${camel.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-jms</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-aws</artifactId>
-                <version>${camel.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-aws</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
