@@ -115,11 +115,11 @@
 				<version>${project.version}</version>
 			</dependency>
 
-            <dependency>
-                <groupId>org.jentrata.msh.ext</groupId>
-                <artifactId>jentrata-ebxml-cpa</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.jentrata.msh.ext</groupId>
+				<artifactId>jentrata-ebxml-cpa</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			
 			<dependency>
 				<groupId>org.jentrata.msh.core</groupId>
