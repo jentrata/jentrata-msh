@@ -11,7 +11,6 @@ import hk.hku.cecid.piazza.commons.module.Component;
 
 import javax.jms.ConnectionFactory;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ConsumerTemplate;
 import org.apache.camel.Exchange;
@@ -59,17 +58,25 @@ public class JMSComponent extends Component {
     }
     
     protected ConnectionFactory buildConnectionFactory() {
-        String connectionFactoryUrl = getConnectionFactoryUrl();
-        ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(connectionFactoryUrl);
-        cf.setUserName(getUsername());
-        cf.setPassword(getPassword());
-        return cf;
+        try {
+            String connectionFactoryUrl = getConnectionFactoryUrl();
+            Class connectionFactoryClass = getConnectionFactoryClass();
+            ConnectionFactory cf = (ConnectionFactory)connectionFactoryClass.getConstructor(String.class).newInstance(new Object[]{connectionFactoryUrl});
+            return cf;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-    
+
+    protected Class getConnectionFactoryClass() throws ClassNotFoundException {
+        return Class.forName(getParameters().getProperty("connectionFactory"));
+    }
+
     protected String getConnectionFactoryUrl() {
         return getParameters().getProperty("connectionFactoryUrl");
     }
-    
+
     protected String getErrorUri() {
         return getParameters().getProperty("errorUri",getId() + ":queue:DLQ");
     }

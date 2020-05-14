@@ -59,8 +59,8 @@ public class MessageListenerJMSClientTest {
 	public void setUp() throws JMSException {
 		
 		instance = spy(new MessageListenerJMSClient());
-		
-		
+
+		doReturn("org.apache.activemq.ActiveMQConnectionFactory").when(instance).getConnectionFactoryClassName();
 		doReturn("vm://mdh?broker.persistent=false").when(instance).getConnectionUrl();
 		doReturn("testQueue").when(instance).getQueueName();
         doReturn(null).when(instance).getUsername();
