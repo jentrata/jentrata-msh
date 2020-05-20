@@ -24,6 +24,7 @@
   <part name="toPartyRole" type="s:string" />
   <part name="refToMessageId" type="s:string" />
   <part name="serviceType" type="s:string" />
+  <part name="messageId" type="s:string" />
 </message>
 <message name="EbmsResponseMsg">
   <part name="message_id" type="s:string" /> 
