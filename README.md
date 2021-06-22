@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/jentrata/jentrata-msh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jentrata/jentrata-msh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Jentrata MSH is based on Hermes Messaging Gateway developed by CECID, The University of Hong Kong. The goal of Jentrata is build on the orignial work developed by CECID as well as build a community to continue it's development.
+Jentrata MSH is based on Hermes Messaging Gateway developed by CECID, The University of Hong Kong. The goal of Jentrata is build on the original work developed by CECID as well as build a community to continue its development.
 
 See [jentrata.org](http://jentrata.org) for complete details on the project
 
@@ -42,7 +42,7 @@ Requires maven 3.0+  and Java 6+
 	
 This will create jentrata-msh-tomcat.tar.gz in jentrata-msh/Dist/target/ as well as an uncompressed version
 
-### How to get Jentrata Running on tomcat using PostgreSQL on unix (incuding Mac) systems
+### How to get Jentrata Running on tomcat using PostgreSQL on unix (including Mac) systems
 
 ## Install and configure Tomcat
 
@@ -150,7 +150,7 @@ image for Jentrata. The docker-compose file is to speed up development. It conta
 
 ### Notes
 
-If Jentrata's docker container doesn't detected a postgresql server on the configured hostname and port, it will pause
+If Jentrata's docker container doesn't detect a postgresql server on the configured hostname and port, it will pause
 and retry to connect until one is made available.
 
 ### Requirements
