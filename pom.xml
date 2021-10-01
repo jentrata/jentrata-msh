@@ -408,6 +408,20 @@
 			</snapshots>
 		</repository>
 		<repository>
+			<id>jboss-3rd-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>fusesource-release</id>
 			<url>http://repo.fusesource.com/nexus/content/groups/public/</url>
 			<releases>
