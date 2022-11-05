@@ -2,7 +2,8 @@
 
 	<component id="jmsTest" name="test-jms">
 		<class>org.jentrata.spa.jms.module.JMSComponent</class>
-		<parameter name="connectionFactoryUrl" value="vm://localhost?broker.persistent=false" />		
+		<parameter name="connectionFactoryUrl" value="vm://localhost?broker.persistent=false" />
+		<parameter name="connectionFactory" value="org.apache.activemq.ActiveMQConnectionFactory" />
 	</component>
 
 </module>

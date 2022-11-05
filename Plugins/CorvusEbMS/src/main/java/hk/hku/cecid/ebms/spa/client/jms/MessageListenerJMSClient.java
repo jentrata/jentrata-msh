@@ -25,7 +25,6 @@ import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class MessageListenerJMSClient extends EbmsEventListener {
 
@@ -49,10 +48,7 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	@Override
 	public void init() {
-		connectionFactory = new ActiveMQConnectionFactory(getConnectionUrl());
-        ((ActiveMQConnectionFactory)connectionFactory).setUserName(getUsername());
-        ((ActiveMQConnectionFactory)connectionFactory).setPassword(getPassword());
-
+		connectionFactory = buildConnectionFactory();
 	}
 
 	@Override
@@ -167,6 +163,26 @@ public class MessageListenerJMSClient extends EbmsEventListener {
 
 	public String getQueueName() {
 		return getParameters().getProperty("queueName");
+	}
+
+	protected ConnectionFactory buildConnectionFactory() {
+		try {
+			String connectionFactoryUrl = getConnectionUrl();
+			Class connectionFactoryClass = getConnectionFactoryClass();
+			ConnectionFactory cf = (ConnectionFactory)connectionFactoryClass.getConstructor(String.class).newInstance(new Object[]{connectionFactoryUrl});
+			return cf;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	protected Class getConnectionFactoryClass() throws ClassNotFoundException {
+		return Class.forName(getConnectionFactoryClassName());
+	}
+
+	protected String getConnectionFactoryClassName() {
+		return getParameters().getProperty("connectionFactory");
 	}
 
 	protected String getConnectionUrl() {
