@@ -206,7 +206,7 @@ public class AgreementUploadPageletAdaptor extends AdminPageletAdaptor {
 
         String action = senderActionBinding.getAction();
 
-        partnershipDVO.setPartnershipId(cpa.getCpaid() + "," + channel.getChannelId() + "," + action);
+        partnershipDVO.setPartnershipId(cpa.getCpaid() + "," + channel.getChannelId() + "," + serviceName.replaceAll(" ", "") + "," + action);
         partnershipDVO.setCpaId(cpa.getCpaid());
         partnershipDVO.setService(serviceName);
         partnershipDVO.setAction(action);
