@@ -66,6 +66,7 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
         String refToMessageId = getText(bodies, "refToMessageId");
         String fromPartyRole = getText(bodies, "fromPartyRole");
         String toPartyRole = getText(bodies, "toPartyRole");
+	String messageId = getText(bodies, "messageId");
 
         if (cpaId == null || service == null || action == null
                 || convId == null || fromPartyId == null
@@ -102,11 +103,11 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
                 + ", toPartyId: "	  + toPartyId
                 + ", toPartyType: " + toPartyType
                 + ", toPartyRole: " + toPartyRole
-                + ", refToMessageId: " + refToMessageId);
+                + ", refToMessageId: " + refToMessageId
+                + ", messageId: " + messageId);
 
         // Construct Ebxml message
         EbxmlMessage ebxmlMessage = null;
-        String messageId = null;
         try {
             ebxmlMessage = new EbxmlMessage();
             MessageHeader msgHeader = ebxmlMessage.addMessageHeader();
@@ -120,9 +121,11 @@ public class EbmsMessageSenderService extends WebServicesAdaptor {
             	msgHeader.setServiceType(serviceType);
             }
             
-            messageId = Generator.generateMessageID();
+            if (messageId == null || messageId.equals("")) {
+                messageId = Generator.generateMessageID();
+                EbmsProcessor.core.log.info("Generated message id: " + messageId);
+	    }
             ebxmlMessage.getMessageHeader().setMessageId(messageId);
-            EbmsProcessor.core.log.info("Genereating message id: " + messageId);
 
             msgHeader.setTimestamp(EbmsUtility.getCurrentUTCDateTime());
             
